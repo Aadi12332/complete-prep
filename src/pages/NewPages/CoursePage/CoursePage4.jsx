@@ -870,7 +870,7 @@ const CoursePage4 = () => {
             {status === 'error' && <p className="text-red-600">❌ {error}</p>}
             {status === 'success' && (
               <>
-                <div className="bg-[#efefef] border border-yellow-200 p-4 rounded-md text-sm space-y-2">
+                <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-md text-sm space-y-2">
                   {summary ? (
                     summary
                       .split('\n')
