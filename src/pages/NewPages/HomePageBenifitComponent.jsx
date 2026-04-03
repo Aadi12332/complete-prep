@@ -42,13 +42,13 @@ export const HomePageBenifitComponent = () => {
   const [activeTab, setActiveTab] = useState(tabData[0]);
 
   return (
-    <div className="my-10 px-4">
-      <div className="flex flex-wrap justify-center gap-2 bg-[#f3f4f6] rounded-3xl p-2 w-fit mx-auto">
+    <div className="my-10 md:px-4">
+      <div className="flex flex-wrap justify-center md:gap-2 bg-[#f3f4f6] rounded-3xl p-2 w-fit mx-auto">
         {tabData.map(tab => (
           <button
             key={tab.name}
             onClick={() => setActiveTab(tab)}
-            className={`px-4 py-2 text-sm sm:text-base font-medium transition-all duration-200 whitespace-nowrap ${
+            className={`md:px-4 px-2 py-2 text-[13px] sm:text-base font-medium transition-all duration-200 whitespace-nowrap ${
               activeTab.name === tab.name
                 ? 'bg-white text-black font-semibold shadow rounded-3xl'
                 : 'text-gray-500 hover:text-gray-700'

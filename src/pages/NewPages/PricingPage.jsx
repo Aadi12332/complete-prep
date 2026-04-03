@@ -742,7 +742,7 @@ const PricingPage = () => {
                 ))}
 
                 {currentState === 0 && (
-                  <div className="absolute top-[110%] left-0 bg-white text-black rounded-3xl shadow-lg w-full md:w-[800px] p-4 z-50">
+                  <div className="absolute top-[110%] left-0 bg-white text-black rounded-3xl shadow-lg w-full md:w-[600px] p-4 z-50">
                     <div className="flex gap-2 pb-2 mb-4 overflow-x-auto border-b md:gap-4">
                       {goalCategory?.map((cat) => (
                         <button
