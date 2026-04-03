@@ -48,7 +48,7 @@ export const HomePageBenifitComponent = () => {
           <button
             key={tab.name}
             onClick={() => setActiveTab(tab)}
-            className={`md:px-4 px-2 py-2 text-[13px] sm:text-base font-medium transition-all duration-200 whitespace-nowrap ${
+            className={`lg:!px-4 px-2 py-2 text-[13px] sm:text-base font-medium transition-all duration-200 whitespace-nowrap ${
               activeTab.name === tab.name
                 ? 'bg-white text-black font-semibold shadow rounded-3xl'
                 : 'text-gray-500 hover:text-gray-700'

@@ -883,7 +883,7 @@ const HomePage = () => {
           </div> */}
           <div className="mt-4 flex justify-center">
             <div className="inline-flex items-center gap-2 px-4 py-1 rounded-3xl text-xl font-medium text-gray-700 border border-gray-300">
-              <Icon icon="proicons:emoji" className="text-base text-2xl" />
+              <Icon icon="proicons:emoji" className=" text-2xl" />
               <span>Our Testimonials</span>
             </div>
           </div>
