@@ -425,14 +425,14 @@ const HomePage = () => {
                   </a>
                 </p>
               </div>
-              <button className="border border-gray-300 rounded-lg px-4 py-2">See All FAQ’s</button>
+              <button onClick={()=>navigate("/faqs")} className="border border-gray-300 rounded-lg px-4 py-2">See All FAQ’s</button>
             </div>
 
             <div className="space-y-4">
               {faqs.map((faq, index) => {
                 const isOpen = openIndex === index;
                 return (
-                  <div key={index} className="md:rounded-xl rounded-lg md:p-4 p-2 bg-[#efefef]">
+                  <div key={index} className="rounded-lg md:p-4 p-3 bg-[#efefef]">
                     <div
                       className="flex justify-between items-center cursor-pointer"
                       onClick={() => setOpenIndex(isOpen ? -1 : index)}

@@ -963,7 +963,7 @@ const PricingPage = () => {
                             </a>
                           </p>
                         </div>
-                        <button className="border border-gray-300 rounded-lg px-4 py-2">
+                        <button onClick={()=>navigate("/faqs")} className="border border-gray-300 rounded-lg px-4 py-2">
                           See All FAQ’s
                         </button>
                       </div>

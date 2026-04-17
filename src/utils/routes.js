@@ -11,6 +11,7 @@ import PrivacyPolicyPage from '../pages/NewPages/PrivacyPolicyPage.jsx';
 import TermsPage from '../pages/NewPages/TermsPage.jsx';
 import ContactPage from '../pages/NewPages/ContactPage.jsx';
 import CommunityPage from '../pages/NewPages/CommunityPage.jsx';
+import FaqPage from '../pages/NewPages/FaqPage.jsx';
 import CookiesPolicyPage from '../pages/NewPages/CookiesPolicyPage.jsx';
 import AddToCart from '../pages/NewPages/Cart/AddToCart.jsx';
 import SelectHearAboutUs from '../pages/NewPages/ChooseCurriculamPages/SelectHearAboutUs.jsx';
@@ -121,6 +122,11 @@ export const routes = [
       path: '/contact',
       name: 'Contact',
       element: <ContactPage />,
+    },
+    {
+      path: '/faqs',
+      name: 'Faq',
+      element: <FaqPage />,
     },
   {
     path: '/testimonials',
