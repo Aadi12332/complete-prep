@@ -414,13 +414,13 @@ const UserHome = () => {
 
               {subscriptionStatus ? (
                 <div className='mt-2'>
-                  <p className="text-sm text-black">
+                  <p className="text-sm text-black text-center">
                     Your Current Plan : -{' '}
                     <span className="text-sm text-gray-500">
                       {currentSubscription?.subscriptionPlanId?.name}
                     </span>
                   </p>
-                  <p className="text-sm text-black flex gap-2">
+                  <p className="text-sm text-black text-center items-center justify-center flex gap-2">
                     <span className="text-sm text-black"> Expire On : </span>
                     <span className="text-sm text-gray-500">
                       {currentSubscription?.endDate?.slice(0, 10)?.split('-').reverse().join('-')}

@@ -60,7 +60,7 @@ export const HomePageBenifitComponent = () => {
       </div>
 
       <div className="mt-10 md:flex bg-[#f4b93b] md:rounded-xl rounded-lg overflow-hidden">
-        <div className="md:p-12 text-black flex-1 max-w-[350px]">
+        <div className="md:p-10 text-black flex-1 max-w-[350px]">
           <h2 className="text-2xl md:text-3xl font-semibold mb-4 px-3 md:px-0 pt-5 md:pt-0">{activeTab.title}</h2>
 
           <p className="text-sm md:text-base text-black/80 max-w-sm px-3 md:px-0 pb-5 md:pb-0">{activeTab.desc}</p>

@@ -13,6 +13,8 @@ import { HomePageBenifitComponent } from './HomePageBenifitComponent';
 import StackCards from './StackCards';
 import Footer from './Footer';
 import Header from './Header';
+import { HomePagePrepoComponent } from './HomePagePrepoComponent';
+import { FeaturesGrid } from './FeaturesGrid';
 
 const courses = [
   {
@@ -374,6 +376,10 @@ const HomePage = () => {
           </div>
 
           <HomePageBenifitComponent />
+
+          <HomePagePrepoComponent />
+
+          <FeaturesGrid />
 
           <div className=" md:px-6 px-3">
             <div className="mt-16 md:mt-24 flex justify-center">
