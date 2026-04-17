@@ -738,8 +738,8 @@ const CoursePage4 = () => {
           <div className="hidden sm:flex items-center space-x-3"></div>
         </div>
       </div>
-      <div className="max-w-8xl mx-auto mt-0 px-3">
-        <div className="flex gap-4 items-center my-4">
+      <div className="max-w-8xl mx-auto mt-0 px-3 pb-5">
+        <div className="flex gap-4 items-center py-4">
           <span
             onClick={() => navigate(-1)}
             className="bg-gray-400 text-white p-2 rounded-full cursor-pointer hover:bg-gray-600 transition-colors duration-300"

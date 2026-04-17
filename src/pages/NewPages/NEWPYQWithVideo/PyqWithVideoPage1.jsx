@@ -63,7 +63,7 @@ const PyqWithVideoPage1 = () => {
                     {testSeriesList?.map((test, index) => (
                       <div
                         key={test?._id || index}
-                        className="p-4 transition bg-[#f9f7f0] border shadow-sm rounded-xl hover:shadow-md"
+                        className="p-4 transition bg-[#fff] border shadow-sm rounded-xl hover:shadow-md"
                       >
                         <div className="flex items-center justify-between">
                           <img

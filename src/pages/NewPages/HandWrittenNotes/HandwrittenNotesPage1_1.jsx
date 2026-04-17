@@ -79,7 +79,7 @@ handleBundleClick(response?.data[0]?._id);
           {bundles?.map((bundle) => (
             <div
               key={bundle.id}
-              className="bg-[#f9f7f0] border rounded-lg shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer"
+              className="bg-[#fff] border rounded-lg shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer"
               onClick={() => handleBundleClick(bundle.id)}
             >
               <img

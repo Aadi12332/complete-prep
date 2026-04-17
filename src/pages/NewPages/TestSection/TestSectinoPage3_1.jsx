@@ -178,7 +178,7 @@ const TestSectinoPage3_1 = () => {
   return (
     <div className="min-h-screen bg-[#f5f5f5]">
      <div className="bg-white text-white p-3">
-        <img src={images.navBarLogo2} alt="Logo" className="max-w-60 py-2 max-h-[60px] ml-4" />
+        <img src={images.navBarLogo2} alt="Logo" className=" max-w-60 py-2 max-h-[60px] ml-4" onClick={()=> navigate("/user/home")} />
       </div>
 
       <div className="mainMaxWidth mx-auto mt-6">

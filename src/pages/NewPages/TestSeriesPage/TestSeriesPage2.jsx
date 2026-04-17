@@ -150,11 +150,11 @@ const TestSeriesPage2 = () => {
           </div>
         </div>
 
-        <div className="p-4 mb-4 bg-[#f7f7fa]rounded-xl">
+        <div className="mb-4 bg-[#f7f7fa]rounded-xl">
           <h3 className="mb-4 text-lg font-semibold">
             {bundleName} - All Tests ({testList.length})
           </h3>
-          <div className="flex flex-wrap gap-3 mb-5 bg-[#f7f7fa] rounded-xl">
+          <div className="flex w-fit flex-wrap gap-3 mb-5 bg-[#f7f7fa] rounded-xl">
             {tabs?.map(tab => (
               <button
                 key={tab}
@@ -182,7 +182,7 @@ const TestSeriesPage2 = () => {
                   ?.map((test, idx) => (
                     <div key={idx} className="flex flex-col rounded-b-lg bg-[#f7f7fa]">
                       <div className="flex flex-col space-y-1">
-                        <p className="p-2 mb-2 text-lg font-bold text-black-600 bg-violet-200 rounded-t-xl">
+                        <p className="p-2 mb-2 text-lg font-bold text-white bg-gray-500 rounded-t-xl">
                           {test.title}
                         </p>
                         <span className="flex items-center gap-2 text-sm yellow-300 px-3">
@@ -194,8 +194,8 @@ const TestSeriesPage2 = () => {
                           />
                           {test.languages}
                         </span>
-                        <div className="flex flex-wrap justify-between p-4">
-                          <div className="flex gap-4 mt-4 text-sm text-gray-700">
+                        <div className="flex flex-wrap justify-between items-center px-3 py-3">
+                          <div className="flex gap-4 text-sm text-gray-700">
                             <span className="px-2 py-1 bg-stone-200 rounded-3xl">
                               {test.totalQuestions || '0'} Questions
                             </span>
@@ -264,7 +264,7 @@ const TestSeriesPage2 = () => {
                               //       });
                               // }
                             }}
-                            className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold px-4 py-1 rounded-3xl min-w-[120px]"
+                            className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold px-4 py-2 rounded-3xl min-w-[120px]"
                           >
                             {isPurchased || testVariant === 'studyPlannerTest'
                               ? 'Start'

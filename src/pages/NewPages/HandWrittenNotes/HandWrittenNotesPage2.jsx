@@ -14,12 +14,23 @@ const HandWrittenNotesPage2 = () => {
 
   return (
     <div>
-      <div className="bg-white text-white p-3">
-        <img src={images.navBarLogo2} alt="Logo" className="max-w-60 py-2 max-h-[60px] ml-4" />
+      <div className="bg-white text-white p-3 flex items-center justify-between gap-3">
+        <img src={images.navBarLogo2} alt="Logo" className=" max-w-60 py-2 max-h-[60px] ml-4" onClick={()=> navigate("/user/home")} />
+        <button className="bg-black text-white px-4 py-2 rounded-lg flex items-center gap-2" onClick={() => navigate(-1)}>
+          <svg
+  xmlns="http://www.w3.org/2000/svg"
+  className="w-5 h-5 cursor-pointer"
+  fill="none"
+  viewBox="0 0 24 24"
+  stroke="currentColor"
+>
+  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+</svg>
+          Back</button>
       </div>
 
       <div className="mainMaxWidth mx-auto mt-1">
-        <div className="bg-white rounded-lg p-6">
+        <div className="bg-white rounded-lg p-6 relative">
           <PdfFlipBook pdfPath={pdfUrl || '/flipbook/sample.pdf'} />
         </div>
       </div>

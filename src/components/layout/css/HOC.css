@@ -27,3 +27,7 @@
 
   }
 }
+
+.about-bg img{
+  min-height: 90px !important;
+}

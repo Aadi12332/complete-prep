@@ -165,7 +165,7 @@ const HOC = WrappedComponent => {
           </div>
 
           <div className="flex-1">
-            <div className="sm:p-0 lg:p-0 lg:pt-1 bg-white">
+            <div className="sm:p-0 lg:p-0 bg-white">
               <WrappedComponent />
             </div>
           </div>

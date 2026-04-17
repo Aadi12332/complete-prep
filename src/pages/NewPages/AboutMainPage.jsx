@@ -7,6 +7,8 @@ import { ProfileEditFormMain } from '../../components/common/New-Components/NewC
 import { AuthContext } from '../../Context/AuthContext';
 import { userApi } from '../../services/apiFunctions';
 import images from '../../utils/images';
+import Header from './Header';
+import Footer from './Footer';
 
 const courseData = {
   CBSE: {
@@ -468,187 +470,54 @@ const AboutMainPage = () => {
         footer={false}
         header={false}
       />
-      <div className="p-3 sm:p-1 h-full mainMaxWidth">
-        <div className="w-full min-h-[54px] max-h-[600px] object-cover rounded-lg relative">
-          <div
-            style={{
-              backgroundImage: `url(${images.newHomePageTopBannerImage})`,
-              backgroundSize: 'cover',
-            }}
-            className="w-full min-h-[54px] max-h-[600px] object-cover rounded-lg relative"
-          >
-            <div className="flex flex-wrap justify-between items-center px-4 py-3">
-              <img
-                src={images.newMainLogo}
-                alt="Logo"
-                onClick={() => navigate('/')}
-                className="max-w-[150px]"
-              />
-
-              <div className="relative flex flex-wrap items-center gap-2 px-4 py-2 mt-3 bg-[#efefef] text-gray-500 hover:text-gray-700 rounded-3xl md:mt-0">
-                <span
-                  onClick={() => toggleDropdown(0)}
-                  className="cursor-pointer flex items-center gap-1 hover:bg-white px-2 py-1 rounded-3xl"
-                >
-                  Universities{' '}
-                  {currentState === 0 ? (
-                    <Icon icon="akar-icons:chevron-up" />
-                  ) : (
-                    <Icon icon="akar-icons:chevron-down" />
-                  )}
-                </span>
-                {['About', 'Pricing', 'Testimonial'].map(tab => (
-                  <span
-                    key={tab}
-                    onClick={() => {
-                      tab === 'Testimonial'
-                        ? navigate('/testimonials')
-                        : tab === 'Pricing'
-                          ? navigate('/pricing')
-                          : tab === 'About'
-                            ? navigate('/about')
-                            : setCurrentState(null);
-                    }}
-                    className="cursor-pointer hover:bg-white px-2 py-1 rounded-3xl"
-                  >
-                    {tab}
-                  </span>
-                ))}
-
-                {currentState === 0 && (
-                  <div className="absolute top-[110%] left-0 bg-white text-black rounded-3xl shadow-lg w-full md:w-[600px] p-4 z-50">
-                    <div className="flex gap-2 pb-2 mb-4 overflow-x-auto border-b md:gap-4">
-                      {goalCategory?.map(cat => (
-                        <button
-                          key={cat?._id}
-                          onClick={() => setSelectedGoalCategory(cat?._id)}
-                          className={`whitespace-nowrap px-3 py-1 rounded-3xl ${
-                            selectedGoalCategory === cat?._id
-                              ? 'bg-gray-900 text-white'
-                              : 'bg-white text-black border border-gray-300'
-                          }`}
-                        >
-                          {cat?.name}
-                        </button>
-                      ))}
-                    </div>
-
-                    <div className="flex flex-col gap-4 max-h-[300px] overflow-y-auto">
-                      {goal?.map((item, index) => {
-                        const { name: className } = item;
-
-                        return (
-                          <div key={index}>
-                            <h5 className="mb-2 font-semibold">{item?.goalName}</h5>
-                            <div className="flex flex-wrap gap-2">
-                              {item?.subjects?.map((subject, idx) => (
-                                <span
-                                  key={idx}
-                                  className="px-3 py-1 text-sm bg-gray-100 cursor-pointer hover:bg-gray-200 rounded-3xl"
-                                >
-                                  {subject?.name}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        );
-                      })}
-
-                      {/* {Object.entries(courseData[activeCategory]).map(
-                      ([className, subjects]) => (
-                        <div key={className}>
-                          <h5 className="mb-2 font-semibold">{className}</h5>
-                          <div className="flex flex-wrap gap-2">
-                            {subjects.map((subject, idx) => (
-                              <span
-                                key={idx}
-                                className="px-3 py-1 text-sm bg-gray-100 cursor-pointer hover:bg-gray-200 rounded-3xl"
-                              >
-                                {subject}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      )
-                    )} */}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div className="flex gap-2 mt-3 md:mt-0">
-                <button
-                  className="bg-transparent text-white border border-white rounded-3xl px-4 py-2 font-bold"
-                  onClick={() => setModalVisible(true)}
-                >
-                  Register
-                </button>
-                <button
-                  className="px-8 py-2 font-bold bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] rounded-3xl"
-                  onClick={() => setModalVisible(true)}
-                >
-                  Login
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div className="h-full mainMaxWidth">
+        <Header />
         <div>
-          <div className="bg-slate-600 text-white space-y-16">
-            <section className="text-center mx-auto">
-              <img src={images.newDashboardUserMainAboutImage1} alt="About Us" />
+          <div className="bg-white text-gray-800 pb-10 lg:pb-16">
+            <section className="mb-12 about-bg">
+              <img
+                src={images.newDashboardUserMainAboutImage1}
+                alt="About Us"
+                className="w-full h-auto lg:rounded-xl object-cover"
+              />
             </section>
 
-            <section className="max-w-5xl mx-auto space-y-8">
-              <div>
-                <h2 className="text-3xl font-semibold mb-4">{aboutUs?.title || ''}</h2>
-                <div dangerouslySetInnerHTML={{ __html: aboutUs?.desc || '' }}></div>
-              </div>
-              {/* <hr className="border-gray-500 my-8" />
-
-              <div>
-                <h2 className="text-3xl font-semibold mb-4">
-                  Who Came Up With The Idea?
-                </h2>
-                <p className="text-white">
-                  At Complete Prep, we’re flipping the script on education with
-                  our never-before-made platform that tailors one-on-one
-                  tutoring for students navigating the international waters of
-                  IB and Cambridge curricula.
-                </p>
-              </div>
-              <hr className="border-gray-500 my-8" /> */}
+            <section className="mb-16">
+              <div
+                className="text-sm lg:text-base leading-relaxed text-gray-600 text-center"
+                dangerouslySetInnerHTML={{ __html: aboutUs?.desc || '' }}
+              />
             </section>
 
-            <section className="flex flex-col space-y-12 max-w-6xl mx-auto pb-4">
+            <section className="space-y-12 md:px-6 px-3">
               {aboutUs?.team?.map((founder, index) => {
                 const isReversed = index % 2 !== 0;
+
                 return (
                   <div
                     key={index}
-                    className={`flex flex-col-reverse lg:flex-row ${
-                      isReversed ? 'lg:flex-row-reverse' : ''
-                    }  items-center gap-8`}
+                    className={`md:flex gap-10 ${
+                      isReversed ? 'md:flex-row-reverse' : ''
+                    } items-center`}
                   >
-                    <div className="lg:w-1/2 w-full">
-                      <p className="text-white text-sm mb-4">{founder.desc || ''}</p>
-                    </div>
-                    <div className="lg:w-1/2 w-full relative">
+                    <div className="w-full lg:w-1/2">
                       {founder.image && (
                         <img
                           src={founder.image}
                           alt={founder.name}
-                          width={500}
-                          height={500}
-                          className="rounded-lg w-full h-auto object-cover"
+                          className="w-full h-auto rounded-xl object-cover shadow-sm"
                         />
                       )}
-                      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 bg-transparent bg-opacity-70 px-4 py-2 rounded-t-lg text-center w-full">
-                        {/* <h3 className="text-xl font-bold text-lime-400">
-                          {founder.title || ""}
-                        </h3> */}
-                        {/* <p className="text-sm text-white">{founder.role}</p> */}
-                      </div>
+                    </div>
+
+                    <div className="w-full lg:w-1/2 mt-10 md:mt-0">
+                      {founder.name && (
+                        <h3 className="text-lg lg:text-xl font-semibold mb-3">{founder.name}</h3>
+                      )}
+
+                      <p className="text-gray-600 text-sm lg:text-base leading-relaxed">
+                        {founder.desc || ''}
+                      </p>
                     </div>
                   </div>
                 );
@@ -656,101 +525,8 @@ const AboutMainPage = () => {
             </section>
           </div>
         </div>
-
-        <footer className="">
-          <div className="bg-[#0e2d2c] text-white pt-14 px-6 md:px-20">
-            <div className="grid grid-cols-2 gap-12">
-              <div className="flex flex-col gap-6 lg:max-w-sm">
-                <h1 className="text-2xl font-bold leading-snug">
-                  <span className="text-lime-400">c</span>
-                  <span className="text-white">p</span> Complete
-                  <br />
-                  <span className="text-white">Prep</span>
-                </h1>
-                <div className="relative">
-                  <input
-                    type="email"
-                    placeholder="Enter Your Email"
-                    className="w-full p-4 rounded-lg bg-[#1c1c1c] text-white placeholder-gray-400 outline-none"
-                  />
-                  <button className="absolute right-2 top-2.5 bg-[#222] p-2 rounded-md">
-                    <Icon icon="mdi:send" className="text-white w-5 h-5"></Icon>
-                  </button>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-5 sm:grid-cols-3 lg:grid-cols-5 gap-10 text-sm flex-1">
-                <div>
-                  <h3 className="font-semibold text-base mb-4">Home</h3>
-                  <ul className="space-y-2 text-white">
-                    <li>Hero Section</li>
-                    <li>Features</li>
-                    <li>Properties</li>
-                    <li>Testimonials</li>
-                    <li>FAQs</li>
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-base mb-4">About Us</h3>
-                  <ul className="space-y-2 text-white">
-                    <li>Our Story</li>
-                    <li>Our Works</li>
-                    <li>How It Works</li>
-                    <li>Our Team</li>
-                    <li>Our Clients</li>
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-base mb-4">Properties</h3>
-                  <ul className="space-y-2 text-white">
-                    <li>Portfolio</li>
-                    <li>Categories</li>
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-base mb-4">Services</h3>
-                  <ul className="space-y-2 text-white">
-                    <li>Valuation Mastery</li>
-                    <li>Strategic Marketing</li>
-                    <li>Negotiation Wizardry</li>
-                    <li>Closing Success</li>
-                    <li>Property Management</li>
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-base mb-4">Contact Us</h3>
-                  <ul className="space-y-2 text-white">
-                    <li>Contact Form</li>
-                    <li>Our Offices</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="bg-teal-800 flex flex-row justify-between items-center text-xs text-white px-6 py-2 pb-0">
-            <p className="flex flex-row text-sm justify-content-between gap-2 pt-3">
-              <p>©2023 Estaten. All Rights Reserved.</p>
-              <p href="#" className="hover:text-white">
-                Terms & Conditions
-              </p>
-            </p>
-            <div className="flex gap-3">
-              <a href="#" className="bg-black p-2 rounded-full">
-                <Icon icon="mdi:facebook" className="text-white w-5 h-5"></Icon>
-              </a>
-              <a href="#" className="bg-black p-2 rounded-full">
-                <Icon icon="mdi:linkedin" className="text-white w-5 h-5"></Icon>
-              </a>
-              <a href="#" className="bg-black p-2 rounded-full">
-                <Icon icon="mdi:twitter" className="text-white w-5 h-5"></Icon>
-              </a>
-              <a href="#" className="bg-black p-2 rounded-full">
-                <Icon icon="mdi:youtube" className="text-white w-5 h-5"></Icon>
-              </a>
-            </div>
-          </div>
-        </footer>
       </div>
+      <Footer />
     </>
   );
 };

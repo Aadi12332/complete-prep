@@ -281,14 +281,14 @@ const UserHome = () => {
           </div>
         }
       ></ReusableModal>
-      <div className="w-full flex sm:flex-col lg:flex-row gap-3 bg-white">
+      <div className="w-full flex sm:flex-col lg:flex-row bg-white">
         <div className="w-full sm:w-full md:w-[70%]">
           <div>
             <UserMenuBar />
           </div>
           <div className="p-4">
             <div
-              className="relative text-white rounded-xl p-3 bg-center bg-no-repeat bg-cover lg:bg-contain"
+              className="relative text-white rounded-xl p-3 bg-center bg-no-repeat bg-cover"
               style={{
                 backgroundImage: `url(${images.userDashboardImageHome})`,
               }}
@@ -388,17 +388,17 @@ const UserHome = () => {
           </div>
         </div>
 
-        <div className="w-full ssh md:w-[30%] bg-white min-h-[calc(100vh-56px)] md: rounded-xl p-1 md:px-6 md:py-6 border-2 border-[#d0d0d0]">
-          <div className="space-y-6 max-w-md mx-auto px-4">
-            <div className="flex flex-col justify-center">
-              <p className="flex justify-end mt-4 text-2xl">
+        <div className="w-full ssh md:w-[30%] bg-white h-svh border-l border-[#d0d0d0]">
+          <div className="space-y-6 max-w-md mx-auto px-3">
+            <div className="flex flex-col justify-center relative">
+              <p className="flex justify-end absolute right-2 top-2 text-2xl">
                 <Icon
                   icon="mdi:bell-outline"
                   className="cursor-pointer"
                   onClick={() => setShowNotifications(true)}
                 />
               </p>
-              <div className="flex flex-col items-center justify-center text-center gap-4 mt-2 mb-4">
+              <div className="flex flex-col items-center justify-center text-center gap-4 mt-4 mb-4">
                 <img
                   src={user?.image || images.newHandwrittenNotesImage1}
                   alt="User Profile"
@@ -413,7 +413,7 @@ const UserHome = () => {
               </div>
 
               {subscriptionStatus ? (
-                <div>
+                <div className='mt-2'>
                   <p className="text-sm text-black">
                     Your Current Plan : -{' '}
                     <span className="text-sm text-gray-500">
@@ -439,19 +439,23 @@ const UserHome = () => {
                 </div>
               )}
             </div>
-            <div>
+            {/* <div>
               <img
                 src={images.userDashboardTopBanner}
                 alt="Dashboard Banner"
-                className=""
-                style={{ width: '100%', height: '100%', minHeight: '170px' }}
+                className="object-cover"
+                style={{ width: '100%', height: '100%', minHeight: 30 }}
               />
+            </div> */}
+            <div className='bg-yellow-100 rounded-lg p-3 flex flex-col items-center gap-2'>
+              <p className='font-semibold text-sm text-center'>■ Limited Time Offer: 50% Off All Courses! ■</p>
+              <p className='text-xs text-center'>Boost your exam prep with half off on our top-rated courses. Hurry, offer ends soon!</p>
             </div>
             <div>
               <img
                 src={TutorialVideoImage || images.userDashboardTopBanner}
                 alt="Dashboard Banner"
-                className=""
+                className="rounded-lg"
                 style={{
                   width: '100%',
                   height: '100%',
@@ -491,7 +495,7 @@ const UserHome = () => {
             </div>
             <div>
               <button
-                className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold px-4 py-2 rounded-3xl"
+                className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold px-2.5 py-2 rounded-3xl"
                 onClick={() => {
                   setIsReferalButtonVisible(true);
                   showNotification({ type: 'success', message: 'Copied to clipboard' });
@@ -499,6 +503,11 @@ const UserHome = () => {
                 }}
               >
                 Referral & Earn
+              </button>
+              <button
+                className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold px-2.5 py-2 rounded-3xl mt-3"
+              >
+                Become as an Ambassador
               </button>
               {isReferalButtonVisible && (
                 <span

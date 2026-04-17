@@ -11,6 +11,8 @@ import images from '../../utils/images';
 import './NewPages.css';
 import { HomePageBenifitComponent } from './HomePageBenifitComponent';
 import StackCards from './StackCards';
+import Footer from './Footer';
+import Header from './Header';
 
 const courses = [
   {
@@ -145,6 +147,8 @@ const HomePage = () => {
   const borderColors = ['#C3B900', '#B82020', '#1F7A1F', '#003E9D', '#E0E0E0'];
   const titleColors = ['#D4B300', '#D62828', '#228B22', '#003B95', '#000000'];
   const [testimonials, setTestimonials] = useState([]);
+  const [mainUniversities, setMainUniversities] = useState([]);
+
   const universities = [
     {
       title: 'IIT',
@@ -197,7 +201,6 @@ const HomePage = () => {
   const [subjects, setSubjects] = useState([]);
   const [selectedGoalCategory, setSelectedGoalCategory] = useState('');
   const [selectedGoal, setSelectedGoal] = useState('');
-  const [mainUniversities, setMainUniversities] = useState([]);
   const [topBanner, setTopBanner] = useState('');
   const { setUser } = useContext(AuthContext);
 
@@ -217,6 +220,7 @@ const HomePage = () => {
       onSuccess: data => setPopularCourses(data?.data || []),
     });
   };
+
   const fetchGoalCategory = async () => {
     userApi.goalCategory.getAll({
       onSuccess: data => setGoalCategory(data?.data || []),
@@ -265,6 +269,7 @@ const HomePage = () => {
   useEffect(() => {
     fetchFaqs();
   }, []);
+
   const getRandomStaticStyle = () => {
     const all = [...courses, ...universities];
     return all[Math.floor(Math.random() * all.length)];
@@ -323,300 +328,19 @@ const HomePage = () => {
         header={false}
       />
 
-      <div className="h-full p-3 sm:p-1 mainMaxWidth bg-white">
-        <div className="w-full max-h-[600px] object-cover rounded-lg relative">
-          <div className="flex flex-wrap gap-3 items-center justify-between md:px-4 md:py-3 pb-3">
-            <img
-              src={images.newMainLogo}
-              alt="Logo"
-              onClick={() => navigate('/')}
-              className="max-w-[150px] object-contain"
-            />
-
-            <span className="lg:hidden block cursor-pointer" onClick={() => setIsSidebarOpen(true)}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <line x1="3" y1="12" x2="21" y2="12" />
-                <line x1="3" y1="18" x2="21" y2="18" />
-              </svg>
-            </span>
-
-            <div className="items-center gap-3 hidden lg:flex justify-between w-full max-w-[75%] xl:max-w-[70%]">
-              <div className="relative flex flex-wrap items-center gap-2 p-1 bg-[#efefef] text-gray-500 hover:text-gray-700 rounded-3xl">
-                <span
-                  onClick={() => toggleDropdown(0)}
-                  className="flex items-center gap-1 cursor-pointer hover:bg-white rounded-3xl px-4 py-2"
-                >
-                  Universities
-                  {currentState === 0 ? (
-                    <Icon icon="akar-icons:chevron-up" />
-                  ) : (
-                    <Icon icon="akar-icons:chevron-down" />
-                  )}
-                </span>
-                {['About', 'Pricing', 'Testimonial']?.map(tab => (
-                  <span
-                    key={tab}
-                    onClick={() => {
-                      tab === 'Testimonial'
-                        ? navigate('/testimonials')
-                        : tab === 'Pricing'
-                          ? navigate('/pricing')
-                          : tab === 'About'
-                            ? navigate('/about')
-                            : setCurrentState(null);
-                    }}
-                    className="px-4 py-2 cursor-pointer hover:bg-white rounded-3xl"
-                  >
-                    {tab}
-                  </span>
-                ))}
-
-                {currentState === 0 && (
-                  <div className="absolute top-[110%] left-0 bg-white text-black rounded-3xl shadow-lg w-full md:w-[600px] p-4 z-50">
-                    <div className="flex gap-2 pb-2 mb-4 overflow-x-auto border-b md:gap-4">
-                      {mainUniversities?.map(cat => (
-                        <button
-                          key={cat?._id}
-                          onClick={() => setSelectedGoalCategory(cat?._id)}
-                          className={`whitespace-nowrap px-3 py-1 rounded-3xl ${
-                            selectedGoalCategory === cat?._id
-                              ? 'bg-gray-900 text-white'
-                              : 'bg-white text-black border border-gray-300'
-                          }`}
-                        >
-                          {cat?.name}
-                        </button>
-                      ))}
-                    </div>
-
-                    <div className="flex flex-col gap-4 max-h-[300px] overflow-y-auto">
-                      {goal?.map((item, index) => {
-                        return (
-                          <div key={index}>
-                            <h5
-                              className="px-3 py-1 text-sm bg-gray-100 cursor-pointer hover:bg-gray-200 rounded-3xl w-fit"
-                              onClick={() => {
-                                setNextPage(`/semester-exam/${selectedGoalCategory}/${item?._id}`);
-                                setModalVisible(true);
-                              }}
-                            >
-                              {item?.name}
-                            </h5>
-                            <div className="flex flex-wrap gap-2">
-                              {item?.subjects?.map((subject, idx) => (
-                                <span
-                                  key={idx}
-                                  className="px-3 py-1 text-sm bg-gray-100 cursor-pointer hover:bg-gray-200 rounded-3xl"
-                                >
-                                  {subject?.name}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        );
-                      })}
-
-                      {/* {Object.entries(courseData[activeCategory]).map(
-                      ([className, subjects]) => (
-                        <div key={className}>
-                          <h5 className="mb-2 font-semibold">{className}</h5>
-                          <div className="flex flex-wrap gap-2">
-                            {subjects.map((subject, idx) => (
-                              <span
-                                key={idx}
-                                className="px-3 py-1 text-sm bg-gray-100 cursor-pointer hover:bg-gray-200 rounded-3xl"
-                              >
-                                {subject}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      )
-                    )} */}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setModalVisible(true)}
-                  className="px-4 py-2 font-bold text-black bg-transparent border border-black rounded-3xl hover:!bg-[#3DD455] hover:text-white"
-                >
-                  Register
-                </button>
-                <button
-                  onClick={() => setModalVisible(true)}
-                  className="px-4 py-2 font-bold bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] rounded-3xl"
-                >
-                  Login
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div
-            className={`fixed inset-0 z-50 transition ${isSidebarOpen ? 'visible' : 'invisible'}`}
-          >
-            {/* Overlay */}
-            <div
-              className={`absolute inset-0 bg-black/40 transition-opacity ${
-                isSidebarOpen ? 'opacity-100' : 'opacity-0'
-              }`}
-            />
-
-            {/* Sidebar panel */}
-            <div
-              ref={sidebarRef}
-              className={`absolute top-0 left-0 h-full w-[280px] bg-white shadow-lg p-3 transition-transform duration-300 ${
-                isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-              }`}
-            >
-              {/* Close button */}
-              <div className="flex justify-between items-center mb-4">
-                <img src={images.newMainLogo} alt="Logo" className="max-w-[120px]" />
-                <button onClick={() => setIsSidebarOpen(false)}>✕</button>
-              </div>
-
-              {/* Menu items */}
-              <div className="flex flex-col gap-3 relative">
-                <span
-                  onClick={() => {
-                    toggleDropdown(0);
-                  }}
-                  className="cursor-pointer flex items-center gap-1"
-                >
-                  Universities
-                   {currentState === 0 ? (
-                    <Icon icon="akar-icons:chevron-up" />
-                  ) : (
-                    <Icon icon="akar-icons:chevron-down" />
-                  )}
-                </span>
-
-                <span onClick={() => navigate('/about')} className="cursor-pointer">
-                  About
-                </span>
-
-                <span onClick={() => navigate('/pricing')} className="cursor-pointer">
-                  Pricing
-                </span>
-
-                <span onClick={() => navigate('/testimonials')} className="cursor-pointer">
-                  Testimonial
-                </span>
-
-                {currentState === 0 && (
-                  <div className="absolute top-8 left-0 bg-white text-black rounded-lg shadow-lg w-full p-2 z-50">
-                    <div className="flex sm:gap-2 gap-1 pb-2 mb-4 flex-wrap border-b md:gap-4">
-                      {mainUniversities?.map(cat => (
-                        <button
-                          key={cat?._id}
-                          onClick={() => setSelectedGoalCategory(cat?._id)}
-                          className={`text-start md:text-base text-sm line-clamp-2 px-3 py-1 rounded-3xl ${
-                            selectedGoalCategory === cat?._id
-                              ? 'bg-gray-900 text-white'
-                              : 'bg-white text-black border border-gray-300'
-                          }`}
-                        >
-                          {cat?.name}
-                        </button>
-                      ))}
-                    </div>
-
-                    <div className="flex flex-col gap-4 max-h-[300px] overflow-y-auto">
-                      {goal?.map((item, index) => {
-                        return (
-                          <div key={index}>
-                            <h5
-                              className="px-3 py-1 text-sm bg-gray-100 cursor-pointer hover:bg-gray-200 rounded-3xl w-fit"
-                              onClick={() => {
-                                setNextPage(`/semester-exam/${selectedGoalCategory}/${item?._id}`);
-                                setModalVisible(true);
-                              }}
-                            >
-                              {item?.name}
-                            </h5>
-                            <div className="flex flex-wrap gap-2">
-                              {item?.subjects?.map((subject, idx) => (
-                                <span
-                                  key={idx}
-                                  className="px-3 py-1 text-sm bg-gray-100 cursor-pointer hover:bg-gray-200 rounded-3xl"
-                                >
-                                  {subject?.name}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        );
-                      })}
-
-                      {/* {Object.entries(courseData[activeCategory]).map(
-                      ([className, subjects]) => (
-                        <div key={className}>
-                          <h5 className="mb-2 font-semibold">{className}</h5>
-                          <div className="flex flex-wrap gap-2">
-                            {subjects.map((subject, idx) => (
-                              <span
-                                key={idx}
-                                className="px-3 py-1 text-sm bg-gray-100 cursor-pointer hover:bg-gray-200 rounded-3xl"
-                              >
-                                {subject}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      )
-                    )} */}
-                    </div>
-                  </div>
-                )}
-
-                {/* Buttons */}
-                <div className="flex flex-col gap-2 mt-4">
-                  <button
-                    onClick={() => {
-                      setModalVisible(true);
-                      setIsSidebarOpen(false);
-                    }}
-                    className="px-4 py-2 border border-black rounded-3xl"
-                  >
-                    Register
-                  </button>
-                  <button
-                    onClick={() => {
-                      setModalVisible(true);
-                      setIsSidebarOpen(false);
-                    }}
-                    className="px-4 py-2 bg-[#3DD455] rounded-3xl"
-                  >
-                    Login
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center justify-center px-4 md:mt-10 text-center text-yellow-300 md:text-white pb-4"></div>
-        </div>
+      <div className="h-full mainMaxWidth bg-white">
+        <Header />
         <div className="">
-          <div className="flex flex-col items-center justify-center text-center bg-white md:px-6 mb-4">
-            <img src={images.navBarLogo} alt="SemPrep Logo" className="w-48 mb-4 object-contain" />
+          <div className="flex flex-col items-center justify-center text-center bg-white md:px-6 px-3 mb-4 mt-20">
+            <img
+              src={images.navBarLogo}
+              alt="SemPrep Logo"
+              className="w-48 mb-4 object-contain md:block hidden"
+            />
 
             <h2 className="text-3xl md:text-4xl font-bold text-black">Now</h2>
 
-            <h1 className="text-3xl md:text-4xl font-extrabold text-black mb-3">
-              Semesters Made Easy!
-            </h1>
+            <h1 className="text-3xl md:text-4xl font-bold text-black mb-3">Semesters Made Easy!</h1>
 
             <p className="text-sm md:text-base text-gray-700 max-w-xl">
               Video Explanation, Prep AI, Handwritten Notes, One Shot, PYQ & Sample Papers All In
@@ -625,297 +349,68 @@ const HomePage = () => {
 
             <button
               onClick={() => setModalVisible(true)}
-              className="mt-6 px-8 py-2 font-bold bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] rounded-3xl"
+              className="mt-3 px-8 py-2 font-bold bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] rounded-3xl"
             >
               TRY FOR FREE
             </button>
           </div>
-          {/* <div>
-            <p className="text-[#f7f700] text-2xl font-bold bg-gray-900 px-4 py-2 inline-block rounded-3xl">
-              Popular Courses
-            </p>
-            <div className="w-full px-4 py-6">
-              <Swiper
-                modules={[Navigation]}
-                spaceBetween={16}
-                slidesPerView={2.2}
-                breakpoints={{
-                  640: { slidesPerView: 3.2 },
-                  768: { slidesPerView: 4.2 },
-                  1024: { slidesPerView: 6.2 },
-                }}
-              >
-                {popularCourses?.popularCourses?.map((course, index) => {
-                  const merged = mergeCourseData(course);
-                  return (
-                    <SwiperSlide key={index}>
-                      <div
-                        className="rounded-xl px-3 py-4 shadow-md relative min-h-[200px] flex flex-col justify-between cursor-pointer"
-                        style={{ backgroundColor: merged.cardBg }}
-                        onClick={() => {
-                          setNextPage(`/user/course/${merged.courseCategoryId}/${merged.id}`);
-                          setModalVisible(true);
-                        }}
-                      >
-                        <div className="text-sm fw-bold">{merged.title}</div>
-                        <div
-                          className="mx-auto w-[100px] h-[100px] rounded-full flex items-end justify-center overflow-hidden border-4 border-white"
-                          style={{ backgroundColor: merged.imageBg }}
-                        >
-                          <img
-                            src={merged?.courseImage?.[0]}
-                            alt={merged.title}
-                            className="w-[80px] h-[80px] object-contain rounded-full mb-[-10px]"
-                          />
-                        </div>
 
-                        <div className="text-xl fw-bold absolute top-5 right-3">›</div>
-                      </div>
-                    </SwiperSlide>
-                  );
-                })}
-              </Swiper>
-            </div>
-          </div> */}
-          {/* <div className="mt-4">
-            <p className="text-[#f7f700] text-2xl font-bold bg-gray-900 px-4 py-2 inline-block rounded-3xl">
-              Select University
-            </p>
-            <div className="w-full px-4 py-6">
-              <Swiper
-                modules={[Navigation]}
-                spaceBetween={16}
-                slidesPerView={2.2}
-                breakpoints={{
-                  450: { slidesPerView: 1 },
-                  640: { slidesPerView: 3.2 },
-                  768: { slidesPerView: 4.2 },
-                  1024: { slidesPerView: 6.2 },
-                }}
-              >
-                {popularCourses?.selectUniversities?.map((course, index) => {
-                  const merged = mergeCourseData(course);
-                  return (
-                    <SwiperSlide key={index}>
-                      <div
-                        className="rounded-xl px-3 py-4 shadow-md relative min-h-[200px] flex flex-col justify-between cursor-pointer"
-                        style={{ backgroundColor: merged.cardBg }}
-                        onClick={() => {
-                          setNextPage(`/semester-exam/${merged.id}`);
-                          setModalVisible(true);
-                        }}
-                      >
-                        <div className="text-sm fw-bold text-lg">{merged.name ?? merged.title}</div>
-                        <div
-                          className="mx-auto w-[100px] h-[100px] rounded-full flex items-end justify-center overflow-hidden border-4 border-white"
-                          style={{ backgroundColor: merged.imageBg }}
-                        >
-                          <img
-                            src={merged.logo}
-                            alt={merged.name ?? merged.title}
-                            className="w-[80px] h-[80px] object-contain rounded-full mb-[-10px]"
-                          />
-                        </div>
-                        <div className="text-xl fw-bold absolute top-5 right-3">›</div>
-                      </div>
-                    </SwiperSlide>
-                  );
-                })}
-              </Swiper>
-            </div>
-          </div> */}
-          <div className="mt-4 text-center">
+          <div className="my-16 md:my-24 text-center md:px-6 px-3">
             <p className="text-zinc-800 text-lg fw-semibold">
               Trusted by over 14,540 businesses to enhance learning and drive educational growth.
             </p>
             <div className="overflow-hidden w-full mt-4">
-              <div className="flex w-max animate-scroll">
+              <div className="flex w-max animate-scroll gap-3">
                 {[...brands, ...brands, ...brands].map((brand, index) => (
-                  <div key={index} className="flex items-center justify-center px-6">
+                  <div
+                    key={index}
+                    className="flex items-center justify-center px-6 border rounded-lg border-gray-300"
+                  >
                     <img src={brand} className="w-24 h-14 object-contain" />
                   </div>
                 ))}
               </div>
             </div>
           </div>
-          <HomePageBenifitComponent />
-          {/* <div className="mt-4">
-            <div
-              style={{
-                backgroundImage: `url(${images?.newHomePageCommunityImage})`,
-              }}
-              className="min-h-[300px] bg-no-repeat bg-cover mt-7 pt-7 pb-7"
-            >
-              <div className="text-white text-center p-4 flex flex-col justify-center items-center pt-7">
-                <img
-                  src={images?.newHomePageCommunityImage5}
-                  alt="Community"
-                  className="w-22 h-16 object-contain"
-                />
-              </div>
-              <div className="text-white text-center p-4">
-                <p className="text-3xl fw-semibold mb-2">
-                  Join the Learning <span className="text-yellow-300">Community</span> and Grow
-                  Together 🤝🏼
-                </p>
-                <p className="text-md">
-                  Connect, Share, and Learn with Fellow Students and Experts in Our Engaging
-                  Community
-                </p>
-              </div>
-              <div className="grid grid-cols-2 gap-4 p-4  w-80 mx-auto py-4 text-white">
-                {communityCards?.slice(0, 2).map((card, index) => (
-                  <div
-                    key={index}
-                    style={{ backgroundColor: card.cardBg }}
-                    className="rounded-xl px-3 py-4 shadow-md relative min-h-[200px] flex flex-col gap-2 justify-between cursor-pointer bg-transparent"
-                  >
-                    <span>
-                      <img src={card.image} alt={card.title} />
-                    </span>
-                    <span>{card.title}</span>
-                    <span>{card.description}</span>
-                  </div>
-                ))}
-              </div>
-              <div className="grid grid-cols-1 gap-4 p-4  w-80 mx-auto py-4 text-white md:grid-cols-2">
-                {communityCards?.slice(2).map((card, index) => (
-                  <div
-                    key={index}
-                    style={{ backgroundColor: card.cardBg }}
-                    className="rounded-xl px-3 py-4 shadow-md relative min-h-[200px] flex flex-col gap-2 justify-between cursor-pointer bg-transparent"
-                  >
-                    <span>
-                      <img src={card.image} alt={card.title} />
-                    </span>
-                    <span>{card.title}</span>
-                    <span>{card.description}</span>
-                  </div>
-                ))}
-              </div>
-              <p className="text-center mt-4">
-                <button className=" px-6 py-2 font-bold bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] rounded-3xl">
-                  Get Started
-                </button>
-              </p>
-            </div>
-          </div> */}
-          {/* <div className="mt-4">
-            <div className="w-80 mx-auto mt-4">
-              <h2 className="text-4xl font-bold mb-4 text-center mt-4">How We Work</h2>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <img
-                    src={images?.newHomePageHowWeWorkImage1}
-                    alt="Work"
-                    className="w-full h-full object-cover rounded"
-                  />
-                </div>
-                <div>
-                  <p className="flex flex-col gap-4">
-                    {howWeWork?.map((item, index) => (
-                      <span
-                        key={index}
-                        className={`flex flex-col gap-2 p-3 rounded-md ${
-                          index === 0 ? 'bg-teal-800 text-white' : 'bg-white text-black'
-                        }`}
-                      >
-                        <span
-                          className={`rounded-full p-2 w-fit text-2xl ${
-                            index === 0 ? 'bg-white text-black' : 'bg-white text-black'
-                          }`}
-                        >
-                          <Icon icon={item.icon} />
-                        </span>
-                        <span className="font-semibold">{item.title}</span>
-                        <span className="text-sm">{item.description}</span>
-                      </span>
-                    ))}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div> */}
-          {/* <div className="mt-4">
-            <div
-              style={{
-                backgroundImage: `url(${images?.newHomePageCommunityImage})`,
-              }}
-              className="min-h-[300px] bg-no-repeat bg-cover mt-7 pt-7 pb-7"
-            >
-              <div className="w-80 mx-auto mt-4">
-                <p className="text-3xl fw-semibold mb-2 text-white text-center">
-                  Explore <span className="text-yellow-300 ">Our Courses</span>
-                </p>
-                <p className="text-md text-center text-white">
-                  Our comprehensive range of services includes web design, mobile app development,
-                  SEO, social media marketing, and more. Whether you're a startup or an established
-                  enterprise, our experts will craft solutions that drive results.
-                </p>
 
-                <div className="mt-4 d-grid grid-cols-2 gap-4">
-                  {exploreCourses?.map((item, index) => (
-                    <div
-                      key={index}
-                      className="flex flex-col gap-2 mt-4 justify-center items-center p-4 rounded-md h-[250px] relative overflow-hidden"
-                    >
-                      <div
-                        className="absolute inset-0 bg-cover bg-center filter blur-sm"
-                        style={{ backgroundImage: `url(${item.bgImage})` }}
-                      ></div>
-                      <div className="relative z-10 flex flex-col items-center gap-2 text-center">
-                        <span className="text-white text-lg font-semibold">{item.title}</span>
-                        <span className="text-gray-200 text-sm">{item.description}</span>
-                        <span className="mt-4">
-                          <button className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold px-4 py-2 rounded-3xl flex items-center gap-1">
-                            <span>Learn More</span> <Icon icon={'lucide:arrow-right'} />
-                          </button>
-                        </span>
+          <HomePageBenifitComponent />
+
+          <div className=" md:px-6 px-3">
+            <div className="mt-16 md:mt-24 flex justify-center">
+              <div className="inline-flex items-center gap-2 px-2 py-1 rounded-3xl text-lg font-medium text-gray-700 border border-gray-300">
+                <Icon icon="proicons:emoji" className="text-xl" />
+                <span>Our Testimonials</span>
+              </div>
+            </div>
+
+            <h2 className="text-center text-4xl font-bold mt-4 text-black">
+              User Reviews and Feedback
+            </h2>
+            <p className="text-center text-gray-500 mt-2 text-sm md:text-base max-w-xl mx-auto">
+              See how Capcable has transformed users’ social experiences through their own words.
+            </p>
+            <div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-6">
+                {testimonials.map((t, index) => (
+                  <div key={index} className="md:p-4 p-3 md:rounded-xl rounded-lg bg-[#efefef]">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div>
+                        <img src={t.avatar} alt="avatar" className="w-12 h-12 rounded-full" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-lg text-gray-800">{t.name}</h3>
+                        <div className="text-yellow-500">{'★'.repeat(t.rating)}</div>
                       </div>
                     </div>
-                  ))}
-                </div>
+                    <p className="text-gray-600">{t.text}</p>
+                  </div>
+                ))}
               </div>
             </div>
-          </div> */}
-          {/* <div className="bg-[#2e3537] relative">
-            <StackCards />
-          </div> */}
-          <div className="mt-4 flex justify-center">
-            <div className="inline-flex items-center gap-2 px-4 py-1 rounded-3xl text-xl font-medium text-gray-700 border border-gray-300">
-              <Icon icon="proicons:emoji" className=" text-2xl" />
-              <span>Our Testimonials</span>
-            </div>
           </div>
-
-          <h2 className="text-center text-4xl font-bold mt-4 text-black">
-            User Reviews and Feedback
-          </h2>
-          <p className="text-center text-gray-500 mt-2 text-sm md:text-base max-w-xl mx-auto">
-            See how Capcable has transformed users’ social experiences through their own words.
-          </p>
-          <div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:px-6 py-6">
-              {testimonials.map((t, index) => (
-                <div key={index} className="p-6 rounded-2xl bg-[#efefef]">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div>
-                      <img src={t.avatar} alt="avatar" className="w-12 h-12 rounded-full" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-lg text-gray-800">{t.name}</h3>
-                      <div className="text-yellow-500">{'★'.repeat(t.rating)}</div>
-                    </div>
-                  </div>
-                  <p className="text-gray-600">{t.text}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div>
-            <div className="flex flex-col md:flex-row gap-8 md:px-6 py-6">
-              {/* Left Sidebar */}
-              <div className="md:w-1/3 space-y-4">
+          <div className="md:px-6 px-3 my-16">
+            <div className="space-y-4 flex items-center flex-wrap justify-between gap-3 mb-8">
+              <div>
                 <h2 className="text-3xl font-bold">Frequently Asked Questions</h2>
                 <p className="text-gray-600">
                   Still have any questions? Contact our Team via <br />
@@ -923,107 +418,49 @@ const HomePage = () => {
                     support@completeprep.com
                   </a>
                 </p>
-                <button className="md:px-4 py-2 rounded-md border-gray-300 ">See All FAQ’s</button>
               </div>
+              <button className="border border-gray-300 rounded-lg px-4 py-2">See All FAQ’s</button>
+            </div>
 
-              <div className="md:w-2/3 space-y-4">
-                {faqs.map((faq, index) => {
-                  const isOpen = openIndex === index;
-                  return (
-                    <div key={index} className="rounded-xl p-4 bg-[#efefef]">
-                      <div
-                        className="flex justify-between items-center cursor-pointer"
-                        onClick={() => setOpenIndex(isOpen ? -1 : index)}
-                      >
-                        <h3 className="font-medium text-gray-800">{faq.question}</h3>
-                        <div className={`p-1 rounded ${isOpen ? '' : ''}`}>
-                          {isOpen ? (
-                            <Icon icon={'line-md:minus'} size={18} />
-                          ) : (
-                            <Icon icon={'akar-icons:plus'} size={18} />
-                          )}
-                        </div>
+            <div className="space-y-4">
+              {faqs.map((faq, index) => {
+                const isOpen = openIndex === index;
+                return (
+                  <div key={index} className="md:rounded-xl rounded-lg md:p-4 p-2 bg-[#efefef]">
+                    <div
+                      className="flex justify-between items-center cursor-pointer"
+                      onClick={() => setOpenIndex(isOpen ? -1 : index)}
+                    >
+                      <h3 className="font-medium text-gray-800">{faq.question}</h3>
+                      <div className={`p-1 rounded ${isOpen ? '' : ''}`}>
+                        {isOpen ? (
+                          <Icon icon={'line-md:minus'} size={18} />
+                        ) : (
+                          <Icon icon={'akar-icons:plus'} size={18} />
+                        )}
                       </div>
-                      {isOpen && faq.answer && (
-                        <div className="mt-4 text-gray-700 space-y-3">
-                          <p>{faq.answer}</p>
-                          {faq.link && (
-                            <div className="flex items-center justify-between p-3 rounded-md hover:bg-gray-100 cursor-pointer">
-                              <span>{faq.link}</span>
-                              {/* <ArrowRight size={16} /> */}
-                              <Icon icon={'si:arrow-right-duotone'} />
-                            </div>
-                          )}
-                        </div>
-                      )}
                     </div>
-                  );
-                })}
-              </div>
+                    {isOpen && faq.answer && (
+                      <div className="mt-4 text-gray-700 space-y-3">
+                        <p>{faq.answer}</p>
+                        {faq.link && (
+                          <div className="flex items-center justify-between p-3 rounded-md hover:bg-gray-100 cursor-pointer">
+                            <span>{faq.link}</span>
+                            {/* <ArrowRight size={16} /> */}
+                            <Icon icon={'si:arrow-right-duotone'} />
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
-
-        <footer className="bg-[#efefef] text-black pt-14 px-6 md:px-20 pb-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
-            <div className="flex flex-col gap-6 lg:max-w-sm">
-              <img src={images.navBarLogo} alt="Company Logo" className="w-60" />
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16">
-              <div>
-                <ul className="space-y-4 text-[15px]">
-                  <li className="cursor-pointer hover:text-gray-300 transition">Our Mission</li>
-                  <li className="cursor-pointer hover:text-gray-300 transition">Pricing</li>
-                  <li className="cursor-pointer hover:text-gray-300 transition">Community</li>
-                  <li className="cursor-pointer hover:text-gray-300 transition">Careers</li>
-                  <li className="cursor-pointer hover:text-gray-300 transition">
-                    Invite and Earn!
-                  </li>
-                </ul>
-              </div>
-
-              <div>
-                <ul className="space-y-4 text-[15px]">
-                  <li className="cursor-pointer hover:text-gray-300 transition">Blog</li>
-                  <li className="cursor-pointer hover:text-gray-300 transition">Privacy Policy</li>
-                  <li className="cursor-pointer hover:text-gray-300 transition">Terms of Usage</li>
-                  <li className="cursor-pointer hover:text-gray-300 transition">Cookie Policy</li>
-                  <li className="cursor-pointer hover:text-gray-300 transition">Contact Us</li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="md:col-span-2  flex justify-center md:justify-start gap-6 px-6 py-6 text-xl text-black">
-              <Icon
-                icon="mdi:instagram"
-                className="cursor-pointer hover:scale-110 hover:text-gray-300 transition"
-                aria-label="Instagram"
-              />
-              <Icon
-                icon="mdi:youtube"
-                className="cursor-pointer hover:scale-110 hover:text-gray-300 transition"
-                aria-label="YouTube"
-              />
-              <Icon
-                icon="mdi:discord"
-                className="cursor-pointer hover:scale-110 hover:text-gray-300 transition"
-                aria-label="Discord"
-              />
-              <Icon
-                icon="mdi:twitter"
-                className="cursor-pointer hover:scale-110 hover:text-gray-300 transition"
-                aria-label="Twitter"
-              />
-              <Icon
-                icon="mdi:linkedin"
-                className="cursor-pointer hover:scale-110 hover:text-gray-300 transition"
-                aria-label="LinkedIn"
-              />
-            </div>
-          </div>
-        </footer>
       </div>
+
+      <Footer />
     </>
   );
 };

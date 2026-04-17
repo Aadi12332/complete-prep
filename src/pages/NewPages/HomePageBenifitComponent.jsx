@@ -42,15 +42,15 @@ export const HomePageBenifitComponent = () => {
   const [activeTab, setActiveTab] = useState(tabData[0]);
 
   return (
-    <div className="my-10 md:px-4">
-      <div className="flex flex-wrap justify-center md:gap-2 bg-[#f3f4f6] rounded-3xl p-2 w-fit mx-auto">
+    <div className="my-16 md:px-6 px-3">
+      <div className="flex flex-nowrap md:gap-2 bg-[#f3f4f6] max-w-[calc(100vw-32px)] overflow-auto rounded-3xl p-1 w-fit mx-auto">
         {tabData.map(tab => (
           <button
             key={tab.name}
             onClick={() => setActiveTab(tab)}
             className={`lg:!px-4 px-2 py-2 text-[13px] sm:text-base font-medium transition-all duration-200 whitespace-nowrap ${
               activeTab.name === tab.name
-                ? 'bg-white text-black font-semibold shadow rounded-3xl'
+                ? 'bg-white text-black rounded-3xl'
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >
@@ -59,14 +59,14 @@ export const HomePageBenifitComponent = () => {
         ))}
       </div>
 
-      <div className="mt-10 grid md:grid-cols-2 gap-6 bg-[#f4b93b] rounded-3xl overflow-hidden">
-        <div className="p-8 md:p-12 text-black">
-          <h2 className="text-2xl md:text-3xl font-semibold mb-4">{activeTab.title}</h2>
+      <div className="mt-10 md:flex bg-[#f4b93b] md:rounded-xl rounded-lg overflow-hidden">
+        <div className="md:p-12 text-black flex-1 max-w-[350px]">
+          <h2 className="text-2xl md:text-3xl font-semibold mb-4 px-3 md:px-0 pt-5 md:pt-0">{activeTab.title}</h2>
 
-          <p className="text-sm md:text-base text-black/80 max-w-sm">{activeTab.desc}</p>
+          <p className="text-sm md:text-base text-black/80 max-w-sm px-3 md:px-0 pb-5 md:pb-0">{activeTab.desc}</p>
         </div>
 
-        <div className="relative h-[320px] md:h-[420px] overflow-hidden p-8 md:p-12">
+        <div className="relative h-[320px] md:h-[420px] overflow-hidden p-8 md:p-12 flex-1">
           {activeTab.type === 'video' ? (
             <video
               src={activeTab.media}

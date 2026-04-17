@@ -10,6 +10,8 @@ import "./NewPages.css";
 import { useForm } from "react-hook-form";
 import { AuthContext } from '../../Context/AuthContext';
 import { ProfileEditFormMain } from '../../components/common/New-Components/NewComponent';
+import Footer from "./Footer";
+import Header from "./Header";
 const courseData = {
   CBSE: {
     "CBSE CLASS 12": [
@@ -510,135 +512,12 @@ const Reviews = () => {
         footer={false}
         header={false}
       />
-      <div className="p-3 sm:p-1 h-full mainMaxWidth">
-        <div
-          style={{
-            backgroundImage: `url(${images.newHomePageTopBannerImage})`,
-            backgroundSize: "cover",
-          }}
-          className="w-full min-h-[54px] max-h-[600px] object-cover rounded-lg relative"
-        >
-          <div className="flex flex-wrap justify-between items-center px-4 py-3">
-            <img
-              src={images.newMainLogo}
-              onClick={() => navigate("/")}
-              alt="Logo"
-              className="max-w-[150px]"
-            />
-
-            <div className="flex flex-wrap items-center gap-2 text-white bg-gray-700 rounded-3xl px-4 py-2 relative mt-3 md:mt-0">
-              <span
-                onClick={() => toggleDropdown(0)}
-                className="cursor-pointer flex items-center gap-1 hover:bg-gray-800 px-2 py-1 rounded-3xl"
-              >
-                Courses
-                {currentState === 0 ? (
-                  <Icon icon="akar-icons:chevron-up" />
-                ) : (
-                  <Icon icon="akar-icons:chevron-down" />
-                )}
-              </span>
-              {["About", "Pricing", "Testimonial"].map((tab) => (
-                <span
-                  key={tab}
-                  onClick={() => {
-                    tab === "Testimonial"
-                      ? navigate("/testimonials")
-                      : tab === "Pricing"
-                      ? navigate("/pricing")
-                      : tab === "About"
-                      ? navigate("/about")
-                      : setCurrentState(null);
-                  }}
-                  className="cursor-pointer hover:bg-gray-800 px-2 py-1 rounded-3xl"
-                >
-                  {tab}
-                </span>
-              ))}
-
-              {currentState === 0 && (
-                <div className="absolute top-[110%] left-0 bg-white text-black rounded-3xl shadow-lg w-full md:w-[600px] p-4 z-50">
-                  <div className="flex gap-2 pb-2 mb-4 overflow-x-auto border-b md:gap-4">
-                    {goalCategory?.map((cat) => (
-                      <button
-                        key={cat?._id}
-                        onClick={() => setSelectedGoalCategory(cat?._id)}
-                        className={`whitespace-nowrap px-3 py-1 rounded-3xl ${
-                          selectedGoalCategory === cat?._id
-                            ? "bg-gray-900 text-white"
-                            : "bg-white text-black border border-gray-300"
-                        }`}
-                      >
-                        {cat?.name}
-                      </button>
-                    ))}
-                  </div>
-
-                  <div className="flex flex-col gap-4 max-h-[300px] overflow-y-auto">
-                    {goal?.map((item, index) => {
-                      const { name: className } = item;
-
-                      return (
-                        <div key={index}>
-                          <h5 className="mb-2 font-semibold">
-                            {item?.goalName}
-                          </h5>
-                          <div className="flex flex-wrap gap-2">
-                            {item?.subjects?.map((subject, idx) => (
-                              <span
-                                key={idx}
-                                className="px-3 py-1 text-sm bg-gray-100 cursor-pointer hover:bg-gray-200 rounded-3xl"
-                              >
-                                {subject?.name}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      );
-                    })}
-
-                    {/* {Object.entries(courseData[activeCategory]).map(
-                      ([className, subjects]) => (
-                        <div key={className}>
-                          <h5 className="mb-2 font-semibold">{className}</h5>
-                          <div className="flex flex-wrap gap-2">
-                            {subjects.map((subject, idx) => (
-                              <span
-                                key={idx}
-                                className="px-3 py-1 text-sm bg-gray-100 cursor-pointer hover:bg-gray-200 rounded-3xl"
-                              >
-                                {subject}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      )
-                    )} */}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <div className="flex gap-2 mt-3 md:mt-0">
-              <button
-                className="bg-transparent text-white border border-white rounded-3xl px-4 py-2 font-bold"
-                onClick={() => setModalVisible(true)}
-              >
-                Register 
-              </button>
-              <button
-                className="px-8 py-2 font-bold bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] rounded-3xl"
-                onClick={() => setModalVisible(true)}
-              >
-                Login
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="mt-4">
+      <div className="h-full mainMaxWidth">
+        <Header />
+        <div className="my-16 md:px-6 px-3">
           <div className="mt-4 flex justify-center">
-            <div className="inline-flex items-center gap-2 px-4 py-1 rounded-3xl text-xl font-medium text-gray-700 border border-gray-300">
-              <Icon icon="proicons:emoji" className="text-base text-2xl" />
+            <div className="inline-flex items-center gap-2 px-4 py-1 rounded-3xl text-lg font-medium text-gray-700 border border-gray-300">
+              <Icon icon="proicons:emoji" className="text-xl" />
               <span>Our Testimonials</span>
             </div>
           </div>
@@ -651,7 +530,7 @@ const Reviews = () => {
             their own words.
           </p>
           <div>
-            <div className="grid grid-cols-1 gap-6 p-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-6 py-6 md:grid-cols-2 lg:grid-cols-3">
               {testimonials?.map((t, index) => (
                 <div key={index} className="p-6 bg-white shadow-sm rounded-2xl">
                   <div className="flex items-center gap-4 mb-4">
@@ -677,101 +556,8 @@ const Reviews = () => {
             </div>
           </div>
         </div>
-
-        <footer className="">
-          <div className="bg-[#0e2d2c] text-white pt-14 px-6 md:px-20">
-            <div className="grid grid-cols-2 gap-12">
-              <div className="flex flex-col gap-6 lg:max-w-sm">
-                <h1 className="text-2xl font-bold leading-snug">
-                  <span className="text-lime-400">c</span>
-                  <span className="text-white">p</span> Complete
-                  <br />
-                  <span className="text-white">Prep</span>
-                </h1>
-                <div className="relative">
-                  <input
-                    type="email"
-                    placeholder="Enter Your Email"
-                    className="w-full p-4 rounded-lg bg-[#1c1c1c] text-white placeholder-gray-400 outline-none"
-                  />
-                  <button className="absolute right-2 top-2.5 bg-[#222] p-2 rounded-md">
-                    <Icon icon="mdi:send" className="text-white w-5 h-5"></Icon>
-                  </button>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-5 sm:grid-cols-3 lg:grid-cols-5 gap-10 text-sm flex-1">
-                <div>
-                  <h3 className="font-semibold text-base mb-4">Home</h3>
-                  <ul className="space-y-2 text-white">
-                    <li>Hero Section</li>
-                    <li>Features</li>
-                    <li>Properties</li>
-                    <li>Testimonials</li>
-                    <li>FAQs</li>
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-base mb-4">About Us</h3>
-                  <ul className="space-y-2 text-white">
-                    <li>Our Story</li>
-                    <li>Our Works</li>
-                    <li>How It Works</li>
-                    <li>Our Team</li>
-                    <li>Our Clients</li>
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-base mb-4">Properties</h3>
-                  <ul className="space-y-2 text-white">
-                    <li>Portfolio</li>
-                    <li>Categories</li>
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-base mb-4">Services</h3>
-                  <ul className="space-y-2 text-white">
-                    <li>Valuation Mastery</li>
-                    <li>Strategic Marketing</li>
-                    <li>Negotiation Wizardry</li>
-                    <li>Closing Success</li>
-                    <li>Property Management</li>
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-base mb-4">Contact Us</h3>
-                  <ul className="space-y-2 text-white">
-                    <li>Contact Form</li>
-                    <li>Our Offices</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="bg-teal-800 flex flex-row justify-between items-center text-xs text-white px-6 py-2 pb-0">
-            <p className="flex flex-row text-sm justify-content-between gap-2 pt-3">
-              <p>©2023 Estaten. All Rights Reserved.</p>
-              <p href="#" className="hover:text-white">
-                Terms & Conditions
-              </p>
-            </p>
-            <div className="flex gap-3">
-              <a href="#" className="bg-black p-2 rounded-full">
-                <Icon icon="mdi:facebook" className="text-white w-5 h-5"></Icon>
-              </a>
-              <a href="#" className="bg-black p-2 rounded-full">
-                <Icon icon="mdi:linkedin" className="text-white w-5 h-5"></Icon>
-              </a>
-              <a href="#" className="bg-black p-2 rounded-full">
-                <Icon icon="mdi:twitter" className="text-white w-5 h-5"></Icon>
-              </a>
-              <a href="#" className="bg-black p-2 rounded-full">
-                <Icon icon="mdi:youtube" className="text-white w-5 h-5"></Icon>
-              </a>
-            </div>
-          </div>
-        </footer>
       </div>
+      <Footer />
     </>
   );
 };

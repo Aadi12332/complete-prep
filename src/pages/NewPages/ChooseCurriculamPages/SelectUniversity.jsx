@@ -43,7 +43,7 @@ const SelectUniversity = () => {
   return (
     <div>
       <div className="bg-white text-white p-3">
-        <img src={images.navBarLogo2} alt="Logo" className="max-w-60 py-2 max-h-[60px] ml-4" />
+        <img src={images.navBarLogo2} alt="Logo" className=" max-w-60 py-2 max-h-[60px] ml-4" onClick={()=> navigate("/user/home")} />
       </div>
 
       <div className="bg-white px-4 py-4 pt-0">

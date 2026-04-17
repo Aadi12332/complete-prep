@@ -5,6 +5,13 @@ import ChatBotAi from '../pages/NewPages/AssessmentAssistancePage/ChatBotAi.jsx'
 import ChatBotAiAssignement from '../pages/NewPages/AssessmentAssistancePage/ChatBotAiAssignement.jsx';
 import ChatBotAiCarrierGuidence from '../pages/NewPages/AssessmentAssistancePage/ChatBotAiCarrierGuidence.jsx';
 import ChatBotAiInterview from '../pages/NewPages/AssessmentAssistancePage/ChatBotAiInterview.jsx';
+import CareerPage from '../pages/NewPages/CareerPage.jsx';
+import BlogPage from '../pages/NewPages/BlogPage.jsx';
+import PrivacyPolicyPage from '../pages/NewPages/PrivacyPolicyPage.jsx';
+import TermsPage from '../pages/NewPages/TermsPage.jsx';
+import ContactPage from '../pages/NewPages/ContactPage.jsx';
+import CommunityPage from '../pages/NewPages/CommunityPage.jsx';
+import CookiesPolicyPage from '../pages/NewPages/CookiesPolicyPage.jsx';
 import AddToCart from '../pages/NewPages/Cart/AddToCart.jsx';
 import SelectHearAboutUs from '../pages/NewPages/ChooseCurriculamPages/SelectHearAboutUs.jsx';
 import SelectUniversity from '../pages/NewPages/ChooseCurriculamPages/SelectUniversity.jsx';
@@ -79,6 +86,42 @@ export const routes = [
     name: 'About',
     element: <PricingPage />,
   },
+  {
+    path: '/careers',
+    name: 'Careers',
+    element: <CareerPage />,
+    },
+    {
+      path: '/blogs',
+      name: 'Blogs',
+      element: <BlogPage />,
+    },
+    {
+      path: '/privacy-policy',
+      name: 'Privacy Policy',
+      element: <PrivacyPolicyPage />,
+    },
+    {
+      path: '/terms',
+      name: 'Terms',
+      element: <TermsPage />,
+    },
+    {
+      path: '/cookies-policy',
+      name: 'Cookies Policy',
+      element: <CookiesPolicyPage />,
+    },
+    {
+      path: '/community',
+      name: 'Community',
+      element: <CommunityPage />,
+    },
+    
+    {
+      path: '/contact',
+      name: 'Contact',
+      element: <ContactPage />,
+    },
   {
     path: '/testimonials',
     name: 'Testimonials',

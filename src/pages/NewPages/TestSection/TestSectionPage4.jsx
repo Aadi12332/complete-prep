@@ -63,7 +63,7 @@ const TestSectionPage4 = () => {
   return (
     <div>
       <div className="bg-white text-white p-3">
-        <img src={images.navBarLogo2} alt="Logo" className="max-w-60 py-2 max-h-[60px] ml-4" />
+        <img src={images.navBarLogo2} alt="Logo" className=" max-w-60 py-2 max-h-[60px] ml-4" onClick={()=> navigate("/user/home")} />
       </div>
       <div className="">
         <div className="mainMaxWidth mx-auto bg-white">

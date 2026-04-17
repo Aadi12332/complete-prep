@@ -125,7 +125,7 @@ const CoursePage3 = () => {
                           <button
                             key={tab}
                             className={`px-4 py-1 rounded-3xl ${
-                              activeTab === tab ? 'bg-[#122826] text-[#f7f700]' : 'text-gray-800'
+                              activeTab === tab ? 'bg-[#fff] text-[#000]' : 'text-gray-800'
                             }`}
                             onClick={() => setActiveTab(tab)}
                           >
@@ -145,7 +145,7 @@ const CoursePage3 = () => {
                                 (filteredContent, i) => (
                                   <div
                                     key={i}
-                                    className="flex items-center justify-between p-3 bg-[#efefef] rounded-xl cursor-pointer hover:shadow transition py-1"
+                                    className="flex items-center justify-between px-2 bg-[#efefef] rounded-lg cursor-pointer hover:shadow transition py-2"
                                     onClick={() => {
                                       if (activeTab === 'Videos' && filteredContent.videoLink) {
                                         return navigate(
