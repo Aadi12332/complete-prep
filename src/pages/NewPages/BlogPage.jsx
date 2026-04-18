@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
+import { motion } from 'framer-motion';
 
 const blogs = [
   {
@@ -68,8 +69,12 @@ const BlogPage = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogs.map((blog, index) => (
-            <div
-              key={index}
+            <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: index * 0.2 }}
+            viewport={{ once: true }}
+            whileHover={{ scale: 1.02 }}
               className="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition"
             >
               <img
@@ -91,7 +96,7 @@ const BlogPage = () => {
                   Read More →
                 </button>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 

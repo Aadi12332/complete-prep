@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
+import { motion } from 'framer-motion';
 
 const CommunityPage = () => {
   return (
@@ -10,16 +11,26 @@ const CommunityPage = () => {
 
         <div className="px-3 md:px-6 py-16">
           <div className="">
-            <div className="text-center mb-12">
+            <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            whileHover={{ scale: 1.02 }} className="text-center mb-12">
               <h1 className="text-3xl md:text-4xl font-bold mb-4">
                 Our Community 🌍
               </h1>
               <p className="text-gray-600 max-w-2xl mx-auto">
                 Join a vibrant and growing community of learners, creators, and achievers. Connect, collaborate, and grow together.
               </p>
-            </div>
+            </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 text-center">
+            <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            whileHover={{ scale: 1.02 }} className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 text-center">
               <div className="p-6 border border-gray-200 rounded-lg">
                 <img
                   src="https://cdn-icons-png.flaticon.com/512/921/921347.png"
@@ -52,9 +63,14 @@ const CommunityPage = () => {
                   Learn from peers, mentors, and real experiences to accelerate your growth.
                 </p>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="grid md:grid-cols-2 gap-10 mb-16">
+            <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            whileHover={{ scale: 1.02 }} className="grid md:grid-cols-2 gap-10 mb-16">
               <div>
                 <h2 className="text-2xl font-bold mb-4">
                   Why Join Our Community?
@@ -82,9 +98,14 @@ const CommunityPage = () => {
                   className="w-full h-full max-h-[300px] object-cover rounded-lg"
                 />
               </div>
-            </div>
+            </motion.div>
 
-            <div className="text-center border rounded-lg p-8">
+            <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            whileHover={{ scale: 1.02 }} className="text-center border rounded-lg p-8">
               <h2 className="text-2xl font-bold mb-3">
                 Join the Community 🚀
               </h2>
@@ -98,7 +119,7 @@ const CommunityPage = () => {
               >
                 Join Now
               </button>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
