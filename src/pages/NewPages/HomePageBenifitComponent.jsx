@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 
 export const HomePageBenifitComponent = () => {
   const tabData = [
@@ -42,7 +43,17 @@ export const HomePageBenifitComponent = () => {
   const [activeTab, setActiveTab] = useState(tabData[0]);
 
   return (
-    <div className="my-16 md:px-6 px-3">
+    <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            whileHover={{ scale: 1.02 }} className="my-16 md:px-6 px-3">
+      <h1 className="text-3xl md:text-4xl font-bold text-black mb-3 text-center">Ask Anything. Understand Everything.</h1>
+
+            <p className="text-sm md:text-base text-gray-700 max-w-xl mx-auto text-center mb-10">
+              Your AI-powered study partner that helps you solve doubts, learn faster, and master concepts instantl
+            </p>
       <div className="flex flex-nowrap md:gap-2 bg-[#f3f4f6] max-w-[calc(100vw-32px)] overflow-auto rounded-3xl p-1 w-fit mx-auto">
         {tabData.map(tab => (
           <button
@@ -59,7 +70,7 @@ export const HomePageBenifitComponent = () => {
         ))}
       </div>
 
-      <div className="mt-10 md:flex bg-[#f4b93b] md:rounded-xl rounded-lg overflow-hidden">
+      <div className="mt-3 md:flex bg-[#f4b93b] md:rounded-xl rounded-lg overflow-hidden">
         <div className="md:p-10 text-black flex-1 max-w-[350px]">
           <h2 className="text-2xl md:text-3xl font-semibold mb-4 px-3 md:px-0 pt-5 md:pt-0">{activeTab.title}</h2>
 
@@ -84,6 +95,6 @@ export const HomePageBenifitComponent = () => {
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };

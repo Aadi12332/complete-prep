@@ -123,7 +123,7 @@ const CommunityPage1 = () => {
   const otherPosts = pinnedPostId ? posts.filter(post => post._id !== pinnedPostId) : posts;
 
   const PostCard = ({ post, isPinned = false }) => (
-    <div className={`p-1 space-y-3 mt-2 ${isPinned ? '' : ''}`}>
+    <div className={`p-3 space-y-3 mt-2 ${isPinned ? '' : ''}`}>
       <div className="flex items-start justify-between">
         <div className="flex gap-3">
           {post.createdBy?.image && (
@@ -221,11 +221,11 @@ const CommunityPage1 = () => {
   );
 
   return (
-    <div className="">
+    <div className="p-6">
       {/* <div className="user_container_width">
         <UserMenuBar />
       </div> */}
-      <div className="p-2 bg-[#efefef] m-4 rounded-xl">
+      <div className="bg-[#efefef] rounded-xl">
         {/* <p className="sm:p-2 lg:p-4">
           <img
             src={images.newCommunityBannerImage}

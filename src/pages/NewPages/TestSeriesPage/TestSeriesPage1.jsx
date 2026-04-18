@@ -41,7 +41,7 @@ const TestSeriesPage1 = () => {
       <div className="p-6">
 
 
-        <div className="p-4 bg-white rounded">
+        <div className="bg-white rounded">
           {/* <div>
             <img src={images.newTestSeriesImage1Image} alt="" />
           </div> */}
@@ -52,11 +52,11 @@ const TestSeriesPage1 = () => {
           ) : testSeriesList.length === 0 ? (
             <div className="py-10 text-center text-gray-600">No test series available.</div>
           ) : (
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3 p-3">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               {testSeriesList?.map((test, idx) => (
                 <div
                   key={idx}
-                  className="p-4 transition bg-[#efefef] border shadow-sm rounded-xl hover:shadow-md"
+                  className="p-2.5 transition bg-[#efefef] border rounded-lg"
                 >
                   <div className="flex items-center justify-between">
                     <img

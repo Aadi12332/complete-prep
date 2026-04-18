@@ -4,6 +4,8 @@ import { Modal, Offcanvas } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
 import NewSidebarItem from '../NewSidebarItem';
 import './css/HOC.css';
+import images from '../../utils/images';
+
 const HOC = WrappedComponent => {
   const WrappedWithHOC = () => {
     const [showSidebar, setShowSidebar] = useState(true);
@@ -85,6 +87,7 @@ const HOC = WrappedComponent => {
       localStorage.clear();
       navigate('/');
     };
+
     const LogoutModal = props => (
       <Modal {...props} size="lg" centered>
         <Modal.Body>
@@ -112,7 +115,7 @@ const HOC = WrappedComponent => {
             <div
               key={index}
               onClick={() => (item.name === 'Logout' ? setModalShow(true) : navigate(item.path))}
-              className={`group flex items-center justify-between gap-3 px-4 py-2 rounded-lg text-sm transition cursor-pointer ${
+              className={`group flex items-center justify-between gap-3 px-2 py-2 rounded-lg text-sm transition cursor-pointer ${
                 isActive
                   ? 'border-2 border-[#d0d0d0] bg-gray-50 text-[#585858] font-semibold'
                   : 'text-[#585858] hover:bg-gray-100 hover:text-black'
@@ -143,8 +146,14 @@ const HOC = WrappedComponent => {
 
     return (
       <div className="max-w-8xl mx-auto bg-white min-h-screen">
-        <div className="block md:hidden p-3 bg-white">
-          <Icon icon="ci:menu-duo" className="text-3xl cursor-pointer" onClick={handleShowCanvas} />
+        <div className="flex justify-between gap-3 items-center md:hidden p-3 bg-white">
+          <img
+                      src={images.newMainLogo}
+                      alt="Logo"
+                      onClick={() => navigate('/')}
+                      className="w-[120px] object-contain"
+                    />
+          <Icon icon="mdi:menu" className="text-3xl cursor-pointer" onClick={handleShowCanvas} />
         </div>
 
         <Offcanvas
@@ -154,18 +163,27 @@ const HOC = WrappedComponent => {
           className="custom-offcanvas"
         >
           <Offcanvas.Header closeButton>
-            <Offcanvas.Title>Menu</Offcanvas.Title>
+            <Offcanvas.Title>
+              <img
+                      src={images.newMainLogo}
+                      alt="Logo"
+                      onClick={() => navigate('/')}
+                      className="w-[120px] object-contain"
+                    />
+            </Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>{renderSidebarItems()}</Offcanvas.Body>
         </Offcanvas>
+
+        <LogoutModal show={modalShow} onHide={() => setModalShow(false)} />
 
         <div className="flex">
           <div className={`hidden md:block ${showSidebar ? 'w-64' : 'w-20'} transition-all`}>
             <NewSidebarItem toggleSidebar={toggleSidebar} show={showSidebar} />
           </div>
 
-          <div className="flex-1">
-            <div className="sm:p-0 lg:p-0 bg-white">
+          <div className="flex-1 md:h-svh overflow-auto">
+            <div className="bg-white">
               <WrappedComponent />
             </div>
           </div>

@@ -250,7 +250,7 @@ const isActive = (path) => location.pathname === path;
           >
             <div className="flex justify-between items-center mb-4">
               {' '}
-              <img src={images.newMainLogo} alt="Logo" className="max-w-[120px]" />{' '}
+              <img onClick={()=>navigate("/")} src={images.newMainLogo} alt="Logo" className="max-w-[120px]" />{' '}
               <button onClick={() => setIsSidebarOpen(false)}>✕</button>{' '}
             </div>{' '}
             <div className="flex flex-col gap-3 relative">
@@ -274,8 +274,8 @@ const isActive = (path) => location.pathname === path;
                 Pricing
               </span>
 
-              <span onClick={() => navigate('/testimonials')} className="cursor-pointer">
-                Testimonial
+              <span onClick={() => navigate('/careers')} className="cursor-pointer">
+                Careers
               </span>
 
               {currentState === 0 && (

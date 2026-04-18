@@ -100,8 +100,8 @@ const TestSeriesPage2 = () => {
       <div className="">
         <UserMenuBar />
       </div>
-      <div className="sm:p-2 lg:p-4 bg-white m-4 rounded-xl">
-        <div className="p-4 mb-6 bg-[#f7f7fa] rounded-xl">
+      <div className="p-6 rounded-lg">
+        <div className="p-2.5 mb-6 bg-[#f7f7fa] rounded-lg">
           <div className="flex flex-col">
             <h2 className="flex items-center text-xl font-semibold">
               {bundleImage && (
@@ -195,7 +195,7 @@ const TestSeriesPage2 = () => {
                           {test.languages}
                         </span>
                         <div className="flex flex-wrap justify-between items-center px-3 py-3">
-                          <div className="flex gap-4 text-sm text-gray-700">
+                          <div className="flex gap-3 text-sm text-gray-700 flex-wrap">
                             <span className="px-2 py-1 bg-stone-200 rounded-3xl">
                               {test.totalQuestions || '0'} Questions
                             </span>
@@ -264,7 +264,7 @@ const TestSeriesPage2 = () => {
                               //       });
                               // }
                             }}
-                            className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold px-4 py-2 rounded-3xl min-w-[120px]"
+                            className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold px-4 py-2 mt-2 rounded-3xl min-w-[120px]"
                           >
                             {isPurchased || testVariant === 'studyPlannerTest'
                               ? 'Start'

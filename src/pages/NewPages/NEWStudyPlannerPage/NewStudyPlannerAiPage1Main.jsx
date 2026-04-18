@@ -56,8 +56,8 @@ const NewStudyPlannerAiPage1Main = () => {
       <div className="">
         <UserMenuBar />
       </div>
-      <div className=" bg-white sm:p-2 lg:p-6">
-        <div className="bg-[#EFEFEF] p-4 rounded-2xl min-h-[80vh]">
+      <div className=" bg-white p-6">
+        <div className="bg-[#EFEFEF] p-3 rounded-lg md:min-h-[calc(100vh-48px)]">
           <div>
             <h1 className="text-4xl font-bold text-[#594b4b]">Create Your Personalized</h1>
             <h1 className="text-4xl font-bold text-gray-900">Study Schedule</h1>

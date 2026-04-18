@@ -74,7 +74,7 @@ const CoursePage2_1 = () => {
         <UserMenuBar />
       </div>
 
-      <div className="p-4">
+      <div className="p-6">
         <div className="">
           {isLoading ? (
             <div className="flex justify-center mt-10">
@@ -136,7 +136,7 @@ const CoursePage2_1 = () => {
                           objectFit: 'cover',
                           transition: 'transform 0.35s ease',
                         }}
-                        className="group-hover:scale-110"
+                        className="group-hover:scale-110 max-h-[300px]"
                       />
                     </div>
                   ))}

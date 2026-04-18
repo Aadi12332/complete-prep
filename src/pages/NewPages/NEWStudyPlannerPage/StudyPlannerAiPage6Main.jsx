@@ -56,7 +56,7 @@ const StudyPlannerAiPage6Main = () => {
       <div className="">
         <UserMenuBar />
       </div>
-      <div className="sm:p-2 lg:p-4">
+      <div className="p-6">
         {isLoading ? (
           <div className="flex justify-center mt-10">
             <p>Loading...</p>
@@ -65,7 +65,7 @@ const StudyPlannerAiPage6Main = () => {
           <div className="flex flex-col gap-6">
             <p className="text-2xl font-bold text-gray-800">{courses[0]?.title || 'Course'}</p>
 
-            <div className="bg-white p-6 rounded-xl shadow-md">
+            <div className="bg-white p-6 rounded-xl border">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {courses[0]?.subjects?.map((subjectItem, index) => (
                   <div

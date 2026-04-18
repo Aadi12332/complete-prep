@@ -34,13 +34,13 @@ const PYQWithVidePage2 = () => {
   return (
     <div>
       <div>
-        <div className="rounded-t-lg overflow-hidden">
+        <div className="overflow-hidden">
           <div className="bg-green-900 text-white flex items-center justify-between px-6 py-1 relative">
             <div
               onClick={() => navigate('/user/home')}
               className="flex items-center space-x-1 z-10"
             >
-              <img src={images.navBarLogo2} alt="Logo" className="max-w-[250px] max-h-[90px]" />
+              <img src={images.navBarLogo2} alt="Logo" className="max-w-[150px] py-4 max-h-[90px]" />
             </div>
           </div>
         </div>

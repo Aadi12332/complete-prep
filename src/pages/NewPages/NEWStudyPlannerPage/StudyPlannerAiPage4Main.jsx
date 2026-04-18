@@ -74,17 +74,17 @@ const StudyPlannerAiPage4Main = () => {
       <div className="">
         <UserMenuBar />
       </div>
-      <div className="bg-white">
+      <div className="bg-white p-6">
         <div>
           <TopMainBannerPages image={images.newStudyPlannerAiBannerImage} />
         </div>
-        <div className="bg-white sm:p-2 lg:p-4 sm:p-10">
+        <div className="bg-[#efefef] p-3 rounded-b-2xl">
           <p className="text-black font-semibold text-left text-2xl mb-8">
             Please specify the days and hours you're available for studying
           </p>
-          <div className="p-3">
+          <div className="">
             <div className="grid grid-cols-2 gap-6">
-              <div className="w-full bg-[#efefef] p-6 rounded-xl shadow-sm">
+              <div className="w-full bg-[#fff] p-3 rounded-xl shadow-sm">
                 <h3 className="fs-5 font-semibold text-gray-800 mb-4">
                   Days Available for Studying
                 </h3>
@@ -106,7 +106,7 @@ const StudyPlannerAiPage4Main = () => {
                   ))}
                 </div>
               </div>
-              <div className="w-full bg-[#efefef] p-6 rounded-xl shadow-sm">
+              <div className="w-full bg-[#fff] p-3 rounded-xl shadow-sm">
                 <h3 className="fs-5 font-semibold text-gray-800 mb-4">
                   Hours Per Day
                 </h3>

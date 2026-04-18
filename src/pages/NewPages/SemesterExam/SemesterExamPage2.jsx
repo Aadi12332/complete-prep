@@ -49,7 +49,7 @@ const SemesterExamPage2 = () => {
       <div className="user_container_width">
         <UserMenuBar />
       </div>
-      <div className="mt-2">
+      <div className="mt-2 p-6">
         <div className="p-3">
           <h1 className="text-4xl font-bold mb-6">Select Course</h1>
 

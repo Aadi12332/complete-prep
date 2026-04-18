@@ -69,14 +69,14 @@ const HandwrittenNotesPage1_3 = () => {
       <div className="user_container_width">
         <UserMenuBar />
       </div>
-      <div className="user_container_width mt-4">
+      <div className="user_container_width p-6">
         {isLoading ? (
           <div className="flex justify-center mt-10">
             <p>Loading...</p>
           </div>
         ) : (
           <div className="smallScreenFlex gap-4">
-            <div className="sm:w-full lg:w-[60%] bg-white p-4">
+            <div className="sm:w-full lg:w-[60%] bg-white">
               {/* <p className="text-xl font-semibold mb-4">
                 {selectedSubject?.subject?.name || "Subject"}
               </p> */}
@@ -166,7 +166,7 @@ const HandwrittenNotesPage1_3 = () => {
               </div>
             </div>
             {selectedCourse && (
-              <div className="flex-1 p-5 bg-white rounded-xl">
+              <div className="flex-1 bg-white rounded-xl">
                 <img
                   src={selectedCourse.image || images.newCoursePage1Image2}
                   alt="Course"

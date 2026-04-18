@@ -17,7 +17,7 @@ function App() {
   };
 
   return (
-    <div className="bg-white">
+    <div className="bg-white min-h-svh">
       <ScrollToTop />
       <AppRoutes />
     </div>

@@ -150,7 +150,7 @@ const NewCurrentAffairsPage1 = () => {
       <div className="">
         <UserMenuBar />
       </div>
-      <div className="bg-white m-4 p-4 rounded-3xl">
+      <div className="bg-white p-6 rounded-3xl">
         <div className="w-full">
           <div className="smallScreenFlex justify-between items-center mb-4 bg-[#f3f4f6] rounded-3xl flex-wrap p-1">
             {tabs?.map(tab => (
@@ -296,7 +296,7 @@ const NewCurrentAffairsPage1 = () => {
                   </div> */}
                   {monthlyQuizzes?.map((quiz, index) => (
                     <div key={index} className="rounded-xl overflow-hidden">
-                      <h2 className="text-xl font-bold bg-violet-200 p-2 m-0">
+                      <h2 className="text-xl font-bold bg-gray-300 p-2 m-0">
                         Current Affairs Quiz
                       </h2>
                       <div className="smallScreenFlex justify-between gap-2 items-center p-4 px-2 bg-[#efefef]">

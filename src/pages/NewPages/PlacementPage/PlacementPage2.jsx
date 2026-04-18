@@ -192,16 +192,16 @@ const PlacementPage2 = () => {
         <UserMenuBar />
       </div>
 
-      <div className="">
-        <div className="bg-[#efefef] p-4">
+      <div className="p-6">
+        <div className="bg-[#efefef] p-3 rounded-xl">
           <div className="flex flex-col md:flex-row gap-6">
             <div className="flex-1">
-              <div className="flex justify-between items-center mb-4 mt-4">
+              <div className="flex justify-between items-center mb-4 flex-wrap gap-3">
                 <div className="flex items-center space-x-2">
                   <img
                     src={companyLogo}
                     alt={companyName}
-                    className="w-10 h-10 rounded-full object-cover"
+                    className="w-10 h-10 rounded-full object-cover border border-gray-300"
                   />
                   <div>
                     <h2 className="text-xl font-bold">
@@ -348,7 +348,7 @@ const PlacementPage2 = () => {
 
                       <div className="border-t border-gray-200 mt-6 pt-4">
                         <p className="text-sm text-gray-600 mb-3">Share this job:</p>
-                        <div className="flex items-center space-x-2">
+                        <div className="flex items-center gap-2 flex-wrap">
                           {[
                             { icon: 'line-md:link', alt: 'Copy Link' },
                             { icon: 'mingcute:linkedin-fill', alt: 'LinkedIn' },
@@ -379,7 +379,7 @@ const PlacementPage2 = () => {
 
       {showFirstModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+          <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-[96%]">
             <h2 className="text-xl font-bold mb-4">Apply Job</h2>
             <form
               onSubmit={e => {
@@ -464,7 +464,7 @@ const PlacementPage2 = () => {
 
       {showSecondModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md text-center">
+          <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-[96%] text-center">
             <div className="flex justify-center mb-4">
               <div className="bg-green-100 rounded-full p-4">
                 <Icon icon="akar-icons:check" className="text-green-500 text-4xl" />

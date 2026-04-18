@@ -88,7 +88,7 @@ const AssessmentAssistancePage = () => {
         <UserMenuBar /> 
       </div>
 
-      <div className="mt-2">
+      <div className="mt-2 p-6">
         <div className="sm:p-2 lg:p-3 bg-white m-4 rounded-xl">
           <div>
           <img

@@ -48,11 +48,11 @@ const SelectUniversity = () => {
 
       <div className="bg-white px-4 py-4 pt-0">
         <div className="w-full max-w-7xl">
-          <h1 className="text-2xl md:text-3xl font-bold mb-6 text-black text-left">
+          <h1 className="text-2xl md:text-3xl font-bold mb-1 mt-5 text-black text-left">
             Which University do you take?
           </h1>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 p-4 sm:p-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 py-6">
             {universities?.map(u => (
               <label
                 key={u?._id}

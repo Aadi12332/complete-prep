@@ -281,14 +281,14 @@ const UserHome = () => {
           </div>
         }
       ></ReusableModal>
-      <div className="w-full flex sm:flex-col lg:flex-row bg-white">
-        <div className="w-full sm:w-full md:w-[70%]">
+      <div className="w-full flex flex-col-reverse lg:flex-row bg-white">
+        <div className="w-full lg:w-[70%]">
           <div>
             <UserMenuBar />
           </div>
           <div className="p-4">
             <div
-              className="relative text-white rounded-xl p-3 bg-center bg-no-repeat bg-cover"
+              className="relative text-white md:rounded-xl rounded-lg md:p-3 p-2 bg-center bg-no-repeat bg-cover"
               style={{
                 backgroundImage: `url(${images.userDashboardImageHome})`,
               }}
@@ -314,16 +314,16 @@ const UserHome = () => {
               </div>
             </div>
 
-            <div className="mt-2">
+            <div className="mt-5">
               <h3 className="text-xl font-semibold mb-2">Courses</h3>
               {isLoading ? (
                 <div className="text-center py-4">Loading...</div>
               ) : (
-                <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {courses?.map((course, idx) => (
                     <div
                       key={idx}
-                      className="bg-[#efefef] rounded-xl shadow-sm hover:shadow-md transition cursor-pointer overflow-hidden p-2"
+                      className="bg-[#efefef] md:rounded-xl rounded-lg shadow-sm hover:shadow-md transition cursor-pointer overflow-hidden p-2"
                       onClick={() => {
                         user?.isSubscribed
                           ? fetchCourseSubjectsByCourseId(course._id)
@@ -342,7 +342,7 @@ const UserHome = () => {
                           decoding="async"
                           width={800}
                           height={450}
-                          className="max-h=[450px] rounded-xl w-full object-cover"
+                          className="max-h-[300px] md:rounded-xl rounded-lg w-full object-cover"
                         />
                         <div className="w-full flex items-center mt-4">
                           <input
@@ -388,8 +388,8 @@ const UserHome = () => {
           </div>
         </div>
 
-        <div className="w-full ssh md:w-[30%] bg-white h-svh border-l border-[#d0d0d0]">
-          <div className="space-y-6 max-w-md mx-auto px-3">
+        <div className="w-full lg:w-[30%] bg-white lg:h-svh lg:border-l border-[#d0d0d0] py-4 md:py-10 lg:py-0">
+          <div className="space-y-6 lg:max-w-md mx-auto lg:px-3 px-4">
             <div className="flex flex-col justify-center relative">
               <p className="flex justify-end absolute right-2 top-2 text-2xl">
                 <Icon
@@ -413,7 +413,7 @@ const UserHome = () => {
               </div>
 
               {subscriptionStatus ? (
-                <div className='mt-2'>
+                <div className="mt-2">
                   <p className="text-sm text-black text-center">
                     Your Current Plan : -{' '}
                     <span className="text-sm text-gray-500">
@@ -447,9 +447,13 @@ const UserHome = () => {
                 style={{ width: '100%', height: '100%', minHeight: 30 }}
               />
             </div> */}
-            <div className='bg-yellow-100 rounded-lg p-3 flex flex-col items-center gap-2'>
-              <p className='font-semibold text-sm text-center'>■ Limited Time Offer: 50% Off All Courses! ■</p>
-              <p className='text-xs text-center'>Boost your exam prep with half off on our top-rated courses. Hurry, offer ends soon!</p>
+            <div className="bg-yellow-100 rounded-lg p-3 flex flex-col items-center gap-2">
+              <p className="font-semibold text-sm text-center">
+                ■ Limited Time Offer: 50% Off All Courses! ■
+              </p>
+              <p className="text-xs text-center">
+                Boost your exam prep with half off on our top-rated courses. Hurry, offer ends soon!
+              </p>
             </div>
             <div>
               <img
@@ -493,9 +497,27 @@ const UserHome = () => {
                 // )
               }
             </div>
-            <div>
+            <div className="flex lg:flex-col flex-wrap gap-2">
+              {isReferalButtonVisible && (
+                <div className="flex items-center justify-between gap-2 bg-gray-100 px-3 py-2 rounded-2xl">
+                  <span className="text-sm font-medium text-gray-700">
+                    {user?.refferalCode || ''}
+                  </span>
+
+                  <button
+                    onClick={() => {
+                      showNotification({ type: 'success', message: 'Copied to clipboard' });
+                      navigator.clipboard.writeText(user?.refferalCode);
+                    }}
+                    className="p-1 hover:bg-gray-200 rounded-md transition"
+                  >
+                    <Icon icon="solar:copy-outline" width={16} />
+                  </button>
+                </div>
+              )}
+
               <button
-                className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold px-2.5 py-2 rounded-3xl"
+                className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-medium text-sm px-3 py-2 rounded-3xl transition"
                 onClick={() => {
                   setIsReferalButtonVisible(true);
                   showNotification({ type: 'success', message: 'Copied to clipboard' });
@@ -504,24 +526,9 @@ const UserHome = () => {
               >
                 Referral & Earn
               </button>
-              <button
-                className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold px-2.5 py-2 rounded-3xl mt-3"
-              >
+              <button className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-medium text-sm px-2.5 py-2 rounded-3xl">
                 Become as an Ambassador
               </button>
-              {isReferalButtonVisible && (
-                <span
-                  className="text-green-600 "
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => {
-                    showNotification({ type: 'success', message: 'Copied to clipboard' });
-                    navigator.clipboard.writeText(user?.refferalCode);
-                  }}
-                >
-                  {' '}
-                  {user?.refferalCode || ''}
-                </span>
-              )}
             </div>
           </div>
         </div>

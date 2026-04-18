@@ -90,7 +90,7 @@ const PlacementPage1 = () => {
         <UserMenuBar />
       </div> */}
 
-      <div className="p-4">
+      <div className=" p-6">
         <div className="w-full">
           <div>
             <div className="flex smallScreenFlex gap-4">
@@ -202,7 +202,7 @@ const PlacementPage1 = () => {
                 <h2 className="text-xl font-bold mb-4">Apply Filter</h2>
                 <div className="mb-4">
                   <h3 className="text-lg font-semibold mb-2">Office Type</h3>
-                  <div className="flex items-center space-x-4">
+                  <div className="flex items-center gap-4 flex-wrap">
                     <label className="flex items-center">
                       <input
                         type="radio"

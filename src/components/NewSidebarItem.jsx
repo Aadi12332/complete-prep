@@ -180,11 +180,11 @@ const NewSidebarItem = ({ toggleSidebar, show }) => {
       path: '/user/community/1',
       iconName: 'material-symbols:groups-rounded',
     },
-    // {
-    //   name: 'Current Affairs',
-    //   path: '/user/current-affairs/1',
-    //   iconName: 'material-symbols:breaking-news-rounded',
-    // },
+    {
+      name: 'Current Affairs',
+      path: '/user/current-affairs/1',
+      iconName: 'material-symbols:breaking-news-rounded',
+    },
     {
       name: 'Skills',
       path: '/user/skill',
@@ -241,22 +241,6 @@ const NewSidebarItem = ({ toggleSidebar, show }) => {
             className="w-fit h-[50px] mb-3 cursor-pointer object-cover"
           />
         </div>
-        {/* <div className="mb-6">
-          <select
-            className="w-full px-3 py-2 text-sm border rounded text-gray-700 border-gray-300 focus:outline-none"
-            value={user?.goal || ""}
-            onChange={(e) => handleCourseClick(e.target.value)}
-          >
-            <option disabled value="">
-              Select a Course
-            </option>
-            {courses?.map((course) => (
-              <option key={course._id} value={course._id}>
-                {course?.name}
-              </option>
-            ))}
-          </select>
-        </div> */}
         <nav className="flex flex-col gap-1 overflow-y-auto">
           {sideBarItems?.map((item, index) => {
             const isActive = pathname === item.path;
@@ -264,7 +248,7 @@ const NewSidebarItem = ({ toggleSidebar, show }) => {
               <div
                 key={index}
                 onClick={() => (item.name === 'Logout' ? setModalShow(true) : navigate(item.path))}
-                className={`flex items-center justify-between gap-3 px-4 py-2 rounded-lg cursor-pointer transition text-sm ${
+                className={`flex items-center justify-between gap-3 px-2 py-2 rounded-lg cursor-pointer transition text-sm ${
                   isActive
                     ? 'border-2 border-[#d0d0d0] text-[#585858] font-semibold hover:text-black hover:cursor-default'
                     : 'text-[#585858] hover:text-black hover:cursor-pointer'

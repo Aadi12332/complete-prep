@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 
 export const HomePagePrepoComponent = () => {
   const tabData = [
@@ -31,9 +32,14 @@ export const HomePagePrepoComponent = () => {
   const [activeTab, setActiveTab] = useState(tabData[0]);
 
   return (
-    <div className="my-16 md:my-24 md:px-6 px-3">
-      <h2 className="text-center text-2xl md:text-4xl font-bold mb-8 max-w-3xl mx-auto">
-        Stop searching for reliable sources
+    <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            whileHover={{ scale: 1.02 }} className="my-16 md:my-24 md:px-6 px-3">
+      <h2 className="text-center text-2xl md:text-4xl font-bold mb-8 max-w-2xl mx-auto">
+        Stop searching for reliable sources, 
         One stop solution for all your needs
       </h2>
 
@@ -53,7 +59,7 @@ export const HomePagePrepoComponent = () => {
         ))}
       </div>
 
-      <div className="mt-10 md:flex bg-[#e8f7ef] md:rounded-xl rounded-lg overflow-hidden">
+      <div className="mt-3 md:flex bg-[#e8f7ef] md:rounded-xl rounded-lg overflow-hidden">
         <div className="md:p-10 text-black flex-1 max-w-[350px]">
           <h2 className="text-2xl md:text-3xl font-semibold mb-4 px-3 md:px-0 pt-5 md:pt-0">
             {activeTab.title}
@@ -72,6 +78,6 @@ export const HomePagePrepoComponent = () => {
           />
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };

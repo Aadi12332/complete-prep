@@ -87,7 +87,7 @@ const SkillsPage3 = () => {
       <div className="user_container_width">
         <UserMenuBar />
       </div>
-      <div className="p-4">
+      <div className="p-6">
         <div className="">
           {isLoading ? (
             <div className="flex justify-center mt-10">

@@ -65,12 +65,12 @@ const StudyPlannerAiPage2Main = () => {
           <UserMenuBar />
         </div>
       </div>
-      <div className="bg-white">
-        <div className="sm:p-2 lg:pb-5">
-          <div className="pt-4">
+      <div className="bg-white p-6">
+        <div className="">
+          <div className="">
             <TopMainBannerPages image={images.newStudyPlannerAiBannerImage} />
           </div>
-          <div className="m-3 mt-0 bg-[#efefef] p-4 rounded-b-xl">
+          <div className="bg-[#efefef] p-4 rounded-b-xl">
             <div>
               {/* <div className="w-full">
                 <img
@@ -79,12 +79,12 @@ const StudyPlannerAiPage2Main = () => {
                   className="w-full rounded-xl object-cover"
                 />
               </div> */}
-              <h2 className="text-2xl font-bold mb-4 mt-4 text-black">
+              <h2 className="text-lg font-medium mb-4 text-black">
                 Before we start creating your study plan, could you please provide a few details
                 about yourself?
               </h2>
-              <div className="p-4 rounded-xl border">
-                <h3 className="text-2xl mb-4 text-[#1527a2] font-semibold">
+              <div className="">
+                <h3 className="text-2xl mb-3 text-black font-semibold">
                   What is your current profile?
                 </h3>
 
@@ -93,7 +93,7 @@ const StudyPlannerAiPage2Main = () => {
                     <p>Loading...</p>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
                     {profiles?.map((profile, index) => {
                       const isSelected = selectedProfile === profile._id;
 
@@ -126,9 +126,9 @@ const StudyPlannerAiPage2Main = () => {
                         <div
                           key={index}
                           onClick={() => handleProfileSelect(profile._id)}
-                          className={`rounded-lg p-6 flex flex-col items-center justify-between text-center border cursor-pointer transition duration-200
+                          className={`rounded-lg p-3 flex flex-col items-center justify-between text-center border cursor-pointer transition duration-200
             ${color.cardBg} ${color.border}
-            ${isSelected ? 'ring-2 ring-blue-500' : ''}
+            ${isSelected ? 'border border-black' : ''}
           `}
                         >
                           <div
@@ -141,7 +141,7 @@ const StudyPlannerAiPage2Main = () => {
                             />
                           </div>
                           <h2 className="text-base font-semibold mb-4">{profile.title}</h2>
-                          <button className=" px-6 py-2 font-bold bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] rounded-3xl">
+                          <button className="px-2 w-full py-1.5 font-medium max-w-[140px] mx-auto bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] rounded-3xl">
                             SELECT
                           </button>
                         </div>

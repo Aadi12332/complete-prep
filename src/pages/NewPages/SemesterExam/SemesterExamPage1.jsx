@@ -56,7 +56,7 @@ const SemesterExamPage1 = () => {
       <div className="user_container_width">
         <UserMenuBar />
       </div>
-      <div className="mt-2">
+      <div className="mt-2 p-6">
         <div className="sm:p-2 lg:p-3 bg-white m-4 rounded-xl">
           <h1 className="text-4xl font-bold mb-6">Select University / College</h1>
 

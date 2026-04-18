@@ -124,17 +124,17 @@ const SettingPage1 = () => {
       <div className="">
         <UserMenuBar />
       </div>
-      <div className="sm:m-2 lg:m-4 sm:p-2 lg:p-5 bg-white rounded-xl ">
+      <div className=" bg-white rounded-xl p-6">
         <div className="w-full">
           <div className="w-full">
-            <div className="smallScreenFlex justify-between bg-[#f3f4f6] rounded-3xl tab-button-container w-fit p-1">
+            <div className="flex flex-wrap justify-between bg-[#f3f4f6] rounded-3xl tab-button-container w-fit p-1">
               {tabs?.map(tab => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
                   className={`px-4 py-2 text-sm sm:text-base font-medium transition-all duration-200 whitespace-nowrap ${
                     activeTab === tab
-                      ? 'bg-white text-black font-semibold shadow rounded-3xl'
+                      ? 'bg-white text-black font-semibold rounded-3xl'
                       : 'text-gray-500 hover:text-gray-700'
                   }`}
                 >
@@ -201,7 +201,7 @@ const SettingPage1 = () => {
             </div>
           )} */}
           {activeTab === 'Transactions' && (
-            <div className="w-[100%]">
+            <div className="w-[100%] mt-5">
               <p className="mb-3 text-lg font-semibold mt-3">Transactions</p>
               <div className="course-transactions-wrapper w-[100%]">
                 {isLoading ? (
@@ -209,14 +209,14 @@ const SettingPage1 = () => {
                     <p className="text-base text-gray-500">Loading transactions...</p>
                   </div>
                 ) : transactions?.transactions?.length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
                     {transactions?.transactions?.map((item, index) => (
                       <div
                         key={index}
-                        className="border rounded-lg p-4 hover:shadow-md cursor-pointer transition-shadow"
+                        className="border rounded-lg p-2 hover:shadow-md cursor-pointer transition-shadow"
                       >
-                        <div className="flex items-center gap-3 mb-3">
-                          <div className="bg-gray-100 rounded-md w-14 h-14 flex items-center justify-center">
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="bg-gray-100 rounded-md w-10 h-10 min-w-10 flex items-center justify-center">
                             <Icon
                               icon="mdi:receipt"
                               width="32"
@@ -306,30 +306,30 @@ const SettingPage1 = () => {
           )}
           {activeTab === 'My Weekly Timeline' && (
             <div>
-              <div className="p-3">
-                <h1 className="mb-6 text-2xl font-bold text-center">Weekly Timeline</h1>
+              <div className="mt-5">
+                <h1 className="mb-3 text-lg font-semibold mt-3">Weekly Timeline</h1>
                 {isLoading ? (
                   <div className="flex justify-center mt-10">
                     <p>Loading...</p>
                   </div>
                 ) : (
                   <div className="relative">
-                    <div className="absolute w-1 h-full transform -translate-x-1/2 bg-blue-500 left-1/2"></div>
+                    <div className="absolute w-1 h-full transform -translate-x-1/2 bg-gray-500 left-1/2"></div>
                     {timelineEvents?.map((event, index) => (
                       <div key={index} className="flex mb-8">
-                        <div className="w-full lg:w-1/2 pr-4 text-right">
-                          <div className="inline-block p-2 bg-blue-100 rounded-lg">
+                        <div className="w-full lg:w-1/2 sm:pr-4 pr-2 text-right">
+                          <div className="inline-block p-2 bg-gray-300 rounded-lg">
                             <div className="flex items-center">
                               <Icon icon="akar-icons:calendar" className="mr-2 text-gray-500" />
-                              <span className="text-gray-700">
+                              <span className="text-gray-700 text-sm md:text-base">
                                 {event.startDate} To {event.endDate}
                               </span>
                             </div>
                           </div>
                         </div>
-                        <div className="w-full lg:w-1/2 pl-4">
-                          <div className="p-4 rounded-lg bg-blue-50">
-                            <h3 className="flex items-center mb-2 text-lg font-semibold text-blue-700">
+                        <div className="w-full lg:w-1/2 sm:pl-4 pl-2">
+                          <div className="md:p-4 p-2 rounded-lg bg-gray-100">
+                            <h3 className="flex gap-2 items-center mb-2 sm:text-lg text-sm font-semibold text-gray-700">
                               <Icon icon="mdi:timer-sand-empty" width="24" height="24" /> Weekly
                               Time Spent
                             </h3>
@@ -342,9 +342,9 @@ const SettingPage1 = () => {
                                   icon="mingcute:video-fill"
                                   width="24"
                                   height="24"
-                                  className="mr-2 text-blue-700"
+                                  className="mr-2 text-gray-700"
                                 />
-                                <span className="text-black-700">
+                                <span className="text-black-700 text-sm md:text-base">
                                   {event.totalVideosWatched} videos watched
                                 </span>
                               </div>
@@ -353,9 +353,9 @@ const SettingPage1 = () => {
                                   icon="twemoji:red-question-mark"
                                   width="24"
                                   height="24"
-                                  className="mr-2 text-blue-700"
+                                  className="mr-2 text-gray-700"
                                 />
-                                <span className="text-black-700">
+                                <span className="text-black-700 text-sm md:text-base">
                                   {event.totalPracticeActivities} Practice activities
                                 </span>
                               </div>
@@ -364,9 +364,9 @@ const SettingPage1 = () => {
                                   icon="solar:test-tube-broken"
                                   width="24"
                                   height="24"
-                                  className="mr-2 text-blue-700"
+                                  className="mr-2 text-gray-700"
                                 />
-                                <span className="text-black-700">
+                                <span className="text-black-700 text-sm md:text-base">
                                   {event.totalTestsTaken} Test Taken
                                 </span>
                               </div>

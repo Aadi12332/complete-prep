@@ -129,9 +129,9 @@ const ProfileTab = () => {
   );
 
   return (
-    <div className="p-6 mt-3 bg-white rounded-xl shadow-sm">
+    <div className="mt-5">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div>
             <h2 className="text-xl font-bold mb-2">Profile</h2>
             <p className="text-gray-600 text-sm">

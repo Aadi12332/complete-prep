@@ -15,6 +15,7 @@ import Footer from './Footer';
 import Header from './Header';
 import { HomePagePrepoComponent } from './HomePagePrepoComponent';
 import { FeaturesGrid } from './FeaturesGrid';
+import { motion } from 'framer-motion';
 
 const courses = [
   {
@@ -333,7 +334,14 @@ const HomePage = () => {
       <div className="h-full mainMaxWidth bg-white">
         <Header />
         <div className="">
-          <div className="flex flex-col items-center justify-center text-center bg-white md:px-6 px-3 mb-4 mt-20">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            whileHover={{ scale: 1.02 }}
+            className="flex flex-col items-center justify-center text-center bg-white md:px-6 px-3 mb-4 mt-20"
+          >
             <img
               src={images.navBarLogo}
               alt="SemPrep Logo"
@@ -355,9 +363,16 @@ const HomePage = () => {
             >
               TRY FOR FREE
             </button>
-          </div>
+          </motion.div>
 
-          <div className="my-16 md:my-24 text-center md:px-6 px-3">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            whileHover={{ scale: 1.02 }}
+            className="my-16 md:my-24 text-center md:px-6 px-3"
+          >
             <p className="text-zinc-800 text-lg fw-semibold">
               Trusted by over 14,540 businesses to enhance learning and drive educational growth.
             </p>
@@ -373,7 +388,7 @@ const HomePage = () => {
                 ))}
               </div>
             </div>
-          </div>
+          </motion.div>
 
           <HomePageBenifitComponent />
 
@@ -381,7 +396,14 @@ const HomePage = () => {
 
           <FeaturesGrid />
 
-          <div className=" md:px-6 px-3">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            whileHover={{ scale: 1.02 }}
+            className="md:px-6 px-3"
+          >
             <div className="mt-16 md:mt-24 flex justify-center">
               <div className="inline-flex items-center gap-2 px-2 py-1 rounded-3xl text-lg font-medium text-gray-700 border border-gray-300">
                 <Icon icon="proicons:emoji" className="text-xl" />
@@ -398,7 +420,15 @@ const HomePage = () => {
             <div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-6">
                 {testimonials.map((t, index) => (
-                  <div key={index} className="md:p-4 p-3 md:rounded-xl rounded-lg bg-[#efefef]">
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1, delay: index * 0.2 }}
+                    viewport={{ once: true }}
+                    whileHover={{ scale: 1.02 }}
+                    className="md:p-4 p-3 md:rounded-xl rounded-lg bg-[#efefef]"
+                  >
                     <div className="flex items-center gap-4 mb-4">
                       <div>
                         <img src={t.avatar} alt="avatar" className="w-12 h-12 rounded-full" />
@@ -408,14 +438,21 @@ const HomePage = () => {
                         <div className="text-yellow-500">{'★'.repeat(t.rating)}</div>
                       </div>
                     </div>
-                    <p className="text-gray-600">{t.text}</p>
-                  </div>
+                    <p className="text-gray-600">{t.review}</p>
+                  </motion.div>
                 ))}
               </div>
             </div>
-          </div>
+          </motion.div>
           <div className="md:px-6 px-3 my-16">
-            <div className="space-y-4 flex items-center flex-wrap justify-between gap-3 mb-8">
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.02 }}
+              className="space-y-4 flex items-center flex-wrap justify-between gap-3 mb-8"
+            >
               <div>
                 <h2 className="text-3xl font-bold">Frequently Asked Questions</h2>
                 <p className="text-gray-600">
@@ -425,14 +462,27 @@ const HomePage = () => {
                   </a>
                 </p>
               </div>
-              <button onClick={()=>navigate("/faqs")} className="border border-gray-300 rounded-lg px-4 py-2">See All FAQ’s</button>
-            </div>
+              <button
+                onClick={() => navigate('/faqs')}
+                className="border border-gray-300 rounded-lg px-4 py-2"
+              >
+                See All FAQ’s
+              </button>
+            </motion.div>
 
             <div className="space-y-4">
               {faqs.map((faq, index) => {
                 const isOpen = openIndex === index;
                 return (
-                  <div key={index} className="rounded-lg md:p-4 p-3 bg-[#efefef]">
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1, delay: index * 0.2 }}
+                    viewport={{ once: true }}
+                    whileHover={{ scale: 1.02 }}
+                    className="rounded-lg md:p-4 p-3 bg-[#efefef]"
+                  >
                     <div
                       className="flex justify-between items-center cursor-pointer"
                       onClick={() => setOpenIndex(isOpen ? -1 : index)}
@@ -458,7 +508,7 @@ const HomePage = () => {
                         )}
                       </div>
                     )}
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>

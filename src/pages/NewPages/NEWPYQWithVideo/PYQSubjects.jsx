@@ -57,8 +57,8 @@ const PYQSubjects = () => {
       </div>
 
       <div>
-        <div className="p-3">
-          <div className="rounded-lg p-4 mb-4 bg-white">
+        <div className="p-6">
+          <div className="rounded-lg mb-4 bg-white">
             <div>
               <div className="space-y-4 ">
                 {isLoading ? (
@@ -68,7 +68,7 @@ const PYQSubjects = () => {
                 ) : testSeriesList.length === 0 ? (
                   <div className="text-center text-gray-600 py-10">No test series available.</div>
                 ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
                     {testSeriesList.map((test, index) => {
                       const subCount = Array.isArray(test.subSubject) ? test.subSubject.length : 0;
                       const goalName = test.goal?.name || test.goalName || '';
@@ -77,7 +77,7 @@ const PYQSubjects = () => {
                       return (
                         <div
                           key={test?._id || index}
-                          className="p-4 transition bg-[#efefef] border shadow-sm rounded-xl hover:shadow-md flex flex-col"
+                          className="p-3 transition bg-[#efefef] border md:rounded-xl rounded-lg flex flex-col"
                         >
                           {/* <div className="flex items-center justify-between">
                             <img
@@ -91,7 +91,7 @@ const PYQSubjects = () => {
                             </span>
                           </div> */}
 
-                          <div className="mt-4 flex-1">
+                          <div className="flex-1">
                             <p className="text-lg text-black border-b pb-2">
                               {test.bundleName || test.name || 'Untitled'}
                             </p>
@@ -152,7 +152,7 @@ const PYQSubjects = () => {
                                     type: 'error',
                                   })
                             }
-                            className="w-full py-2 mt-4 bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold rounded-3xl"
+                            className="w-full py-2 mt-2 bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold rounded-3xl"
                           >
                             Start
                           </button>

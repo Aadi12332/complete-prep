@@ -48,8 +48,8 @@ const PyqWithVideoPage1 = () => {
       </div>
 
       <div className="">
-        <div className="p-3">
-          <div className="rounded-lg p-4 mb-4 bg-[#efefef]">
+        <div className="p-6">
+          <div className="rounded-lg p-3 mb-4 bg-[#efefef]">
             <div>
               <div className="space-y-4 ">
                 {isLoading ? (
@@ -63,7 +63,7 @@ const PyqWithVideoPage1 = () => {
                     {testSeriesList?.map((test, index) => (
                       <div
                         key={test?._id || index}
-                        className="p-4 transition bg-[#fff] border shadow-sm rounded-xl hover:shadow-md"
+                        className="p-2.5 transition bg-[#fff] border rounded-lg"
                       >
                         <div className="flex items-center justify-between">
                           <img

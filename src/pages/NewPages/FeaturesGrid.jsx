@@ -5,32 +5,70 @@ export const FeaturesGrid = () => {
     {
       title: 'Video Lectures',
       desc: 'Learn concepts with structured video lectures designed for quick understanding.',
+      points: [
+        'Visual Concepts',
+        'Ask Prepo',
+        'Last Minute Prep',
+        'Trusted Notes',
+        'Cheat Sheet',
+        'Practice Papers',
+      ],
       icon: '🎥',
     },
     {
-      title: 'Notes',
-      desc: 'Access concise and well-structured notes for fast revision anytime.',
-      icon: '📚',
-    },
-    {
-      title: 'AI Chat',
-      desc: 'Ask doubts instantly and get smart answers with our AI assistant.',
+      title: 'AI Tools',
+      desc: 'Smart AI-powered tools to simplify learning and boost productivity.',
+      points: [
+        'Ask Prepo',
+        'Summarise Topics',
+        'Assignment Assistance',
+        'Interview Prep',
+      ],
       icon: '🤖',
     },
     {
-      title: 'Last Minute Prep',
-      desc: 'Revise important topics quickly before exams with curated content.',
-      icon: '⚡',
+      title: 'Smart Learning',
+      desc: 'Personalized learning experience tailored to your progress and goals.',
+      points: [
+        'Personalized Study Plans',
+        'Progress Tracking',
+        'Daily Goals',
+        'Smart Recommendations',
+      ],
+      icon: '📈',
     },
     {
-      title: 'PYQ Solutions',
-      desc: 'Practice previous year questions with detailed solutions.',
+      title: 'Exam Preparation',
+      desc: 'Everything you need to prepare effectively and score better.',
+      points: [
+        'Mock Tests',
+        'Previous Year Questions',
+        'Important Questions',
+        'Revision Strategies',
+      ],
       icon: '📝',
     },
     {
-      title: 'Important Questions',
-      desc: 'Focus on high-weightage questions to maximize your score.',
-      icon: '⭐',
+      title: 'Resources',
+      desc: 'Access all your study materials in one place for easy learning.',
+      points: [
+        'PDF Notes',
+        'Recorded Lectures',
+        'Topic-wise Content',
+        'Quick Revision Material',
+      ],
+      icon: '📚',
+    },
+    {
+      title: 'Career Growth',
+      desc: 'Prepare beyond exams with tools that help you build your career.',
+      points: [
+        'Interview Preparation',
+        'Resume Guidance',
+        'Skill Development',
+        'Career Roadmaps',
+      ],
+      icon: '🚀',
     },
   ];
 
@@ -57,9 +95,18 @@ export const FeaturesGrid = () => {
               {item.title}
             </h3>
 
-            <p className="text-gray-600 text-sm leading-relaxed">
+            <p className="text-gray-600 text-sm mb-4">
               {item.desc}
             </p>
+
+            <ul className="space-y-2 text-sm text-gray-600">
+              {item.points.map((point, i) => (
+                <li key={i} className="flex items-center gap-2">
+                  <span className="text-green-500">•</span>
+                  {point}
+                </li>
+              ))}
+            </ul>
           </motion.div>
         ))}
       </div>

@@ -84,18 +84,18 @@ const StudyPlannerAiPage5Main = () => {
   const handleProceed = () => navigate('/');
 
   return (
-    <div className="bg-[#f4f5f6]">
+    <div className="">
       <div className="">
         <UserMenuBar />
       </div>
 
       <div className="">
 
-        <div className="m-4">
+        <div className="p-4">
           <div className="">
             <TopMainBannerPages image={images.newStudyPlannerAiBannerImage} />
           </div>
-          <div className="sm:p-2 lg:p-3 bg-white mx-3 rounded-b-xl">
+          <div className="bg-[#efefef] p-3 rounded-b-2xl">
             {isLoading ? (
               <div className="flex justify-center w-full mt-1">
                 <p>Loading...</p>
@@ -112,19 +112,20 @@ const StudyPlannerAiPage5Main = () => {
                 <p className="mb-4 text-xl text-center text-black-900">
                   You have successfully created your study planner.
                 </p>
-                <p className="mb-4 text-2xl font-bold text-center text-blue-700">
+                <p className="mb-4 text-2xl font-bold text-center text-black">
                   Based on your inputs, here is your customized study schedule:
                 </p>
 
                 <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                   {studyData?.weeklyPlan?.map((week, index) => {
                     return (
-                      <div key={index} className="overflow-hidden rounded-2xl">
+                      <div key={index} className="overflow-hidden rounded-2xl bg-white">
                         <h3 className="p-2 mb-2 text-xl font-bold text-center text-blue-500 bg-blue-200 rounded-t-xl ">
                           Week {index + 1}
                         </h3>
-                        <h6 className="mb-2 ml-2 font-semibold text-md">To do:</h6>
-                        <ul className="pl-5 space-y-3 text-gray-700 list-disc">
+                        <div className='p-2'>
+<h6 className="mb-2 font-semibold text-md">To do:</h6>
+                        <ul className="space-y-3 text-gray-700 list-disc">
                           <li className="flex items-center gap-2">
                             <Icon icon="si:youtube-line" className="text-red-500" />
                             <span>
@@ -172,6 +173,7 @@ const StudyPlannerAiPage5Main = () => {
                         >
                           {isPurchased ? 'Start Learning' : 'Unlock'}
                         </button>
+                        </div>
                       </div>
                     );
                   })}

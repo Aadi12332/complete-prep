@@ -9,7 +9,7 @@ import { ProfileEditFormMain } from '../../components/common/New-Components/NewC
 import { AuthContext } from '../../Context/AuthContext';
 import Header from './Header';
 import Footer from './Footer';
-
+import { motion } from 'framer-motion';
 const courseData = {
   CBSE: {
     'CBSE CLASS 12': [
@@ -518,10 +518,10 @@ const ProfileEditForm = ({ closeModal }) => {
 const categories = Object.keys(courseData);
 
 const PricingPage = () => {
-      const [billingType, setBillingType] = useState('annually');
-      if (!['monthly', 'annually'].includes(billingType)) {
-  setBillingType('annually');
-}
+  const [billingType, setBillingType] = useState('annually');
+  if (!['monthly', 'annually'].includes(billingType)) {
+    setBillingType('annually');
+  }
   const [currentState, setCurrentState] = useState(null);
   const [activeCategory, setActiveCategory] = useState('CBSE');
   const [modalVisible, setModalVisible] = useState(false);
@@ -579,7 +579,7 @@ const PricingPage = () => {
   const PricingCard = ({ title, price, savings, features, isPro = false, discount }) => {
     return (
       <div
-        className={`flex flex-col p-6 rounded-lg border w-full ${
+        className={`flex flex-col p-6 rounded-lg border w-full h-full ${
           isPro ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'
         }`}
       >
@@ -641,7 +641,11 @@ const PricingPage = () => {
         <Header />
         <div className="md:my-16 my-24 md:px-6 px-3">
           <div className="">
-            <div>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
               <h2 className="text-center text-4xl font-bold text-black">
                 Complete Prep pricing plan for your startup
               </h2>
@@ -649,308 +653,318 @@ const PricingPage = () => {
                 Perfectly tailored for every stage of your growth.Get started today, no credit card
                 needed.
               </p>
-              <div></div>
-            </div>
+            </motion.div>
             <div className="">
               <div className="flex justify-center mt-5 mb-5">
+                <div className="flex justify-center mt-5">
+                  <div className="inline-flex border border-gray-300 rounded-lg p-1 bg-gray-100">
+                    <button
+                      onClick={() => setBillingType('monthly')}
+                      className={`px-4 py-2 rounded-lg font-bold transition ${
+                        billingType === 'monthly' ? 'bg-white text-black shadow' : 'text-gray-600'
+                      }`}
+                    >
+                      Billed Monthly
+                    </button>
 
-<div className="flex justify-center mt-5">
-  <div className="inline-flex border border-gray-300 rounded-lg p-1 bg-gray-100">
-    <button
-      onClick={() => setBillingType('monthly')}
-      className={`px-4 py-2 rounded-lg font-bold transition ${
-        billingType === 'monthly'
-          ? 'bg-white text-black shadow'
-          : 'text-gray-600'
-      }`}
-    >
-      Billed Monthly
-    </button>
-
-    <button
-      onClick={() => setBillingType('annually')}
-      className={`px-4 py-2 rounded-lg font-bold transition ${
-        billingType === 'annually'
-          ? 'bg-white text-black shadow'
-          : 'text-gray-600'
-      }`}
-    >
-      Billed Annually
-    </button>
-  </div>
-</div>
+                    <button
+                      onClick={() => setBillingType('annually')}
+                      className={`px-4 py-2 rounded-lg font-bold transition ${
+                        billingType === 'annually' ? 'bg-white text-black shadow' : 'text-gray-600'
+                      }`}
+                    >
+                      Billed Annually
+                    </button>
+                  </div>
+                </div>
               </div>
               <div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto">
-                 {subScriptions?.map((plan, index) => {
-  const yearlyPrice = Number(plan.price) || 0;
-  const monthlyPrice = Math.round(yearlyPrice / 12);
+                  {subScriptions?.map((plan, index) => {
+                    const yearlyPrice = Number(plan.price) || 0;
+                    const monthlyPrice = Math.round(yearlyPrice / 12);
 
-  return (
-    <PricingCard
-      key={plan._id ?? index}
-      {...plan}
-      title={plan.name}
-      price={billingType === 'monthly' ? monthlyPrice : yearlyPrice}
-      features={
-        Array.isArray(plan.features)
-          ? plan.features.map(f => f.name)
-          : []
-      }
-      isPro={plan.name === 'Pro'}
-      discount={plan.discount}
-    />
-  );
-})}
-
+                    return (
+                      <motion.div
+                        key={plan._id ?? index}
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: index * 0.1 }}
+                        viewport={{ once: true }}
+                      >
+                        <PricingCard
+                          {...plan}
+                          title={plan.name}
+                          price={billingType === 'monthly' ? monthlyPrice : yearlyPrice}
+                          features={
+                            Array.isArray(plan.features) ? plan.features.map(f => f.name) : []
+                          }
+                          isPro={plan.name === 'Pro'}
+                          discount={plan.discount}
+                        />
+                      </motion.div>
+                    );
+                  })}
                 </div>
               </div>
 
               <div className="md:my-16 my-24">
-                <div className='overflow-auto'>
-                <table className="w-full table-fixed border border-gray-200 rounded-lg overflow-hidden min-w-[600px]">
-                  <thead>
-                    <tr className="bg-gray-50">
-                      <th className="w-[250px] text-left p-3">Feature</th>
-                      {plans.map(plan => (
-                        <th key={plan.name} className="text-center p-3">
-                          {plan.name}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
+                <motion.div
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  viewport={{ once: true }}
+                  className="overflow-auto"
+                >
+                  <table className="w-full table-fixed border border-gray-200 rounded-lg overflow-hidden min-w-[600px]">
+                    <thead>
+                      <tr className="bg-gray-50">
+                        <th className="w-[250px] text-left p-3">Feature</th>
+                        {plans.map(plan => (
+                          <th key={plan.name} className="text-center p-3">
+                            {plan.name}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
 
-                  <tbody>
-                    <tr className="bg-gray-100 font-semibold">
-                      <td colSpan={plans.length + 1} className="p-3">
-                        Workspace
-                      </td>
-                    </tr>
-
-                    <tr className="border-t">
-                      <td className="p-3">Number of seats</td>
-                      {plans.map(plan => (
-                        <td key={plan.name} className="text-center p-3">
-                          {plan.features.workspace.seats}
+                    <tbody>
+                      <tr className="bg-gray-100 font-semibold">
+                        <td colSpan={plans.length + 1} className="p-3">
+                          Workspace
                         </td>
-                      ))}
-                    </tr>
+                      </tr>
 
-                    <tr className="border-t">
-                      <td className="p-3">Number of objects</td>
-                      {plans.map(plan => (
-                        <td key={plan.name} className="text-center p-3">
-                          {plan.features.workspace.objects}
+                      <tr className="border-t">
+                        <td className="p-3">Number of seats</td>
+                        {plans.map(plan => (
+                          <td key={plan.name} className="text-center p-3">
+                            {plan.features.workspace.seats}
+                          </td>
+                        ))}
+                      </tr>
+
+                      <tr className="border-t">
+                        <td className="p-3">Number of objects</td>
+                        {plans.map(plan => (
+                          <td key={plan.name} className="text-center p-3">
+                            {plan.features.workspace.objects}
+                          </td>
+                        ))}
+                      </tr>
+
+                      <tr className="bg-gray-100 font-semibold">
+                        <td colSpan={plans.length + 1} className="p-3">
+                          Automations
                         </td>
-                      ))}
-                    </tr>
+                      </tr>
 
-                    <tr className="bg-gray-100 font-semibold">
-                      <td colSpan={plans.length + 1} className="p-3">
-                        Automations
-                      </td>
-                    </tr>
+                      <tr className="border-t">
+                        <td className="p-3">Number of credits</td>
+                        {plans.map(plan => (
+                          <td key={plan.name} className="text-center p-3">
+                            {plan.features.automations.credits}
+                          </td>
+                        ))}
+                      </tr>
 
-                    <tr className="border-t">
-                      <td className="p-3">Number of credits</td>
-                      {plans.map(plan => (
-                        <td key={plan.name} className="text-center p-3">
-                          {plan.features.automations.credits}
+                      {/* Email and Calendar */}
+                      <tr className="bg-gray-100 font-semibold">
+                        <td colSpan={plans.length + 1} className="p-3">
+                          Email and Calendar
                         </td>
-                      ))}
-                    </tr>
+                      </tr>
 
-                    {/* Email and Calendar */}
-                    <tr className="bg-gray-100 font-semibold">
-                      <td colSpan={plans.length + 1} className="p-3">
-                        Email and Calendar
-                      </td>
-                    </tr>
+                      <tr className="border-t">
+                        <td className="p-3">Email and calendar sync</td>
+                        {plans.map(plan => (
+                          <td key={plan.name} className="text-center p-3">
+                            {plan.features.emailAndCalendar.sync}
+                          </td>
+                        ))}
+                      </tr>
 
-                    <tr className="border-t">
-                      <td className="p-3">Email and calendar sync</td>
-                      {plans.map(plan => (
-                        <td key={plan.name} className="text-center p-3">
-                          {plan.features.emailAndCalendar.sync}
+                      <tr className="border-t">
+                        <td className="p-3">Email sharing</td>
+                        {plans.map(plan => (
+                          <td key={plan.name} className="text-center p-3">
+                            {plan.features.emailAndCalendar.sharing}
+                          </td>
+                        ))}
+                      </tr>
+
+                      <tr className="border-t">
+                        <td className="p-3">Email sends amount</td>
+                        {plans.map(plan => (
+                          <td key={plan.name} className="text-center p-3">
+                            {plan.features.emailAndCalendar.sendsAmount}
+                          </td>
+                        ))}
+                      </tr>
+
+                      <tr className="border-t">
+                        <td className="p-3">Bulk email sending</td>
+                        {plans.map(plan => (
+                          <td key={plan.name} className="text-center p-3">
+                            {plan.features.emailAndCalendar.bulkEmailSending}
+                          </td>
+                        ))}
+                      </tr>
+
+                      <tr className="border-t">
+                        <td className="p-3">Remove email watermark</td>
+                        {plans.map(plan => (
+                          <td key={plan.name} className="text-center p-3">
+                            {plan.features.emailAndCalendar.removeEmailWatermark ? '✔' : '✖'}
+                          </td>
+                        ))}
+                      </tr>
+
+                      <tr className="bg-gray-100 font-semibold">
+                        <td colSpan={plans.length + 1} className="p-3">
+                          Reporting
                         </td>
-                      ))}
-                    </tr>
+                      </tr>
 
-                    <tr className="border-t">
-                      <td className="p-3">Email sharing</td>
-                      {plans.map(plan => (
-                        <td key={plan.name} className="text-center p-3">
-                          {plan.features.emailAndCalendar.sharing}
+                      <tr className="border-t">
+                        <td className="p-3">Number of reports</td>
+                        {plans.map(plan => (
+                          <td key={plan.name} className="text-center p-3">
+                            {plan.features.reporting.reports}
+                          </td>
+                        ))}
+                      </tr>
+
+                      <tr className="border-t">
+                        <td className="p-3">Insight Reports</td>
+                        {plans.map(plan => (
+                          <td key={plan.name} className="text-center p-3">
+                            {plan.features.reporting.insightReports ? '✔' : '✖'}
+                          </td>
+                        ))}
+                      </tr>
+
+                      <tr className="border-t">
+                        <td className="p-3">Sales Reports</td>
+                        {plans.map(plan => (
+                          <td key={plan.name} className="text-center p-3">
+                            {plan.features.reporting.salesReports ? '✔' : '✖'}
+                          </td>
+                        ))}
+                      </tr>
+
+                      <tr className="border-t">
+                        <td className="p-3">Activity Reports</td>
+                        {plans.map(plan => (
+                          <td key={plan.name} className="text-center p-3">
+                            {plan.features.reporting.activityReports ? '✔' : '✖'}
+                          </td>
+                        ))}
+                      </tr>
+
+                      <tr className="border-t">
+                        <td className="p-3">Email Reports</td>
+                        {plans.map(plan => (
+                          <td key={plan.name} className="text-center p-3">
+                            {plan.features.reporting.emailReports ? '✔' : '✖'}
+                          </td>
+                        ))}
+                      </tr>
+
+                      <tr className="bg-gray-100 font-semibold">
+                        <td colSpan={plans.length + 1} className="p-3">
+                          Data Model
                         </td>
-                      ))}
-                    </tr>
+                      </tr>
 
-                    <tr className="border-t">
-                      <td className="p-3">Email sends amount</td>
-                      {plans.map(plan => (
-                        <td key={plan.name} className="text-center p-3">
-                          {plan.features.emailAndCalendar.sendsAmount}
+                      <tr className="border-t">
+                        <td className="p-3">Access permissions</td>
+                        {plans.map(plan => (
+                          <td key={plan.name} className="text-center p-3">
+                            {plan.features.dataModel.accessPermissions}
+                          </td>
+                        ))}
+                      </tr>
+
+                      <tr className="bg-gray-100 font-semibold">
+                        <td colSpan={plans.length + 1} className="p-3">
+                          Admin
                         </td>
-                      ))}
-                    </tr>
+                      </tr>
 
-                    <tr className="border-t">
-                      <td className="p-3">Bulk email sending</td>
-                      {plans.map(plan => (
-                        <td key={plan.name} className="text-center p-3">
-                          {plan.features.emailAndCalendar.bulkEmailSending}
+                      <tr className="border-t">
+                        <td className="p-3">Payment invoice</td>
+                        {plans.map(plan => (
+                          <td key={plan.name} className="text-center p-3">
+                            {plan.features.admin.paymentInvoice ? '✔' : '✖'}
+                          </td>
+                        ))}
+                      </tr>
+
+                      <tr className="border-t">
+                        <td className="p-3">SAML (SSO)</td>
+                        {plans.map(plan => (
+                          <td key={plan.name} className="text-center p-3">
+                            {plan.features.admin.sso ? '✔' : '✖'}
+                          </td>
+                        ))}
+                      </tr>
+
+                      <tr className="bg-gray-100 font-semibold">
+                        <td colSpan={plans.length + 1} className="p-3">
+                          Support
                         </td>
-                      ))}
-                    </tr>
+                      </tr>
 
-                    <tr className="border-t">
-                      <td className="p-3">Remove email watermark</td>
-                      {plans.map(plan => (
-                        <td key={plan.name} className="text-center p-3">
-                          {plan.features.emailAndCalendar.removeEmailWatermark ? '✔' : '✖'}
-                        </td>
-                      ))}
-                    </tr>
+                      <tr className="border-t">
+                        <td className="p-3">Help Center</td>
+                        {plans.map(plan => (
+                          <td key={plan.name} className="text-center p-3">
+                            {plan.features.support.helpCenter ? '✔' : '✖'}
+                          </td>
+                        ))}
+                      </tr>
 
-                    <tr className="bg-gray-100 font-semibold">
-                      <td colSpan={plans.length + 1} className="p-3">
-                        Reporting
-                      </td>
-                    </tr>
+                      <tr className="border-t">
+                        <td className="p-3">Chat and Email Support</td>
+                        {plans.map(plan => (
+                          <td key={plan.name} className="text-center p-3">
+                            {plan.features.support.chatAndEmail ? '✔' : '✖'}
+                          </td>
+                        ))}
+                      </tr>
 
-                    <tr className="border-t">
-                      <td className="p-3">Number of reports</td>
-                      {plans.map(plan => (
-                        <td key={plan.name} className="text-center p-3">
-                          {plan.features.reporting.reports}
-                        </td>
-                      ))}
-                    </tr>
+                      <tr className="border-t">
+                        <td className="p-3">Priority Support</td>
+                        {plans.map(plan => (
+                          <td key={plan.name} className="text-center p-3">
+                            {plan.features.support.prioritySupport ? '✔' : '✖'}
+                          </td>
+                        ))}
+                      </tr>
 
-                    <tr className="border-t">
-                      <td className="p-3">Insight Reports</td>
-                      {plans.map(plan => (
-                        <td key={plan.name} className="text-center p-3">
-                          {plan.features.reporting.insightReports ? '✔' : '✖'}
-                        </td>
-                      ))}
-                    </tr>
-
-                    <tr className="border-t">
-                      <td className="p-3">Sales Reports</td>
-                      {plans.map(plan => (
-                        <td key={plan.name} className="text-center p-3">
-                          {plan.features.reporting.salesReports ? '✔' : '✖'}
-                        </td>
-                      ))}
-                    </tr>
-
-                    <tr className="border-t">
-                      <td className="p-3">Activity Reports</td>
-                      {plans.map(plan => (
-                        <td key={plan.name} className="text-center p-3">
-                          {plan.features.reporting.activityReports ? '✔' : '✖'}
-                        </td>
-                      ))}
-                    </tr>
-
-                    <tr className="border-t">
-                      <td className="p-3">Email Reports</td>
-                      {plans.map(plan => (
-                        <td key={plan.name} className="text-center p-3">
-                          {plan.features.reporting.emailReports ? '✔' : '✖'}
-                        </td>
-                      ))}
-                    </tr>
-
-                    <tr className="bg-gray-100 font-semibold">
-                      <td colSpan={plans.length + 1} className="p-3">
-                        Data Model
-                      </td>
-                    </tr>
-
-                    <tr className="border-t">
-                      <td className="p-3">Access permissions</td>
-                      {plans.map(plan => (
-                        <td key={plan.name} className="text-center p-3">
-                          {plan.features.dataModel.accessPermissions}
-                        </td>
-                      ))}
-                    </tr>
-
-                    <tr className="bg-gray-100 font-semibold">
-                      <td colSpan={plans.length + 1} className="p-3">
-                        Admin
-                      </td>
-                    </tr>
-
-                    <tr className="border-t">
-                      <td className="p-3">Payment invoice</td>
-                      {plans.map(plan => (
-                        <td key={plan.name} className="text-center p-3">
-                          {plan.features.admin.paymentInvoice ? '✔' : '✖'}
-                        </td>
-                      ))}
-                    </tr>
-
-                    <tr className="border-t">
-                      <td className="p-3">SAML (SSO)</td>
-                      {plans.map(plan => (
-                        <td key={plan.name} className="text-center p-3">
-                          {plan.features.admin.sso ? '✔' : '✖'}
-                        </td>
-                      ))}
-                    </tr>
-
-                    <tr className="bg-gray-100 font-semibold">
-                      <td colSpan={plans.length + 1} className="p-3">
-                        Support
-                      </td>
-                    </tr>
-
-                    <tr className="border-t">
-                      <td className="p-3">Help Center</td>
-                      {plans.map(plan => (
-                        <td key={plan.name} className="text-center p-3">
-                          {plan.features.support.helpCenter ? '✔' : '✖'}
-                        </td>
-                      ))}
-                    </tr>
-
-                    <tr className="border-t">
-                      <td className="p-3">Chat and Email Support</td>
-                      {plans.map(plan => (
-                        <td key={plan.name} className="text-center p-3">
-                          {plan.features.support.chatAndEmail ? '✔' : '✖'}
-                        </td>
-                      ))}
-                    </tr>
-
-                    <tr className="border-t">
-                      <td className="p-3">Priority Support</td>
-                      {plans.map(plan => (
-                        <td key={plan.name} className="text-center p-3">
-                          {plan.features.support.prioritySupport ? '✔' : '✖'}
-                        </td>
-                      ))}
-                    </tr>
-
-                    <tr className="border-t">
-                      <td className="p-3">Migration Assistance</td>
-                      {plans.map(plan => (
-                        <td key={plan.name} className="text-center p-3">
-                          {plan.features.support.migrationAssistance ? '✔' : '✖'}
-                        </td>
-                      ))}
-                    </tr>
-                  </tbody>
-                </table>
-                </div>
+                      <tr className="border-t">
+                        <td className="p-3">Migration Assistance</td>
+                        {plans.map(plan => (
+                          <td key={plan.name} className="text-center p-3">
+                            {plan.features.support.migrationAssistance ? '✔' : '✖'}
+                          </td>
+                        ))}
+                      </tr>
+                    </tbody>
+                  </table>
+                </motion.div>
 
                 <div className="flex flex-col md:flex-row gap-8 md:mt-24 mt-16">
                   <div>
                     <div className="flex flex-col md:flex-row gap-8">
-                      <div className="space-y-4 flex items-center flex-wrap justify-between gap-3 mb-8">
+                      <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        viewport={{ once: true }}
+                        className="space-y-4 flex items-center flex-wrap justify-between gap-3 mb-8"
+                      >
                         <div>
                           <h2 className="text-3xl font-bold">Frequently Asked Questions</h2>
                           <p className="text-gray-600">
@@ -963,16 +977,26 @@ const PricingPage = () => {
                             </a>
                           </p>
                         </div>
-                        <button onClick={()=>navigate("/faqs")} className="border border-gray-300 rounded-lg px-4 py-2">
+                        <button
+                          onClick={() => navigate('/faqs')}
+                          className="border border-gray-300 rounded-lg px-4 py-2"
+                        >
                           See All FAQ’s
                         </button>
-                      </div>
+                      </motion.div>
 
                       <div className="space-y-4">
                         {faqs?.map((faq, index) => {
                           const isOpen = openIndex === index;
                           return (
-                            <div key={index} className="rounded-xl p-4 border bg-white">
+                            <motion.div
+                              key={index}
+                              initial={{ opacity: 0, y: 20 }}
+                              whileInView={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.4, delay: index * 0.05 }}
+                              viewport={{ once: true }}
+                              className="rounded-lg p-3 border bg-white"
+                            >
                               <div
                                 className="flex justify-between items-center cursor-pointer"
                                 onClick={() => setOpenIndex(isOpen ? -1 : index)}
@@ -1001,7 +1025,7 @@ const PricingPage = () => {
                                   )}
                                 </div>
                               )}
-                            </div>
+                            </motion.div>
                           );
                         })}
                       </div>

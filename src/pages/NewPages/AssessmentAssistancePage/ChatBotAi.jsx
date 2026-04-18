@@ -321,6 +321,7 @@ When showing code examples, always use proper syntax highlighting and include cl
   };
 
   return (
+    <div className="p-6">
     <div className="bg-gradient-to-b from-gray-50 to-gray-100 min-h-[calc(100vh-264px)] p-0 md:p-4 lg:p-0">
       {/* Mobile Sidebar Overlay */}
       {showSidebar && (
@@ -714,21 +715,21 @@ When showing code examples, always use proper syntax highlighting and include cl
         </div>
 
         {/* Input Area */}
-        <div className="border-t border-gray-200 bg-white p-3 md:p-4 flex-shrink-0">
-          <div className="max-w-3xl mx-auto">
-            <div className="flex items-end gap-2 md:gap-3">
+        <div className="border-t border-gray-200 bg-white flex-shrink-0">
+          <div className="py-3">
+            <div className="flex items-center gap-2 md:gap-3">
               <div className="flex-1 relative">
                 <textarea
                   value={input}
                   onChange={e => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder="Ask a study-related question..."
-                  className="w-full p-3 md:p-4 pr-10 md:pr-12 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent resize-none text-sm md:text-base"
+                  className="w-full py-2.5 md:py-3 pr-10 md:pr-12 pl-3 border border-gray-300 rounded-lg focus:outline-none resize-none text-sm md:text-base"
                   rows="1"
                   style={{ minHeight: '44px', maxHeight: '100px' }}
                   disabled={loading || isTyping}
                 />
-                <div className="absolute right-3 bottom-3">
+                <div className="absolute right-3 bottom-5">
                   <Icon
                     icon="mdi:lightbulb-on-outline"
                     width="18"
@@ -741,7 +742,7 @@ When showing code examples, always use proper syntax highlighting and include cl
               <button
                 onClick={sendMessage}
                 disabled={!input.trim() || loading || isTyping}
-                className="px-4 md:px-6 py-2.5 md:py-3 bg-emerald-600 text-white rounded-md hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-1 md:gap-2 font-medium text-sm md:text-base"
+                className="px-4 md:px-6 py-2.5 md:py-3 relative bottom-[4px] bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-1 md:gap-2 font-medium text-sm md:text-base"
               >
                 {loading ? (
                   <>
@@ -768,6 +769,8 @@ When showing code examples, always use proper syntax highlighting and include cl
           </div>
         </div>
       </div>
+    </div>
+
     </div>
   );
 };

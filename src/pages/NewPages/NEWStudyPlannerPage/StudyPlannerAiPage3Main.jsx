@@ -58,30 +58,29 @@ const StudyPlannerAiPage3Main = () => {
         </div>
       </div>
       <div className="">
-        <div className="bg-white">
+        <div className="bg-white p-6">
 
           <div>
             <div>
               {" "}
               <TopMainBannerPages image={images.newStudyPlannerAiBannerImage} />
             </div>
-            <div className="sm:p-2 lg:p-3 pt-0">
+            <div className="">
               <div className="bg-[#efefef] p-3 rounded-b-2xl">
                 <div>
                   <h2 className="text-2xl font-bold mb-4">
                     Kindly choose the examination date
                   </h2>
-                  <p className="flex items-center gap-2">
+                  <p className="flex items-center gap-2 mb-3">
                     <span className="text-2xl">
                       <Icon icon="material-symbols:calendar-month-outline-rounded" />
                     </span>
-                    <span className="text-gray-600 font-semibold">
+                    <span className="text-gray-600 font-semibold ">
                       Start Date - End Date
                     </span>
                   </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    {/* Start Date */}
-                    <div className="bg-white p-4 rounded-2xl hover:shadow-sm transition duration-300 border border-blue-100">
+                  <div className="lg:flex gap-6 space-y-6 lg:space-y-0">
+                    <div className="sm:bg-white sm:p-4 sm:rounded-2xl transition duration-300 sm:border sm:border-blue-100">
                       <h3 className="text-lg font-semibold text-blue-600 mb-3 text-center">
                         Select Start Date
                       </h3>
@@ -93,8 +92,7 @@ const StudyPlannerAiPage3Main = () => {
                       />
                     </div>
 
-                    {/* End Date */}
-                    <div className="bg-white p-4 rounded-2xl hover:shadow-sm transition duration-300 border border-pink-100">
+                    <div className="sm:bg-white sm:p-4 sm:rounded-2xl transition duration-300 sm:border sm:border-blue-100">
                       <h3 className="text-lg font-semibold text-pink-600 mb-3 text-center">
                         Select End Date
                       </h3>

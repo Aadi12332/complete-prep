@@ -66,7 +66,8 @@ const CoursePage3 = () => {
         <UserMenuBar />
       </div>
 
-      <div className="space-y-4 p-4 m-4 rounded-xl bg-[#efefef] border">
+      <div className="p-6">
+        <div className="space-y-4 p-3 rounded-xl bg-[#efefef] border md:min-h-[calc(100vh-48px)]">
         <div>
           <img
             src={images.newAboutPageBannerCoursePageImage}
@@ -124,7 +125,7 @@ const CoursePage3 = () => {
                         {['Videos', 'Docs', 'Tests'].map(tab => (
                           <button
                             key={tab}
-                            className={`px-4 py-1 rounded-3xl ${
+                            className={`sm:px-4 px-2 py-1 rounded-3xl ${
                               activeTab === tab ? 'bg-[#fff] text-[#000]' : 'text-gray-800'
                             }`}
                             onClick={() => setActiveTab(tab)}
@@ -209,6 +210,7 @@ const CoursePage3 = () => {
             </div>
           )}
         </div>
+      </div>
       </div>
     </div>
   );

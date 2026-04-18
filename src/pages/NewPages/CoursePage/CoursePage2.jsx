@@ -56,7 +56,7 @@ const CoursePage2 = () => {
         <UserMenuBar />
       </div>
 
-      <div className="m-4">
+      <div className="p-6">
         <div className="bg-[#efefef] rounded-xl border">
           {isLoading ? (
             <div className="flex justify-center mt-10">

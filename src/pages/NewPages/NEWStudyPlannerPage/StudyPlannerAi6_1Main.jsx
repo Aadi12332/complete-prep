@@ -72,7 +72,7 @@ const StudyPlannerAi6_1Main = () => {
       <div className="">
         <UserMenuBar />
       </div>
-      <div className="space-y-4 sm:p-2 lg:p-4 m-4 rounded-xl bg-white">
+      <div className="p-6 space-y-5">
         <div className="overflow-hidden rounded-xl"></div>
         <div className="w-full">
           <h1 className="text-2xl font-bold text-gray-800">
@@ -125,7 +125,7 @@ const StudyPlannerAi6_1Main = () => {
                         {["Videos", "Docs", "Tests"].map((tab) => (
                           <button
                             key={tab}
-                            className={`px-4 py-1 rounded-3xl text-md font-medium ${
+                            className={`sm:px-4 px-2 py-1 rounded-3xl text-md font-medium ${
                               activeTab === tab
                                 ? "bg-black text-white"
                                 : "text-gray-700"

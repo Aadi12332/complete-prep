@@ -67,7 +67,7 @@ const SkillsPage4 = () => {
       return videoItems.map(video => (
         <div
           key={video._id || video.videoLink || Math.random()}
-          className="flex items-center justify-between p-3 bg-[#efefef] rounded-xl cursor-pointer hover:shadow transition py-1"
+          className="flex items-center justify-between p-2 bg-[#efefef] rounded-lg cursor-pointer hover:shadow transition"
           // onClick={() => console.log(video)}
           onClick={() =>
             navigate(
@@ -99,7 +99,7 @@ const SkillsPage4 = () => {
       return docItems.map((docUrl, idx) => (
         <div
           key={docUrl || idx}
-          className="flex items-center justify-between p-3 bg-[#efefef] rounded-xl cursor-pointer hover:shadow transition py-1"
+          className="flex items-center justify-between p-2 bg-[#efefef] rounded-lg cursor-pointer hover:shadow transition"
           onClick={() =>
             navigate(`/user/handwritten-notes/${idx}/view`, {
               state: {
@@ -132,7 +132,7 @@ const SkillsPage4 = () => {
       return testItems.map((testId, idx) => (
         <div
           key={testId || idx}
-          className="flex items-center justify-between p-3 bg-[#efefef] rounded-xl cursor-pointer hover:shadow transition py-1"
+          className="flex items-center justify-between p-2 bg-[#efefef] rounded-lg cursor-pointer hover:shadow transition"
           onClick={() =>
             navigate(
               `/user/test-series/${testId}?testVariant=studyPlannerTest&studyPlannerId=${id}`
@@ -168,7 +168,8 @@ const SkillsPage4 = () => {
         <UserMenuBar />
       </div>
 
-      <div className="space-y-4 p-4 m-4 rounded-xl bg-[#efefef] border">
+      <div className="p-6">
+        <div className="space-y-4 p-4 rounded-xl bg-[#efefef] border md:min-h-[calc(100vh-48px)]">
         <div className="overflow-hidden rounded-xl"></div>
         <div className="w-full">
           {/* <h1 className="text-2xl font-bold text-gray-800">
@@ -220,8 +221,8 @@ const SkillsPage4 = () => {
                         {['Videos', 'Docs', 'Tests'].map(tab => (
                           <button
                             key={tab}
-                            className={`px-4 py-1 rounded-3xl ${
-                              activeTab === tab ? 'bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold px-4 py-1 rounded-3xl' : 'text-gray-800'
+                            className={`sm:px-4 px-2 py-1 rounded-3xl ${
+                              activeTab === tab ? 'bg-white text-black font-semibold px-4 py-1 rounded-3xl' : 'text-gray-800'
                             }`}
                             onClick={() => setActiveTab(tab)}
                           >
@@ -254,6 +255,7 @@ const SkillsPage4 = () => {
             </div>
           )}
         </div>
+      </div>
       </div>
     </div>
   );

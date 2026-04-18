@@ -70,27 +70,27 @@ const SkillsPage2 = () => {
         <div className="user_container_width">
           <UserMenuBar />
         </div>
-        <div className="p-4 bg-white rounded-sm">
+        <div className="p-6 bg-white rounded-sm">
           {isLoading ? (
             <div className="flex justify-center mt-10">
               <p>Loading...</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 rounded-lg">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 rounded-lg">
               {courses?.map(course => (
                 <div
                   key={course._id}
-                  className="bg-[#efefef] rounded-xl overflow-hidden hover:shadow-lg transition duration-300 flex flex-col border border-[#efefef]"
+                  className="bg-[#efefef] md:rounded-xl rounded-lg overflow-hidden hover:shadow-lg transition duration-300 flex flex-col border border-[#efefef]"
                 >
                   <div className="w-full aspect-[1/1.2]">
                     <img
                       src={course?.locale}
                       alt={course?.name}
-                      className="w-full h-full object-cover p-2 rounded-xl"
+                      className="w-full h-full object-cover md:rounded-t-xl rounded-t-lg"
                     />
                   </div>
 
-                  <div className="flex flex-col gap-1 p-1 px-2 flex-1 bg-[#efefef]">
+                  <div className="flex flex-col gap-1 p-3 flex-1 bg-[#efefef]">
                     <p className="font-semibold text-lg text-gray-800 line-clamp-2">
                       {course?.name}
                     </p>

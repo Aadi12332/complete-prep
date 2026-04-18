@@ -51,7 +51,7 @@ export const UserBannerMultipleImages = ({
 
 export const TopMainBannerPages = ({ image, imagecss, alt }) => {
   return (
-    <div className={`${styles.TopMainBannerPages} m-3 mt-0 mb-0`}>
+    <div className={`${styles.TopMainBannerPages}`}>
       {image && <img src={image} className={imagecss} alt={alt || ""} />}
     </div>
   );

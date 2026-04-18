@@ -96,13 +96,13 @@ const SelectUniversitySemester = () => {
 
         <div className="bg-white px-4 py-8 pt-0">
           <div className="w-full max-w-7xl">
-            <h1 className="text-2xl md:text-3xl font-bold mb-2 text-black">Select a Semester</h1>
+            <h1 className="text-2xl md:text-3xl font-bold mb-1 mt-5 text-black">Select a Semester</h1>
             {universityName ? (
               <p className="text-sm text-gray-600 mb-6">University: {universityName}</p>
             ) : null}
 
             {isLoading && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 py-6">
                 {Array.from({ length: 6 }).map((_, i) => (
                   <div
                     key={i}
@@ -127,7 +127,7 @@ const SelectUniversitySemester = () => {
                 ) : (
                   <div
                     role="radiogroup"
-                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-6 rounded-xl"
+                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 py-6 rounded-xl"
                   >
                     {semesters?.map(c => (
                       <label
