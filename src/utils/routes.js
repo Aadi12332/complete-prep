@@ -225,22 +225,22 @@ export const routes = [
     element: <TestSeriesPage2 />,
   },
   {
-    path: '/user/handwritten-notes',
+    path: '/user/notes',
     name: 'Test-Series',
     element: <HandwrittenNotesPage1_1 />,
   },
   {
-    path: '/user/handwritten-notes/:id/subjects',
+    path: '/user/notes/:id/subjects',
     name: 'Test-Series',
     element: <HandwrittenNotesPage1_2 />,
   },
   {
-    path: '/user/handwritten-notes/:id/:subjectId',
+    path: '/user/notes/:id/:subjectId',
     name: 'Test-Series',
     element: <HandwrittenNotesPage1_3 />,
   },
   {
-    path: '/user/handwritten-notes/:id/view',
+    path: '/user/notes/:id/view',
     name: 'Test-Series',
     element: <HandWrittenNotesPage2 />,
   },

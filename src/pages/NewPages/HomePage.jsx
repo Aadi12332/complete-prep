@@ -353,7 +353,7 @@ const HomePage = () => {
             <h1 className="text-3xl md:text-4xl font-bold text-black mb-3">Semesters Made Easy!</h1>
 
             <p className="text-sm md:text-base text-gray-700 max-w-xl">
-              Video Explanation, Prep AI, Handwritten Notes, One Shot, PYQ & Sample Papers All In
+              Video Explanation, Prepo AI, Notes, Mind Maps, One Shot, PYQ & Sample Papers All In
               One Place
             </p>
 

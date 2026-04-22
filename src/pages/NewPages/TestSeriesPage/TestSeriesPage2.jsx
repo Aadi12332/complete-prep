@@ -154,13 +154,13 @@ const TestSeriesPage2 = () => {
           <h3 className="mb-4 text-lg font-semibold">
             {bundleName} - All Tests ({testList.length})
           </h3>
-          <div className="flex w-fit flex-wrap gap-3 mb-5 bg-[#f7f7fa] rounded-xl">
+          <div className="flex w-fit flex-wrap gap-3 mb-5 bg-[#f7f7fa] border border-gray-200 p-1 rounded-3xl">
             {tabs?.map(tab => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`px-4 py-2 rounded-3xl text-sm ${
-                  activeTab === tab ? 'bg-green-900 text-white' : 'text-black'
+                  activeTab === tab ? 'bg-white text-black' : 'text-black'
                 }`}
               >
                 {tab}
@@ -182,7 +182,7 @@ const TestSeriesPage2 = () => {
                   ?.map((test, idx) => (
                     <div key={idx} className="flex flex-col rounded-b-lg bg-[#f7f7fa]">
                       <div className="flex flex-col space-y-1">
-                        <p className="p-2 mb-2 text-lg font-bold text-white bg-gray-500 rounded-t-xl">
+                        <p className="p-2 mb-2 text-lg font-bold text-black bg-gray-300 rounded-t-xl">
                           {test.title}
                         </p>
                         <span className="flex items-center gap-2 text-sm yellow-300 px-3">

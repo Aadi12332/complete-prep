@@ -70,7 +70,7 @@ export const HomePagePrepoComponent = () => {
           </p>
         </div>
 
-        <div className="relative h-[320px] md:h-[420px] overflow-hidden p-8 md:p-12 flex-1">
+        <div className="relative h-[320px] md:h-[620px] overflow-hidden p-8 md:p-12 flex-1">
           <img
             src={activeTab.media}
             alt={activeTab.title}

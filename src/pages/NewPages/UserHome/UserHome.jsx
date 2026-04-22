@@ -516,7 +516,7 @@ const UserHome = () => {
                 </div>
               )}
 
-              <button
+              {/* <button
                 className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-medium text-sm px-3 py-2 rounded-3xl transition"
                 onClick={() => {
                   setIsReferalButtonVisible(true);
@@ -525,6 +525,10 @@ const UserHome = () => {
                 }}
               >
                 Referral & Earn
+              </button> */}
+              <button className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-medium text-sm px-2.5 py-2 rounded-3xl">
+                {/* support@senprep.com */}
+                Help us improve
               </button>
               <button className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-medium text-sm px-2.5 py-2 rounded-3xl">
                 Become as an Ambassador

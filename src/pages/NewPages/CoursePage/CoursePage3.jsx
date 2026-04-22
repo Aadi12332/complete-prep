@@ -68,21 +68,21 @@ const CoursePage3 = () => {
 
       <div className="p-6">
         <div className="space-y-4 p-3 rounded-xl bg-[#efefef] border md:min-h-[calc(100vh-48px)]">
-        <div>
+        {/* <div>
           <img
             src={images.newAboutPageBannerCoursePageImage}
             alt="banner"
             style={{ maxHeight: '300px', width: '100%' }}
           />
-        </div>
+        </div> */}
         <div className="overflow-hidden rounded-xl"></div>
         <div className="w-full">
           <h1 className="text-2xl font-bold text-gray-800">
             {currentSubject?.subject?.name || ''}
           </h1>
-          <p className="text-sm text-gray-500">
+          {/* <p className="text-sm text-gray-500">
             {chapters?.[0]?.courseCategoryId?.students || '42,826'} students learning this week
-          </p>
+          </p> */}
         </div>
         <div className="w-full">
           {isLoading ? (
@@ -122,15 +122,15 @@ const CoursePage3 = () => {
                   {activeChapter === subSubIndex && (
                     <div className="px-2 pb-5 space-y-3">
                       <div className="flex bg-[#efefef] rounded-3xl p-1 gap-2 justify-between sm:flex-wrap text-sm font-medium text-gray-700">
-                        {['Videos', 'Docs', 'Tests'].map(tab => (
+                        {['Videos', 'Notes', 'Tests'].map(tab => (
                           <button
                             key={tab}
-                            className={`sm:px-4 px-2 py-1 rounded-3xl ${
+                            className={`sm:px-4 px-2 py-1 rounded-3xl flex gap-2 items-center ${
                               activeTab === tab ? 'bg-[#fff] text-[#000]' : 'text-gray-800'
                             }`}
                             onClick={() => setActiveTab(tab)}
                           >
-                            {tab} {subSubject?.chapters?.[0]?.topics?.length} {console.log(tab)}
+                            {tab} <span className='bg-[#3dd455] text-white text-[9px] rounded-full w-4 h-4 min-w-4 flex items-center justify-center'>{subSubject?.chapters?.[0]?.topics?.length} </span>
                           </button>
                         ))}
                       </div>

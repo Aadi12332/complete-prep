@@ -71,7 +71,7 @@ const ContactPage = () => {
                 transition={{ duration: 0.6 }}
                 className="space-y-6"
               >
-                <div className="border border-gray-300 rounded-lg p-4 flex gap-4 items-start hover:shadow-md transition">
+                {/* <div className="border border-gray-300 rounded-lg p-4 flex gap-4 items-start hover:shadow-md transition">
                   <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" className="w-10 h-10" />
                   <div>
                     <h3 className="text-xl font-semibold mb-1">Address</h3>
@@ -80,7 +80,7 @@ const ContactPage = () => {
                       Available for remote communication and support worldwide.
                     </p>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="border border-gray-300 rounded-lg p-4 flex gap-4 items-start hover:shadow-md transition">
                   <img src="https://cdn-icons-png.flaticon.com/512/561/561127.png" className="w-10 h-10" />

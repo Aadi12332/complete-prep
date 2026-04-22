@@ -4,35 +4,42 @@ import { motion } from 'framer-motion';
 export const HomePageBenifitComponent = () => {
   const tabData = [
     {
-      name: 'Ask Galileo',
+      name: 'Visual Concepts',
       title: 'Ask anything instantly',
       desc: 'AI assistant helps you understand difficult concepts quickly.',
       media: 'https://images.unsplash.com/photo-1677442136019-21780ecad995',
       type: 'image',
     },
     {
-      name: 'Visualize concept',
+      name: 'Ask Prepo',
       title: 'See it visually',
       desc: 'Generate videos, images, and diagrams to break down any concept.',
       media: 'https://images.unsplash.com/photo-1509228468518-180dd4864904',
       type: 'image',
     },
     {
-      name: 'Connect your resourses',
+      name: 'Last Minute Prep',
       title: 'Bring all resources together',
       desc: 'Upload notes, PDFs, and lectures to study in one place.',
       media: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3',
       type: 'image',
     },
     {
-      name: 'Proactive suggestions',
+      name: 'Trusted Notes',
       title: 'Smart recommendations',
       desc: 'Get suggestions on what to study next based on progress.',
       media: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71',
       type: 'image',
     },
     {
-      name: 'Practice & Retain',
+      name: 'Cheat Sheet',
+      title: 'Practice and retain better',
+      desc: 'Test yourself with quizzes and revision prompts.',
+      media: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      type: 'video',
+    },
+    {
+      name: 'Practice Papers',
       title: 'Practice and retain better',
       desc: 'Test yourself with quizzes and revision prompts.',
       media: 'https://www.w3schools.com/html/mov_bbb.mp4',
@@ -77,7 +84,7 @@ export const HomePageBenifitComponent = () => {
           <p className="text-sm md:text-base text-black/80 max-w-sm px-3 md:px-0 pb-5 md:pb-0">{activeTab.desc}</p>
         </div>
 
-        <div className="relative h-[320px] md:h-[420px] overflow-hidden p-8 md:p-12 flex-1">
+        <div className="relative h-[320px] md:h-[620px] overflow-hidden p-8 md:p-12 flex-1">
           {activeTab.type === 'video' ? (
             <video
               src={activeTab.media}

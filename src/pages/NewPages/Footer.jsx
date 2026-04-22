@@ -17,7 +17,7 @@ const Footer = () => {
           <img src={images.navBarLogo} alt="Company Logo" className="md:w-60 w-[120px]" />
 
           <p>
-            Video explanations, AI-powered preparation tools, handwritten notes, one-shot revisions,
+            Video explanations, AI-powered preparation tools, notes, mind maps, one-shot revisions,
             previous year questions, and sample papers — everything you need, all in one place for a
             complete and efficient learning experience.
           </p>
