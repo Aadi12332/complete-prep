@@ -151,7 +151,7 @@ const SelectUniversityCourse = () => {
                 <button
                   onClick={handleNext}
                   disabled={!selectedCourse}
-                  className={`px-4 bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold px-4 py-2 rounded-3xl ${
+                  className={`bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold px-4 py-2 rounded-3xl ${
                     !selectedCourse
                       ? 'hidden'
                       : 'text-[#f7f700] bg-[#3DD455] hover:bg-[#f7f700] hover:text-[#3DD455]'
