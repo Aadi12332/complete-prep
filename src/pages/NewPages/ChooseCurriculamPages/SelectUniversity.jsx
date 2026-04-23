@@ -41,18 +41,18 @@ const SelectUniversity = () => {
   }, []);
 
   return (
-    <div>
-      <div className="bg-white text-white p-3">
-        <img src={images.navBarLogo2} alt="Logo" className=" max-w-60 py-2 max-h-[60px] ml-4" onClick={()=> navigate("/user/home")} />
+    <div className='min-h-svh flex flex-col'>
+            <div className="bg-white text-white py-3 px-4">
+        <img src={images.navBarLogo2} alt="Logo" className=" max-w-60 py-2 max-h-[60px]" onClick={()=> navigate("/user/home")} />
       </div>
 
-      <div className="bg-white px-4 py-4 pt-0">
-        <div className="w-full max-w-7xl">
-          <h1 className="text-2xl md:text-3xl font-bold mb-1 mt-5 text-black text-left">
+      <div className="bg-white px-4 py-3 flex-1 flex flex-col justify-between gap-5">
+        <div className="w-full max-w-8xl">
+          <h1 className="text-2xl md:text-3xl font-bold text-black text-left">
             Which University do you take?
           </h1>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 py-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-3">
             {universities?.map(u => (
               <label
                 key={u?._id}
@@ -78,7 +78,7 @@ const SelectUniversity = () => {
                 <input
                   type="radio"
                   name="universityOption"
-                  className="w-5 h-5 accent-black"
+                  className="w-5 h-5 min-w-5 accent-black"
                   checked={selectedUniversity === u?._id}
                   onChange={() => setSelectedUniversity(u?._id)}
                 />
@@ -90,8 +90,9 @@ const SelectUniversity = () => {
             <div className="text-center mt-4 text-sm text-gray-600">Loading universities...</div>
           )}
 
+        </div>
           {selectedUniversity && (
-            <div className="flex justify-end mt-6">
+            <div className="flex justify-end">
               <button
                 onClick={handleNext}
                 className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold px-4 py-2 rounded-3xl"
@@ -100,7 +101,6 @@ const SelectUniversity = () => {
               </button>
             </div>
           )}
-        </div>
       </div>
     </div>
   );

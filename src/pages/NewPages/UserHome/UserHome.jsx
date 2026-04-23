@@ -526,10 +526,12 @@ const UserHome = () => {
               >
                 Referral & Earn
               </button> */}
-              <button className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-medium text-sm px-2.5 py-2 rounded-3xl">
-                {/* support@senprep.com */}
-                Help us improve
-              </button>
+             <a
+  href="mailto:support@completeprep.com"
+  className="inline-flex items-center justify-center bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-medium text-sm px-4 py-2 rounded-3xl transition-colors duration-200 hover:no-underline"
+>
+  Help us improve
+</a>
               <button className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-medium text-sm px-2.5 py-2 rounded-3xl">
                 Become as an Ambassador
               </button>

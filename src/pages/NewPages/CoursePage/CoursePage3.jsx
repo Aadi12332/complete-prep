@@ -155,7 +155,7 @@ const CoursePage3 = () => {
                                       }
                                       if (activeTab === 'Docs' && filteredContent.educatorNotes) {
                                         return navigate(
-                                          `/user/handwritten-notes/${filteredContent._id}/view`,
+                                          `/user/notes/${filteredContent._id}/view`,
                                           {
                                             state: {
                                               pdfUrl:

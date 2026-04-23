@@ -50,10 +50,10 @@ const Navbar = ({ isCSS }) => {
             </span>
             <span
               onClick={() =>
-                handleInitialPageClick({ page: "user/handwritten-notes" })
+                handleInitialPageClick({ page: "user/notes" })
               }
             >
-              Handwritten Notes by Educators
+              Notes by Educators
             </span>
             <span
               onClick={() =>

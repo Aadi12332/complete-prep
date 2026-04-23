@@ -58,7 +58,7 @@ const SettingPage1 = () => {
       color: 'bg-purple-100',
     },
     {
-      title: 'Handwritten Notes by Toppers Analysis',
+      title: 'Notes by Toppers Analysis',
       icon: images.newSettingDashboardImage7,
       color: 'bg-indigo-100',
     },

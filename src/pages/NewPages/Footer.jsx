@@ -12,7 +12,7 @@ const Footer = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              whileHover={{ scale: 1.02 }} className="md:grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 md:px-6 px-3 py-16 mainMaxWidth w-full">
+              className="md:grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 md:px-6 px-3 py-16 mainMaxWidth w-full">
         <div className="flex flex-col gap-6 lg:max-w-sm">
           <img src={images.navBarLogo} alt="Company Logo" className="md:w-60 w-[120px]" />
 

@@ -164,7 +164,7 @@ const StudyPlannerAi6_1Main = () => {
                                         ) {
 
                                           return navigate(
-                                            `/user/handwritten-notes/${filteredContent._id}/view`,
+                                            `/user/notes/${filteredContent._id}/view`,
                                             {
                                               state: {
                                                 pdfUrl:

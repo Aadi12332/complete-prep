@@ -10,7 +10,7 @@ const HandwrittenNotesPage1 = () => {
   const [bundles, setBundles] = useState([]);
   const navigate = useNavigate();
  const handleBundleClick = (bundleId) => {
-    navigate(`/user/handwritten-notes/${bundleId}/subjects`);
+    navigate(`/user/notes/${bundleId}/subjects`);
   };
   useEffect(() => {
     const fetchNotesData = async () => {
@@ -18,7 +18,7 @@ const HandwrittenNotesPage1 = () => {
         const response = await userApi.handWrittenNotes.getAll();
         if (response?.data) {
 handleBundleClick(response?.data[0]?._id);
-    // navigate(`/user/handwritten-notes/${response?.data[0]?.id}}/subjects`);
+    // navigate(`/user/notes/${response?.data[0]?.id}}/subjects`);
           const bundlesData = response.data.map((bundle) => {
             const chaptersData = bundle?.subjects.flatMap((subject) =>
               subject.subSubjects.flatMap((subSubject) =>
@@ -63,7 +63,7 @@ handleBundleClick(response?.data[0]?._id);
     return (
       <div className="flex justify-center items-center min-h-[200px]">
         <p className="text-lg font-semibold text-gray-600 animate-pulse">
-          Loading handwritten notes...
+          Loading notes...
         </p>
       </div>
     );

@@ -16,7 +16,7 @@ const CommunityPage = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            whileHover={{ scale: 1.02 }} className="text-center mb-12">
+             className="text-center mb-12">
               <h1 className="text-3xl md:text-4xl font-bold mb-4">
                 Our Community 🌍
               </h1>
@@ -30,7 +30,7 @@ const CommunityPage = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            whileHover={{ scale: 1.02 }} className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 text-center">
+             className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 text-center">
               <div className="p-6 border border-gray-200 rounded-lg">
                 <img
                   src="https://cdn-icons-png.flaticon.com/512/921/921347.png"
@@ -70,7 +70,7 @@ const CommunityPage = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            whileHover={{ scale: 1.02 }} className="grid md:grid-cols-2 gap-10 mb-16">
+             className="grid md:grid-cols-2 gap-10 mb-16">
               <div>
                 <h2 className="text-2xl font-bold mb-4">
                   Why Join Our Community?
@@ -105,7 +105,7 @@ const CommunityPage = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            whileHover={{ scale: 1.02 }} className="text-center border rounded-lg p-8">
+             className="text-center border rounded-lg p-8">
               <h2 className="text-2xl font-bold mb-3">
                 Join the Community 🚀
               </h2>

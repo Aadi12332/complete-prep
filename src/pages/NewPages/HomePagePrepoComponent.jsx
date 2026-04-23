@@ -37,7 +37,7 @@ export const HomePagePrepoComponent = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            whileHover={{ scale: 1.02 }} className="my-16 md:my-24 md:px-6 px-3">
+             className="my-16 md:my-24 md:px-6 px-3">
       <h2 className="text-center text-2xl md:text-4xl font-bold mb-8 max-w-2xl mx-auto">
         Stop searching for reliable sources, 
         One stop solution for all your needs

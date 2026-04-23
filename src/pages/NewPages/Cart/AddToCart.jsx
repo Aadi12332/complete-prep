@@ -249,7 +249,7 @@ const AddToCartPage = () => {
     const typeMap = {
       "Your Courses": "courseId",
       "Test Series": "testSeriesId",
-      "Handwritten Notes": "handwrittenNotesId",
+      "Notes": "handwrittenNotesId",
       "Previous Year Questions": "previousYearQuestionId",
       "Study Planner": "studyPlannerId",  
     };
@@ -334,7 +334,7 @@ const AddToCartPage = () => {
       )}
       {renderCartItems(
         cartItems.handwrittenNotes,
-        "Handwritten Notes",
+        "Notes",
         "mdi:pen"
       )}
       {renderCartItems(

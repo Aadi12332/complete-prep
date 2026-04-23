@@ -74,7 +74,7 @@ const BlogPage = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: index * 0.2 }}
             viewport={{ once: true }}
-            whileHover={{ scale: 1.02 }}
+            
               className="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition"
             >
               <img

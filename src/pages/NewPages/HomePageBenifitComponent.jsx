@@ -55,7 +55,7 @@ export const HomePageBenifitComponent = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            whileHover={{ scale: 1.02 }} className="my-16 md:px-6 px-3">
+             className="my-16 md:px-6 px-3">
       <h1 className="text-3xl md:text-4xl font-bold text-black mb-3 text-center">Ask Anything. Understand Everything.</h1>
 
             <p className="text-sm md:text-base text-gray-700 max-w-xl mx-auto text-center mb-10">

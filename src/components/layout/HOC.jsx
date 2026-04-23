@@ -43,8 +43,8 @@ const HOC = WrappedComponent => {
         iconName: 'material-symbols:play-lesson-rounded',
       },
       {
-        name: 'Handwritten Notes',
-        path: '/user/handwritten-notes',
+        name: 'Notes',
+        path: '/user/notes',
         iconName: 'material-symbols:edit-note-rounded',
       },
       {
@@ -57,11 +57,11 @@ const HOC = WrappedComponent => {
         path: '/user/community/1',
         iconName: 'material-symbols:groups-rounded',
       },
-      {
-        name: 'Current Affairs',
-        path: '/user/current-affairs/1',
-        iconName: 'material-symbols:breaking-news-rounded',
-      },
+      // {
+      //   name: 'Current Affairs',
+      //   path: '/user/current-affairs/1',
+      //   iconName: 'material-symbols:breaking-news-rounded',
+      // },
       {
         name: 'Skills',
         path: '/user/skill',

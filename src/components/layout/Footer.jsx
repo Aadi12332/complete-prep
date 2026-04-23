@@ -250,10 +250,10 @@ const Footer = () => {
                   </span>
                   <span
                     onClick={() =>
-                      handleInitialPageClick({ page: "user/handwritten-notes" })
+                      handleInitialPageClick({ page: "user/notes" })
                     }
                   >
-                    Handwritten notes
+                    Notes
                   </span>
                   <span
                     onClick={() =>

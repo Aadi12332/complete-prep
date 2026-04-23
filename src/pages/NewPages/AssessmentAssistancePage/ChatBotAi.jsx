@@ -320,10 +320,27 @@ When showing code examples, always use proper syntax highlighting and include cl
     }
   };
 
+    const fileInputRef = useRef(null);
+
+  const handleClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      alert("Only image files allowed");
+      return;
+    }
+
+    console.log("Selected image:", file);
+  };
+
   return (
     <div className="p-6">
     <div className="bg-gradient-to-b from-gray-50 to-gray-100 min-h-[calc(100vh-264px)] p-0 md:p-4 lg:p-0">
-      {/* Mobile Sidebar Overlay */}
       {showSidebar && (
         <div
           className="fixed inset-0 bg-black/50 z-40 md:hidden"
@@ -331,7 +348,7 @@ When showing code examples, always use proper syntax highlighting and include cl
         />
       )}
 
-      <div className="w-full h-[96vh] bg-white rounded-2xl flex flex-col overflow-hidden min-h-0">
+      <div className="w-full h-[calc(100vh-48px)] bg-white rounded-2xl flex flex-col overflow-hidden min-h-0">
         {/* Header */}
         <div className="bg-gradient-to-r from-emerald-600 to-emerald-500 text-white p-4 flex justify-between items-center flex-shrink-0">
           <div className="flex items-center gap-3">
@@ -714,7 +731,6 @@ When showing code examples, always use proper syntax highlighting and include cl
           </div>
         </div>
 
-        {/* Input Area */}
         <div className="border-t border-gray-200 bg-white flex-shrink-0">
           <div className="py-3">
             <div className="flex items-center gap-2 md:gap-3">
@@ -729,14 +745,27 @@ When showing code examples, always use proper syntax highlighting and include cl
                   style={{ minHeight: '44px', maxHeight: '100px' }}
                   disabled={loading || isTyping}
                 />
-                <div className="absolute right-3 bottom-5">
-                  <Icon
-                    icon="mdi:lightbulb-on-outline"
-                    width="18"
-                    height="18"
-                    className="text-emerald-500"
-                  />
-                </div>
+                    <>
+      <div
+        onClick={handleClick}
+        className="absolute right-3 bottom-5 cursor-pointer"
+      >
+        <Icon
+          icon="mdi:image-plus-outline"
+          width="18"
+          height="18"
+          className="text-emerald-500"
+        />
+      </div>
+
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleChange}
+        className="hidden"
+      />
+    </>
               </div>
 
               <button

@@ -101,7 +101,7 @@ const SkillsPage4 = () => {
           key={docUrl || idx}
           className="flex items-center justify-between p-2 bg-[#efefef] rounded-lg cursor-pointer hover:shadow transition"
           onClick={() =>
-            navigate(`/user/handwritten-notes/${idx}/view`, {
+            navigate(`/user/notes/${idx}/view`, {
               state: {
                 pdfUrl: docUrl,
               },

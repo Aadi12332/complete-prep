@@ -92,7 +92,7 @@ const SelectHearAboutUs = () => {
       </div>
 
       <div className="bg-white px-4 py-8">
-        <div className="w-full max-w-7xl">
+        <div className="w-full max-w-8xl">
           <h1 className="text-2xl md:text-3xl font-bold mb-2 text-black">
             How did you hear about us?
           </h1>

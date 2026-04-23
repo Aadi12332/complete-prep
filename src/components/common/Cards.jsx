@@ -1628,7 +1628,7 @@ export const StudyPlannerUserCardComponentPage5 = ({
               />
             </span>
             <span>
-              Handwritten Notes -{" "}
+              Notes -{" "}
               {convertToHoursAndMinutes(
                 weekResources?.handwrittenNotes || `0 hours`
               )}
@@ -1922,7 +1922,7 @@ export const DashboardUserCoursesTypeCardCoursePage31 = ({
               }}
             >
               {" "}
-              Handwritten Notes:{" "}
+              Notes:{" "}
               {convertToHoursAndMinutesFun(
                 subjectTimeData?.handwrittenNotes?.toFixed(2)
               )}
@@ -2141,7 +2141,7 @@ export const CapsuleUserCardComponentCourseP4 = ({
                 {Docs.map((item, index) => (
                   <div
                     onClick={() =>
-                      navigate(`/user/handwritten-notes/${item._id}`, {
+                      navigate(`/user/notes/${item._id}`, {
                         state: {
                           noteData: item?.handWrittenNotesPdf?.[index],
                           title: "Notes",
@@ -2392,7 +2392,7 @@ export const CapsuleUserCardComponentCourseP4r = ({
                             },
                           },
                         })
-                      // navigate(`/user/handwritten-notesn/${item._id}`, {
+                      // navigate(`/user/notesn/${item._id}`, {
                       //   state: {
                       //     noteData: item?.handWrittenNotesPdf?.[index],
                       //     title: "Notes",
@@ -2642,7 +2642,7 @@ export const CapsuleUserCardComponentCourseP4rCapsuleCourse = ({
                             },
                           },
                         })
-                      // navigate(`/user/handwritten-notesn/${item._id}`, {
+                      // navigate(`/user/notesn/${item._id}`, {
                       //   state: {
                       //     noteData: item?.handWrittenNotesPdf?.[index],
                       //     title: "Notes",
@@ -3101,7 +3101,7 @@ export const CapsuleUserCardComponentCourseP4Studyb = ({
                 {Docs.map((item, index) => (
                   <div
                     onClick={() =>
-                      navigate(`/user/handwritten-notes/${item._id}`, {
+                      navigate(`/user/notes/${item._id}`, {
                         state: {
                           noteData: item?.handWrittenNotesPdf?.[index],
                           title: "Notes",
@@ -3331,7 +3331,7 @@ export const CapsuleUserCardComponentCourseP4Studyb61 = ({
                 {Docs.map((item, index) => (
                   <div
                     onClick={() =>
-                      navigate(`/user/handwritten-notes/${item._id}`, {
+                      navigate(`/user/notes/${item._id}`, {
                         state: {
                           noteData: item?.handWrittenNotesPdf?.[index],
                           title: "Notes",

@@ -34,13 +34,13 @@ const Sidebar = () => {
       iconName: 'ic:baseline-ondemand-video',
     },
     // {
-    //   name: "Handwritten Notes",
-    //   path: "/user/handwritten-notes/1",
+    //   name: "Notes",
+    //   path: "/user/notes/1",
     //   iconName: "ic:outline-event-note",
     // },
     {
-      name: 'Handwritten Notes',
-      path: '/user/handwritten-notes/1',
+      name: 'Notes',
+      path: '/user/notes/1',
       iconName: 'ic:outline-event-note',
     },
     {
@@ -63,12 +63,12 @@ const Sidebar = () => {
       path: '/user/skills/1',
       iconName: 'mdi:lightning-bolt-outline',
     },
-    {
-      name: 'Current Affairs',
-      path: '/user/current-affairs/1',
-      iconName: 'mdi:newspaper-variant-outline',
-      isShow: true,
-    },
+    // {
+    //   name: 'Current Affairs',
+    //   path: '/user/current-affairs/1',
+    //   iconName: 'mdi:newspaper-variant-outline',
+    //   isShow: true,
+    // },
     {
       name: 'Placement Jobs',
       path: '/user/placement-jobs/1',

@@ -339,7 +339,7 @@ const HomePage = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            whileHover={{ scale: 1.02 }}
+            
             className="flex flex-col items-center justify-center text-center bg-white md:px-6 px-3 mb-4 mt-20"
           >
             <img
@@ -370,7 +370,7 @@ const HomePage = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            whileHover={{ scale: 1.02 }}
+            
             className="my-16 md:my-24 text-center md:px-6 px-3"
           >
             <p className="text-zinc-800 text-lg fw-semibold">
@@ -401,7 +401,7 @@ const HomePage = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            whileHover={{ scale: 1.02 }}
+            
             className="md:px-6 px-3"
           >
             <div className="mt-16 md:mt-24 flex justify-center">
@@ -426,7 +426,7 @@ const HomePage = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: index * 0.2 }}
                     viewport={{ once: true }}
-                    whileHover={{ scale: 1.02 }}
+                    
                     className="md:p-4 p-3 md:rounded-xl rounded-lg bg-[#efefef]"
                   >
                     <div className="flex items-center gap-4 mb-4">
@@ -450,7 +450,7 @@ const HomePage = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              whileHover={{ scale: 1.02 }}
+              
               className="space-y-4 flex items-center flex-wrap justify-between gap-3 mb-8"
             >
               <div>
@@ -480,7 +480,7 @@ const HomePage = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: index * 0.2 }}
                     viewport={{ once: true }}
-                    whileHover={{ scale: 1.02 }}
+                    
                     className="rounded-lg md:p-4 p-3 bg-[#efefef]"
                   >
                     <div

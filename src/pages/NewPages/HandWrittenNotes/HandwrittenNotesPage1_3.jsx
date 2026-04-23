@@ -139,7 +139,7 @@ const HandwrittenNotesPage1_3 = () => {
                                     className="text-sm font-medium cursor-pointer text-red-600 hover:text-blue-600 transition flex items-center justify-between gap-2 mt-2"
                                     onClick={() =>
                                       navigate(
-                                        `/user/handwritten-notes/${topic.topic._id}/view`,
+                                        `/user/notes/${topic.topic._id}/view`,
                                         {
                                           state: {
                                             pdfUrl: topic.handwrittenNotes?.[0],

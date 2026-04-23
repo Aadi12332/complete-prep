@@ -158,7 +158,7 @@ const Reviews = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: index * 0.2 }}
             viewport={{ once: true }}
-            whileHover={{ scale: 1.02 }} key={index} className="p-6 bg-white shadow-sm rounded-2xl">
+             key={index} className="p-6 bg-white shadow-sm rounded-2xl">
                   <div className="flex items-center gap-4 mb-4">
                     <div>
                       <img

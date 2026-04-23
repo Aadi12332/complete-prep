@@ -86,7 +86,7 @@ export const FeaturesGrid = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: index * 0.2 }}
             viewport={{ once: true }}
-            whileHover={{ scale: 1.02 }}
+            
             className="p-6 rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-lg transition cursor-pointer"
           >
             <div className="text-4xl mb-4">{item.icon}</div>

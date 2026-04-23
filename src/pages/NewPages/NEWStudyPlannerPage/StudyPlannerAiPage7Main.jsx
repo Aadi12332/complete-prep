@@ -770,7 +770,7 @@ const StudyPlannerAiPage7Main = () => {
     );
   }
 
-  const tabs = ['Summary', 'Assignment', 'Modules', 'Handwritten Notes'];
+  const tabs = ['Summary', 'Assignment', 'Modules', 'Notes'];
 
   return (
     <div>
@@ -1026,14 +1026,14 @@ const StudyPlannerAiPage7Main = () => {
             </div>
           </div>
         )}
-        {activeTab === 'Handwritten Notes' && (
+        {activeTab === 'Notes' && (
           <div className="mt-4 space-y-3">
             {selectedVideo?.educatorNotes?.map((note, i) => (
               <div
                 key={i}
                 className="flex items-center bg-white border rounded-lg p-3 shadow-sm cursor-pointer"
                 onClick={() =>
-                  navigate(`/user/handwritten-notes/${selectedVideo._id}/view`, {
+                  navigate(`/user/notes/${selectedVideo._id}/view`, {
                     state: {
                       pdfUrl:
                         selectedVideo?.educatorNotes?.[0]?.subjects?.[0]?.subSubjects?.[0]

@@ -70,20 +70,20 @@ const SelectUniversityCourse = () => {
   };
 
   return (
-    <div>
-        <div className="bg-white text-white p-3">
-        <img src={images.navBarLogo2} alt="Logo" className=" max-w-60 py-2 max-h-[60px] ml-4" onClick={()=> navigate("/user/home")} />
+    <div className='min-h-svh flex flex-col'>
+      <div className="bg-white text-white py-3 px-4">
+        <img src={images.navBarLogo2} alt="Logo" className=" max-w-60 py-2 max-h-[60px]" onClick={()=> navigate("/user/home")} />
       </div>
 
-      <div className="bg-white px-4 py-8 pt-0">
-        <div className="w-full max-w-7xl">
-          <h1 className="text-2xl md:text-3xl font-bold mb-1 mt-5 text-black">Select a course</h1>
+      <div className="bg-white px-4 py-3 flex-1 flex flex-col justify-between gap-5">
+        <div className="w-full max-w-8xl flex-1">
+          <h1 className="text-2xl md:text-3xl font-bold text-black text-left mb-3">Select a course</h1>
           {universityName ? (
             <p className="text-sm text-gray-600 mb-6">University: {universityName}</p>
           ) : null}
 
           {isLoading && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 py-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {Array.from({ length: 6 }).map((_, i) => (
                 <div
                   key={i}
@@ -108,7 +108,7 @@ const SelectUniversityCourse = () => {
               ) : (
                 <div
                   role="radiogroup"
-                  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 py-6 rounded-xl"
+                  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 rounded-xl"
                 >
                   {courses.map(c => (
                     <label
@@ -127,7 +127,7 @@ const SelectUniversityCourse = () => {
                       <input
                         type="radio"
                         name={groupName}
-                        className="w-5 h-5 text-lime-500 border-gray-300 focus:ring-2 focus:ring-lime-500"
+                        className="w-5 h-5 min-w-5 accent-black"
                         checked={selectedCourse === c?._id}
                         onChange={() => setSelectedCourse(c?._id)}
                         aria-label={c?.name}
@@ -137,7 +137,11 @@ const SelectUniversityCourse = () => {
                 </div>
               )}
 
-              <div className="flex justify-between mt-6">
+            </>
+          )}
+        </div>
+         {!isLoading && !loadError && (
+              <div className="flex justify-between">
                 <button
                   onClick={handleBack}
                   className="px-4 py-2 rounded-3xl transition bg-gray-100 text-gray-800 hover:bg-gray-200"
@@ -155,10 +159,7 @@ const SelectUniversityCourse = () => {
                 >
                   Next
                 </button>
-              </div>
-            </>
-          )}
-        </div>
+              </div>)}
       </div>
     </div>
   );

@@ -136,7 +136,7 @@ const StudyPlannerAiPage5Main = () => {
                           <li className="flex items-center gap-2">
                             <Icon icon="iconoir:notes" className="text-yellow-500" />
                             <span>
-                              <strong>Handwritten Notes:</strong>{' '}
+                              <strong>Notes:</strong>{' '}
                               {formatDurationStudyPlanner(week?.weekResources?.handwrittenNotes)}
                             </span>
                           </li>

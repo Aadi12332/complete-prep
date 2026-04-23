@@ -53,7 +53,7 @@ const HandwrittenNotesPage1_2 = () => {
 
   const handleCourseSelect = subject => {
     // if (isPurchased) {
-    navigate(`/user/handwritten-notes/${id}/${subject?.subject?._id}`);
+    navigate(`/user/notes/${id}/${subject?.subject?._id}`);
     // } else {
     //   showNotification({
     //     type: "error",

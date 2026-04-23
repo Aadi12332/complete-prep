@@ -91,8 +91,8 @@ const NewSidebarItem = ({ toggleSidebar, show }) => {
       iconName: "mdi:play-circle-outline",
     },
     {
-      name: "Handwritten Notes",
-      path: "/user/handwritten-notes",
+      name: "Notes",
+      path: "/user/notes",
       iconName: "mdi:note-text-outline",
     },
     {
@@ -180,11 +180,11 @@ const NewSidebarItem = ({ toggleSidebar, show }) => {
       path: '/user/community/1',
       iconName: 'material-symbols:groups-rounded',
     },
-    {
-      name: 'Current Affairs',
-      path: '/user/current-affairs/1',
-      iconName: 'material-symbols:breaking-news-rounded',
-    },
+    // {
+    //   name: 'Current Affairs',
+    //   path: '/user/current-affairs/1',
+    //   iconName: 'material-symbols:breaking-news-rounded',
+    // },
     {
       name: 'Skills',
       path: '/user/skill',
