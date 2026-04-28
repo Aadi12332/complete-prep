@@ -770,7 +770,7 @@ const StudyPlannerAiPage7Main = () => {
     );
   }
 
-  const tabs = ['Summary', 'Assignment', 'Modules', 'Notes'];
+  const tabs = ['Summary', 'Questions', 'Modules', 'Notes'];
 
   return (
     <div>

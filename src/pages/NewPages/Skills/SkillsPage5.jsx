@@ -710,7 +710,7 @@ const SkillsPage5 = () => {
     return <div>Loading...</div>;
   }
 
-  const tabs = ['Summary', 'Assignment', 'Modules', 'Notes'];
+  const tabs = ['Summary', 'Questions', 'Modules', 'Notes'];
 
   if (!isPurchased) {
     return (

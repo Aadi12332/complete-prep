@@ -83,9 +83,9 @@ const CoursePage2_1 = () => {
           ) : (
             <div className="flex smallScreenFlex gap-4">
               <div className="w-full lg:w-[100%] bg-[#efefef] rounded-xl border p-6 ">
-                <p className="text-xl font-semibold mb-6 text-gray-800">
+                {/* <p className="text-xl font-semibold mb-6 text-gray-800">
                   {courses?.[0]?.title || 'Course'}
-                </p>
+                </p> */}
 
                 <div className="space-y-4 grid grid-cols-1 lg:grid-cols-4 gap-4">
                   {courses?.[0]?.subjects?.map((course, index) => (

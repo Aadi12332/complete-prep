@@ -392,7 +392,7 @@ const HomePage = () => {
             <h1 className="text-3xl md:text-4xl font-bold text-black mb-3">Semesters Made Easy!</h1>
 
             <p className="text-sm md:text-base text-gray-700 max-w-xl">
-              Video Explanation, Prepo AI, Notes, Mind Maps, One Shot, PYQ & Sample Papers All In
+              Video Explanation, Prepo AI, Notes, Mind Maps, One Shot, Solved PYQ & Sample Papers All In
               One Place
             </p>
 
@@ -413,7 +413,8 @@ const HomePage = () => {
             className="my-16 md:my-24 text-center md:px-6 px-3"
           >
             <p className="text-zinc-800 text-lg fw-semibold">
-              Trusted by over 14,540 businesses to enhance learning and drive educational growth.
+              {/* Trusted by over 14,540 businesses to enhance learning and drive educational growth. */}
+              The trusted learning companion for students across India
             </p>
             <div className="overflow-hidden w-full mt-4">
               <div className="flex w-max animate-scroll gap-3">

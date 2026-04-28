@@ -115,7 +115,6 @@ const Header = () => {
     fetchTopBanner();
   }, []);
 
-  // Validate individual field
   const validateField = (name, value) => {
     const err = { ...errors };
     const trimmedValue = value.trim();
@@ -194,39 +193,51 @@ const Header = () => {
     return err;
   };
 
-  const handleSubmit = async () => {
-    const err = validate();
+const SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbyGMR_aGVtbSJboL8bvPBbqgsWntjceQ2v4OnsA5M9-KvcKyxw3kRfGR3b0iQ0sE2MW6Q/exec";
 
-    if (Object.keys(err).length > 0) {
-      setErrors(err);
-      return;
-    }
+const handleSubmit = async () => {
+  const err = validate();
 
-    try {
-      setLoading(true);
-      setErrors({});
+  if (Object.keys(err).length > 0) {
+    setErrors(err);
+    return;
+  }
 
-      // Simulate API call
-      await new Promise(res => setTimeout(res, 1000));
-
-      // Show success message
-      setSuccess(true);
-
-      // Clear form data
-      resetForm();
-
-      // Close modal after showing success
-      setModalJoinVisible(false);
-
-      // Reset success message after 3 seconds
-      setTimeout(() => setSuccess(false), 3000);
-    } catch (e) {
-      console.error('Error submitting form:', e);
-      setErrors({ submit: 'An error occurred. Please try again.' });
-    } finally {
-      setLoading(false);
-    }
+  const payload = {
+    name: form.name,
+    university: form.university,
+    courses: form.courses,
+    email: form.email,
+    phone: form.phone,
   };
+
+  try {
+    setLoading(true);
+    setErrors({});
+
+    const res = await fetch(SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+
+    if (data.status === "success") {
+      setSuccess(true);
+      resetForm();
+      setModalJoinVisible(false);
+      setTimeout(() => setSuccess(false), 3000);
+    } else {
+      setErrors({ submit: "Submission failed. Try again." });
+    }
+  } catch (e) {
+    console.error("Error submitting form:", e);
+    setErrors({ submit: "An error occurred. Please try again." });
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <>
@@ -270,7 +281,7 @@ const Header = () => {
           </span>
 
           {/* Desktop */}
-          <div className="items-center gap-3 hidden lg:flex justify-between w-full max-w-[75%] xl:max-w-[70%]">
+          {/* <div className="items-center gap-3 hidden lg:flex justify-between w-full max-w-[75%] xl:max-w-[70%]"> */}
             <div className="relative flex flex-wrap items-center gap-2 p-1 bg-[#efefef] text-gray-500 hover:text-gray-700 rounded-3xl">
               <span
                 onClick={() => toggleDropdown(0)}
@@ -372,7 +383,7 @@ const Header = () => {
               >
                 Join Waitlist
               </button>
-              <button
+              {/* <button
                 onClick={() => setModalVisible(true)}
                 className="px-3 py-2 font-bold text-black bg-transparent border border-black rounded-3xl hover:!bg-[#3DD455] hover:text-white"
               >
@@ -384,9 +395,9 @@ const Header = () => {
                 className="px-3 py-2 font-bold bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] rounded-3xl"
               >
                 Login
-              </button>
+              </button> */}
             </div>
-          </div>
+          {/* </div> */}
         </div>
 
         <div className={`fixed inset-0 z-50 transition ${isSidebarOpen ? 'visible' : 'invisible'}`}>
@@ -494,7 +505,7 @@ const Header = () => {
                   Join Waitlist
                 </button>
 
-                <button
+                {/* <button
                   onClick={() => {
                     setModalVisible(true);
                     setIsSidebarOpen(false);
@@ -512,7 +523,7 @@ const Header = () => {
                   className="px-4 py-2 bg-[#3DD455] rounded-3xl"
                 >
                   Login
-                </button>
+                </button> */}
               </div>
             </div>
           </div>

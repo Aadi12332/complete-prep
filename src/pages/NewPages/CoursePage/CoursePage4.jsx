@@ -710,7 +710,7 @@ const CoursePage4 = () => {
     return <div>Loading...</div>;
   }
 
-  const tabs = ['Summary', 'Assignment', 'Modules', 'Notes'];
+  const tabs = ['Summary', 'Questions', 'Modules', 'Notes'];
 
   if (!isPurchased) {
     return (
@@ -870,7 +870,7 @@ const CoursePage4 = () => {
             {status === 'error' && <p className="text-red-600">❌ {error}</p>}
             {status === 'success' && (
               <>
-                <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-md text-sm space-y-2">
+                <div className="bg-gray-100 border border-yellow-200 p-4 rounded-md text-sm space-y-2">
                   {summary ? (
                     summary
                       .split('\n')

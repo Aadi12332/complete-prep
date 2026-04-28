@@ -9,70 +9,14 @@ const jobs = [
     tags: ['Part Time', 'Remote'],
     description:
       'Represent our brand on your campus, organize events, and help students discover better learning opportunities.',
-    link: 'https://forms.gle/your-google-form-link',
+    link: 'https://forms.gle/1JUQT5ZKRdhwSoqH7',
   },
   {
-    title: 'Content Creator',
+    title: 'Content Creators',
     tags: ['Full Time', 'Hybrid'],
     description:
       'Create engaging educational content, reels, and videos to help students learn smarter and faster.',
-    link: 'https://forms.gle/your-google-form-link',
-  },
-  {
-    title: 'Social Media Manager',
-    tags: ['Full Time', 'Remote'],
-    description:
-      'Manage and grow our social media presence by planning content, analyzing trends, and engaging with our audience.',
-    link: 'https://forms.gle/your-google-form-link',
-  },
-  {
-    title: 'Video Editor',
-    tags: ['WFH', 'Contract'],
-    description:
-      'Edit high-quality educational and promotional videos to enhance student engagement across platforms.',
-    link: 'https://forms.gle/your-google-form-link',
-  },
-  {
-    title: 'Graphic Designer',
-    tags: ['Part Time', 'Remote'],
-    description:
-      'Design creative visuals, banners, and thumbnails that align with our brand and attract student attention.',
-    link: 'https://forms.gle/your-google-form-link',
-  },
-  {
-    title: 'Marketing Intern',
-    tags: ['Internship', 'Remote'],
-    description:
-      'Assist in executing marketing campaigns, researching trends, and helping grow the platform reach.',
-    link: 'https://forms.gle/your-google-form-link',
-  },
-  {
-    title: 'Community Manager',
-    tags: ['Full Time', 'Hybrid'],
-    description:
-      'Build and manage student communities, handle queries, and ensure an engaging user experience.',
-    link: 'https://forms.gle/your-google-form-link',
-  },
-  {
-    title: 'Content Writer',
-    tags: ['WFH', 'Freelance'],
-    description:
-      'Write blogs, scripts, and educational content that simplifies learning for students.',
-    link: 'https://forms.gle/your-google-form-link',
-  },
-  {
-    title: 'SEO Intern',
-    tags: ['Internship', 'Remote'],
-    description:
-      'Optimize content and pages for search engines to improve visibility and organic traffic.',
-    link: 'https://forms.gle/your-google-form-link',
-  },
-  {
-    title: 'Product Intern',
-    tags: ['Internship', 'Hybrid'],
-    description:
-      'Work closely with the team to improve product features, user experience, and overall platform growth.',
-    link: 'https://forms.gle/your-google-form-link',
+    link: 'https://forms.gle/3rLm62n9H8urPb89A',
   },
 ];
 
@@ -155,7 +99,7 @@ const CareerPage = () => {
   </p>
 </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {jobs.map((job, index) => (
               <motion.div
                 key={index}

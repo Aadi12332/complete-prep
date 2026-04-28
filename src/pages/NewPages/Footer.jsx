@@ -55,7 +55,7 @@ const Footer = () => {
             <h2 className="text-xl font-bold md:mb-5 mb-2 mt-4">Quick Links</h2>
             <ul className="md:space-y-4 space-y-1 mt-3 text-[15px]">
               <Link to="/about" className="hover:text-gray-300 block transition">
-                Our Mission
+                About Us
               </Link>
               <Link to="/pricing" className="hover:text-gray-300 block transition">
                 Pricing
