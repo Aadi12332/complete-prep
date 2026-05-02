@@ -280,8 +280,7 @@ const handleSubmit = async () => {
             </svg>
           </span>
 
-          {/* Desktop */}
-          {/* <div className="items-center gap-3 hidden lg:flex justify-between w-full max-w-[75%] xl:max-w-[70%]"> */}
+          <div className="items-center gap-3 hidden lg:flex justify-between w-full max-w-[65%] xl:max-w-[65%]">
             <div className="relative flex flex-wrap items-center gap-2 p-1 bg-[#efefef] text-gray-500 hover:text-gray-700 rounded-3xl">
               <span
                 onClick={() => toggleDropdown(0)}
@@ -397,7 +396,7 @@ const handleSubmit = async () => {
                 Login
               </button> */}
             </div>
-          {/* </div> */}
+          </div>
         </div>
 
         <div className={`fixed inset-0 z-50 transition ${isSidebarOpen ? 'visible' : 'invisible'}`}>

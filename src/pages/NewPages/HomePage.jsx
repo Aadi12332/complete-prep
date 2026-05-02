@@ -16,28 +16,29 @@ import Header from './Header';
 import { HomePagePrepoComponent } from './HomePagePrepoComponent';
 import { FeaturesGrid } from './FeaturesGrid';
 import { motion } from 'framer-motion';
-import img1 from "../../assets/images/updated-img-logo/1.png";
-import img2 from "../../assets/images/updated-img-logo/2.png";
-import img3 from "../../assets/images/updated-img-logo/3.png";
-import img4 from "../../assets/images/updated-img-logo/4.png";
-import img5 from "../../assets/images/updated-img-logo/5.png";
-import img6 from "../../assets/images/updated-img-logo/6.png";
-import img7 from "../../assets/images/updated-img-logo/7.png";
-import img8 from "../../assets/images/updated-img-logo/8.png";
-import img9 from "../../assets/images/updated-img-logo/9.png";
-import img10 from "../../assets/images/updated-img-logo/10.png";
-import img11 from "../../assets/images/updated-img-logo/11.png";
-import img12 from "../../assets/images/updated-img-logo/12.png";
-import img13 from "../../assets/images/updated-img-logo/13.png";
-import img14 from "../../assets/images/updated-img-logo/14.png";
-import img15 from "../../assets/images/updated-img-logo/15.png";
-import img16 from "../../assets/images/updated-img-logo/16.png";
-import img17 from "../../assets/images/updated-img-logo/17.png";
-import img18 from "../../assets/images/updated-img-logo/18.png";
-import img19 from "../../assets/images/updated-img-logo/19.png";
-import img20 from "../../assets/images/updated-img-logo/20.png";
-import img21 from "../../assets/images/updated-img-logo/21.png";
-import img22 from "../../assets/images/updated-img-logo/22.png";
+import img1 from '../../assets/images/updated-img-logo/1.png';
+import img2 from '../../assets/images/updated-img-logo/2.png';
+import img3 from '../../assets/images/updated-img-logo/3.png';
+import img4 from '../../assets/images/updated-img-logo/4.png';
+import img5 from '../../assets/images/updated-img-logo/5.png';
+import img6 from '../../assets/images/updated-img-logo/6.png';
+import img7 from '../../assets/images/updated-img-logo/7.png';
+import img8 from '../../assets/images/updated-img-logo/8.png';
+import img9 from '../../assets/images/updated-img-logo/9.png';
+import img10 from '../../assets/images/updated-img-logo/10.png';
+import img11 from '../../assets/images/updated-img-logo/11.png';
+import img12 from '../../assets/images/updated-img-logo/12.png';
+import img13 from '../../assets/images/updated-img-logo/13.png';
+import img14 from '../../assets/images/updated-img-logo/14.png';
+import img15 from '../../assets/images/updated-img-logo/15.png';
+import img16 from '../../assets/images/updated-img-logo/16.png';
+import img17 from '../../assets/images/updated-img-logo/17.png';
+import img18 from '../../assets/images/updated-img-logo/18.png';
+import img19 from '../../assets/images/updated-img-logo/19.png';
+import img20 from '../../assets/images/updated-img-logo/20.png';
+import img21 from '../../assets/images/updated-img-logo/21.png';
+import img22 from '../../assets/images/updated-img-logo/22.png';
+import heroimg from '../../assets/new-images/Hero Section 1.jpeg';
 
 const courses = [
   {
@@ -100,7 +101,7 @@ const brands = [
   img19,
   img20,
   img21,
-  img22, 
+  img22,
 ];
 
 const howWeWork = [
@@ -373,43 +374,41 @@ const HomePage = () => {
       <div className="h-full mainMaxWidth bg-white">
         <Header />
         <div className="">
+          <div className="flex relative h-[800px]">
+            <img src={heroimg} className="w-full h-[800px] absolute top-0 left-0 right-0 bottom-0" />
+
+            <div className="flex flex-col items-start justify-center text-center md:px-6 px-3 mb-4 z-10">
+              {/* <img
+                src={images.navBarLogo}
+                alt="SemPrep Logo"
+                className="w-48 mb-4 object-contain md:block hidden"
+              /> */}
+
+              <h2 className="text-3xl md:text-4xl font-bold text-white text-start">Now</h2>
+
+              <h1 className="text-3xl md:text-4xl font-bold text-white max-w-[300px] text-start mb-3">
+                Semesters Made Easy!
+              </h1>
+
+              <p className="text-sm md:text-base text-white max-w-[300px] text-start">
+                Video Explanation, Prepo AI, Notes, Mind Maps, One Shot, Solved PYQ & Sample Papers
+                All In One Place
+              </p>
+
+              <button
+                onClick={() => setModalVisible(true)}
+                className="mt-3 px-8 py-2 font-bold bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] rounded-3xl"
+              >
+                TRY FOR FREE
+              </button>
+            </div>
+          </div>
+
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            
-            className="flex flex-col items-center justify-center text-center bg-white md:px-6 px-3 mb-4 mt-20"
-          >
-            <img
-              src={images.navBarLogo}
-              alt="SemPrep Logo"
-              className="w-48 mb-4 object-contain md:block hidden"
-            />
-
-            <h2 className="text-3xl md:text-4xl font-bold text-black">Now</h2>
-
-            <h1 className="text-3xl md:text-4xl font-bold text-black mb-3">Semesters Made Easy!</h1>
-
-            <p className="text-sm md:text-base text-gray-700 max-w-xl">
-              Video Explanation, Prepo AI, Notes, Mind Maps, One Shot, Solved PYQ & Sample Papers All In
-              One Place
-            </p>
-
-            <button
-              onClick={() => setModalVisible(true)}
-              className="mt-3 px-8 py-2 font-bold bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] rounded-3xl"
-            >
-              TRY FOR FREE
-            </button>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            
             className="my-16 md:my-24 text-center md:px-6 px-3"
           >
             <p className="text-zinc-800 text-lg fw-semibold">
@@ -441,7 +440,6 @@ const HomePage = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            
             className="md:px-6 px-3"
           >
             <div className="mt-16 md:mt-24 flex justify-center">
@@ -466,7 +464,6 @@ const HomePage = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: index * 0.2 }}
                     viewport={{ once: true }}
-                    
                     className="md:p-4 p-3 md:rounded-xl rounded-lg bg-[#efefef]"
                   >
                     <div className="flex items-center gap-4 mb-4">
@@ -490,7 +487,6 @@ const HomePage = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              
               className="space-y-4 flex items-center flex-wrap justify-between gap-3 mb-8"
             >
               <div>
@@ -520,7 +516,6 @@ const HomePage = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: index * 0.2 }}
                     viewport={{ once: true }}
-                    
                     className="rounded-lg md:p-4 p-3 bg-[#efefef]"
                   >
                     <div

@@ -655,7 +655,7 @@ const PricingPage = () => {
               </p>
             </motion.div>
             <div className="">
-              <div className="flex justify-center mt-5 mb-5">
+              {/* <div className="flex justify-center mt-5 mb-5">
                 <div className="flex justify-center mt-5">
                   <div className="inline-flex border border-gray-300 rounded-lg p-1 bg-gray-100">
                     <button
@@ -677,9 +677,9 @@ const PricingPage = () => {
                     </button>
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto mt-5">
                   {subScriptions?.map((plan, index) => {
                     const yearlyPrice = Number(plan.price) || 0;
                     const monthlyPrice = Math.round(yearlyPrice / 12);
@@ -709,7 +709,7 @@ const PricingPage = () => {
               </div>
 
               <div className="md:my-16 my-24">
-                <motion.div
+                {/* <motion.div
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6 }}
@@ -768,7 +768,6 @@ const PricingPage = () => {
                         ))}
                       </tr>
 
-                      {/* Email and Calendar */}
                       <tr className="bg-gray-100 font-semibold">
                         <td colSpan={plans.length + 1} className="p-3">
                           Email and Calendar
@@ -953,7 +952,7 @@ const PricingPage = () => {
                       </tr>
                     </tbody>
                   </table>
-                </motion.div>
+                </motion.div> */}
 
                 <div className="flex flex-col md:flex-row gap-8 md:mt-24 mt-16">
                   <div>
