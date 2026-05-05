@@ -2,6 +2,25 @@ import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import { motion } from 'framer-motion';
+import { TrendingUp, Laptop, Target, Icon } from 'lucide-react';
+
+const stats = [
+  {
+    title: 'Growth',
+    desc: 'Learn, grow, and build real-world skills while working on impactful projects with a fast-growing team.',
+    icon: TrendingUp,
+  },
+  {
+    title: 'Remote Work',
+    desc: 'Enjoy flexibility and work from anywhere while collaborating with a dynamic and creative team.',
+    icon: Laptop,
+  },
+  {
+    title: 'Impact',
+    desc: 'Contribute to a platform that is helping thousands of students learn better and achieve their goals.',
+    icon: Target,
+  },
+];
 
 const jobs = [
   {
@@ -20,23 +39,23 @@ const jobs = [
   },
 ];
 
-const stats = [
-  {
-    title: 'Growth',
-    desc: 'Learn, grow, and build real-world skills while working on impactful projects with a fast-growing team.',
-    img: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png',
-  },
-  {
-    title: 'Remote Work',
-    desc: 'Enjoy flexibility and work from anywhere while collaborating with a dynamic and creative team.',
-    img: 'https://cdn-icons-png.flaticon.com/512/847/847969.png',
-  },
-  {
-    title: 'Impact',
-    desc: 'Contribute to a platform that is helping thousands of students learn better and achieve their goals.',
-    img: 'https://cdn-icons-png.flaticon.com/512/1828/1828884.png',
-  },
-];
+// const stats = [
+//   {
+//     title: 'Growth',
+//     desc: 'Learn, grow, and build real-world skills while working on impactful projects with a fast-growing team.',
+//     img: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png',
+//   },
+//   {
+//     title: 'Remote Work',
+//     desc: 'Enjoy flexibility and work from anywhere while collaborating with a dynamic and creative team.',
+//     img: 'https://cdn-icons-png.flaticon.com/512/847/847969.png',
+//   },
+//   {
+//     title: 'Impact',
+//     desc: 'Contribute to a platform that is helping thousands of students learn better and achieve their goals.',
+//     img: 'https://cdn-icons-png.flaticon.com/512/1828/1828884.png',
+//   },
+// ];
 
 const CareerPage = () => {
   return (
@@ -61,27 +80,33 @@ const CareerPage = () => {
 </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 text-center">
-  {stats.map((item, index) => (
+{stats.map((item, index) => {
+  const Icon = item.icon;
+
+  return (
     <motion.div
       key={index}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: index * 0.2 }}
+      transition={{ duration: 0.5, delay: index * 0.15 }}
       viewport={{ once: true }}
-      whileHover={{ scale: 1.05 }}
-      className="p-6 border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition"
+      whileHover={{ y: -6 }}
+      className="rounded-lg lg:rounded-xl p-3 lg:p-6 border border-gray-200 shadow-sm hover:shadow-lg transition-all bg-white"
     >
-      <img
-        src={item.img}
-        alt={item.title}
-        className="w-16 h-16 mx-auto mb-4"
-      />
-      <h3 className="font-semibold text-xl mb-2">{item.title}</h3>
-      <p className="text-base text-gray-600 leading-relaxed">
+      <div className="w-14 h-14 flex items-center justify-center rounded-xl bg-[#00A63E]/10 mx-auto mb-4">
+        <Icon className="w-7 h-7 text-[#00A63E]" strokeWidth={2} />
+      </div>
+
+      <h3 className="font-semibold text-lg mb-2 text-gray-900 text-center">
+        {item.title}
+      </h3>
+
+      <p className="text-sm text-gray-600 leading-relaxed text-center">
         {item.desc}
       </p>
     </motion.div>
-  ))}
+  );
+})}
 </div>
 
           <motion.div
