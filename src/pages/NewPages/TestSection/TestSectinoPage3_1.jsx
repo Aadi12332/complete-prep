@@ -268,7 +268,7 @@ const TestSectinoPage3_1 = () => {
 
               {!isLastQuestion ? (
                 <button
-                  className=" px-6 py-2 font-bold bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] rounded-3xl"
+                  className=" px-6 py-2 font-bold bg-[#3DD455] hover:bg-black text-white rounded-lg"
                   onClick={handleNextQuestion}
                   disabled={testSubmitted}
                 >
@@ -276,7 +276,7 @@ const TestSectinoPage3_1 = () => {
                 </button>
               ) : (
                 <button
-                  className="px-6 py-2 font-bold bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] rounded-3xl"
+                  className="px-6 py-2 font-bold bg-[#3DD455] hover:bg-black text-white rounded-lg"
                   onClick={handleSubmitTest}
                   disabled={testSubmitted}
                 >
@@ -319,7 +319,7 @@ const TestSectinoPage3_1 = () => {
           <SummaryItem label="Correct" value={testResult.correct} />
           <SummaryItem label="Incorrect" value={testResult.incorrect} />
           <button
-            className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold px-4 py-2 rounded-3xl mt-4 w-full"
+            className="bg-[#3DD455] hover:bg-black text-white font-bold px-4 py-2 rounded-lg mt-4 w-full"
             onClick={handleProceed}
           >
             Proceed
@@ -334,7 +334,7 @@ const TestSectinoPage3_1 = () => {
             You have reviewed your test summary. Click proceed to continue.
           </p>
           <button
-            className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold px-4 py-2 rounded-3xl w-full"
+            className="bg-[#3DD455] hover:bg-black text-white font-bold px-4 py-2 rounded-lg w-full"
             onClick={handleCloseProceedModal}
           >
             Proceed

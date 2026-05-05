@@ -211,7 +211,7 @@ const PlacementPage2 = () => {
                   </div>
                 </div>
                 <button
-                  className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold rounded-3xl py-2 px-4 flex items-center space-x-2"
+                  className="bg-[#3DD455] hover:bg-black text-white font-bold rounded-lg py-2 px-4 flex items-center space-x-2"
                   onClick={() =>
                     user?.isSubscribed
                       ? handleApplyNow()
@@ -451,7 +451,7 @@ const PlacementPage2 = () => {
                 </button>
                 <button
                   type="submit"
-                  className="w-fit px-6 py-2 font-bold bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] rounded-lg"
+                  className="w-fit px-6 py-2 font-bold bg-[#3DD455] hover:bg-black text-white rounded-lg"
                   disabled={applying}
                 >
                   {applying ? 'Applying…' : 'Apply'}

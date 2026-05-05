@@ -132,7 +132,7 @@ const PlacementPage1 = () => {
 
                   <div className="w-full sm:w-auto">
                     <button
-                      className="w-full sm:w-auto bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold px-4 py-2 rounded-md"
+                      className="w-full sm:w-auto bg-[#3DD455] hover:bg-black text-white font-bold px-4 py-2 rounded-md"
                       onClick={handleFindJobClick}
                     >
                       Find Job
@@ -315,7 +315,7 @@ const PlacementPage1 = () => {
                     Clear
                   </button>
                   <button
-                    className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold rounded-3xl py-2 px-4"
+                    className="bg-[#3DD455] hover:bg-black text-white font-bold rounded-lg py-2 px-4"
                     onClick={handleApplyFilters}
                   >
                     Apply

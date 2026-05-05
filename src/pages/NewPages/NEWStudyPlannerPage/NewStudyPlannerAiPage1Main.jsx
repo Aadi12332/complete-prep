@@ -59,7 +59,7 @@ const NewStudyPlannerAiPage1Main = () => {
       <div className=" bg-white p-6">
         <div className="bg-[#EFEFEF] p-3 rounded-lg md:min-h-[calc(100vh-48px)]">
           <div>
-            <h1 className="text-4xl font-bold text-[#594b4b]">Create Your Personalized</h1>
+            <h1 className="text-4xl font-bold text-gray-900">Create Your Personalized</h1>
             <h1 className="text-4xl font-bold text-gray-900">Study Schedule</h1>
           </div>
           <div className="flex items-center flex-wrap justify-between my-3">
@@ -96,7 +96,7 @@ const NewStudyPlannerAiPage1Main = () => {
           </div>
           <div>
             <div>
-              {/* <p className="inline-block px-4 py-2 text-lg bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold rounded-3xl">
+              {/* <p className="inline-block px-4 py-2 text-lg bg-[#3DD455] hover:bg-black text-white font-bold rounded-3xl">
                 Popular Courses
               </p> */}
               <div className="w-full">

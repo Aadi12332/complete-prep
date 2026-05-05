@@ -94,7 +94,7 @@ const TestSeriesPage1 = () => {
                             type: 'error',
                           })
                     }
-                    className="w-full bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold px-4 py-2 rounded-3xl mt-4"
+                    className="w-full bg-[#3DD455] hover:bg-black text-white font-bold px-4 py-2 rounded-lg mt-4"
                   >
                     Start Test
                   </button>

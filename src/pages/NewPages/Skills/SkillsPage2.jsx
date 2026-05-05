@@ -147,9 +147,9 @@ const SkillsPage2 = () => {
                             },
                           });
                         }}
-                        className={`w-full py-2 mt-1 mb-3 font-bold ${
+                        className={`w-full py-2 mt-1 font-bold ${
                           course?.isPurchased ? 'bg-[#3DD455]' : 'bg-[#3DD455]'
-                        } hover:bg-black text-black hover:!text-[#3DD455] rounded-3xl`}
+                        } hover:bg-black text-white rounded-lg`}
                       >
                         {course?.isPurchased ? 'Start' : 'Unlock Now'}
                       </button>

@@ -106,7 +106,7 @@ export const HomePageBenifitComponent = () => {
           </p>
         </div> */}
 
-        <div className="relative h-[320px] md:h-[650px] max-w-[1000px] md:rounded-xl rounded-lg mx-auto overflow-hidden p-8 md:p-12 flex-1">
+        <div className="relative h-auto object-contain lg:!h-[650px] max-w-[1000px] aspect-[16/10] md:rounded-xl rounded-lg mx-auto overflow-hidden p-8 md:p-12 flex-1">
           {activeTab.type === 'video' ? (
             <video
               src={activeTab.media}

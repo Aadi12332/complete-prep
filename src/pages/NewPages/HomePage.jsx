@@ -38,7 +38,7 @@ import img19 from '../../assets/images/updated-img-logo/19.png';
 import img20 from '../../assets/images/updated-img-logo/20.png';
 import img21 from '../../assets/images/updated-img-logo/21.png';
 import img22 from '../../assets/images/updated-img-logo/22.png';
-import heroimg from '../../assets/new-images/Hero Section 1.jpeg';
+import heroimg from '../../assets/new-images/Transparent.png';
 
 const courses = [
   {
@@ -374,34 +374,33 @@ const HomePage = () => {
       <div className="h-full mainMaxWidth bg-white">
         <Header />
         <div className="">
-          <div className="flex relative h-[800px]">
-            <img src={heroimg} className="w-full h-[800px] absolute top-0 left-0 right-0 bottom-0" />
-
-            <div className="flex flex-col items-start justify-center text-center md:px-6 px-3 mb-4 z-10">
+          <div className="flex lg:flex-row flex-col-reverse gap-10 lg:gap-5 items-center bg-black lg:h-[calc(100vh-80px)] py-10 relative">
+            <div className="flex flex-col lg:items-start justify-center text-center md:px-6 px-3 mb-4 z-10 flex-1 lg:absolute">
               {/* <img
                 src={images.navBarLogo}
                 alt="SemPrep Logo"
                 className="w-48 mb-4 object-contain md:block hidden"
               /> */}
 
-              <h2 className="text-3xl md:text-4xl font-bold text-white text-start">Now</h2>
+              <h2 className="text-3xl md:text-7xl font-bold text-white lg:text-start text-center">Now</h2>
 
-              <h1 className="text-3xl md:text-4xl font-bold text-white max-w-[300px] text-start mb-3">
-                Semesters Made Easy!
+              <h1 className="text-3xl md:text-7xl font-bold text-white lg:text-start mb-3">
+                 <span className="text-[#3DD455]">Semesters </span> <br /> Made Easy!
               </h1>
 
-              <p className="text-sm md:text-base text-white max-w-[300px] text-start">
-                Video Explanation, Prepo AI, Notes, Mind Maps, One Shot, Solved PYQ & Sample Papers
-                All In One Place
+              <p className="text-sm md:text-base text-white lg:text-start py-3 max-w-[400px]">
+                Everything you need to learn, Practice and achieve more in your college journey.
               </p>
 
               <button
                 onClick={() => setModalVisible(true)}
-                className="mt-3 px-8 py-2 font-bold bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] rounded-3xl"
+                className="mt-3 px-8 py-2 font-bold bg-[#3DD455] hover:bg-black text-white cursor-pointer rounded-lg"
               >
                 TRY FOR FREE
               </button>
             </div>
+            <img src={heroimg} className="w-full flex-1 lg:max-w-[900px] max-w-[600px] lg:!ml-auto mx-auto lg:!mx-[unset]" />
+
           </div>
 
           <motion.div

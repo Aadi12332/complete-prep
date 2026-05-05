@@ -200,7 +200,7 @@ const TestSectionPage5 = () => {
           ))}
           <div className="flex justify-end">
             <button
-              className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold px-4 py-2 rounded-lg"
+              className="bg-[#3DD455] hover:bg-black text-white font-bold px-4 py-2 rounded-lg"
               onClick={() => navigate('/user/home')}
             >
               Finish

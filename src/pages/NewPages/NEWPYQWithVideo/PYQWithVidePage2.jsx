@@ -134,7 +134,7 @@ const PYQWithVidePage2 = () => {
 
           <div className="flex justify-end">
             <button
-              className="w-fit mt-6 px-6 py-2 font-bold bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] rounded-lg"
+              className="w-fit mt-6 px-6 py-2 font-bold bg-[#3DD455] hover:bg-black text-white rounded-lg"
               onClick={() => navigate('/user/home')}
             >
               Finish

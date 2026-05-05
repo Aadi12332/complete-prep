@@ -287,7 +287,9 @@ const UserHome = () => {
           <div>
             <UserMenuBar />
           </div>
-          <div className="p-4">
+          <div className='flex lg:flex-row flex-col-reverse gap-6 items-start'>
+
+          <div className="p-4 flex-1 lg:max-w-[70%]">
             <div
               className="relative text-white md:rounded-xl rounded-lg md:p-3 p-2 bg-center bg-no-repeat bg-cover"
               style={{
@@ -306,7 +308,7 @@ const UserHome = () => {
                 <div className="mt-2">
                   <button
                     onClick={() => navigate('/user/skill')}
-                    className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold text-sm sm:text-base py-1.5 px-4 rounded-3xl inline-flex items-center gap-2 transition-all duration-200"
+                    className="bg-[#3DD455] hover:bg-black text-white font-bold text-sm sm:text-base py-1.5 px-4 rounded-lg inline-flex items-center gap-2 transition-all duration-200"
                   >
                     <span>Join Now</span>
                     <Icon icon="lsicon:play-filled" width="16" height="16" />
@@ -386,6 +388,157 @@ const UserHome = () => {
                 </div>
               )}
             </div>
+          </div>
+             <div className="w-full flex-1 lg:max-w-[30%] bg-white lg:border-l border-[#d0d0d0] p-6 lg:min-h-svh">
+                    <div className="space-y-6">
+                      <div className="flex flex-col justify-center relative">
+                        <p className="flex justify-end absolute right-2 top-2 text-2xl">
+                          <Icon
+                            icon="mdi:bell-outline"
+                            className="cursor-pointer"
+                            onClick={() => setShowNotifications(true)}
+                          />
+                        </p>
+                        <div className="flex flex-col items-center justify-center text-center gap-4 mt-4 mb-4">
+                          <img
+                            src={user?.image || images.newHandwrittenNotesImage1}
+                            alt="User Profile"
+                            className="w-[100px] h-[100px] rounded-full object-cover shadow-md"
+                          />
+                        </div>
+                        <div className="text-center">
+                          <h2 className="text-lg font-bold text-gray-900">{user?.fullName || ''}</h2>
+                          <p className="text-sm text-gray-500">
+                            Continue Your Journey And Achieve Your Target
+                          </p>
+                        </div>
+          
+                        {subscriptionStatus ? (
+                          <div className="mt-2">
+                            <p className="text-sm text-black text-center">
+                              Your Current Plan : -{' '}
+                              <span className="text-sm text-gray-500">
+                                {currentSubscription?.subscriptionPlanId?.name}
+                              </span>
+                            </p>
+                            <p className="text-sm text-black text-center items-center justify-center flex gap-2">
+                              <span className="text-sm text-black"> Expire On : </span>
+                              <span className="text-sm text-gray-500">
+                                {currentSubscription?.endDate?.slice(0, 10)?.split('-').reverse().join('-')}
+                              </span>
+                            </p>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col items-center justify-center text-center gap-4 mt-2 mb-4">
+                            <p className="text-sm text-black">Please Subscribe to Continue</p>
+                            <button
+                              className="bg-[#3DD455] hover:bg-black text-white font-bold px-4 py-2 rounded-lg"
+                              onClick={() => setModalVisible(true)}
+                            >
+                              Subscribe
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                      {/* <div>
+                        <img
+                          src={images.userDashboardTopBanner}
+                          alt="Dashboard Banner"
+                          className="object-cover"
+                          style={{ width: '100%', height: '100%', minHeight: 30 }}
+                        />
+                      </div> */}
+                      <div className="bg-yellow-100 rounded-lg p-2.5 flex flex-col items-center gap-2">
+                        <p className="font-semibold text-[13px] text-center">
+                          ■ Limited Time Offer: 50% Off All Courses! ■
+                        </p>
+                        <p className="text-xs text-center">
+                          Boost your exam prep with half off on our top-rated courses. Hurry, offer ends soon!
+                        </p>
+                      </div>
+                      <div>
+                        <img
+                          src={TutorialVideoImage || images.userDashboardTopBanner}
+                          alt="Dashboard Banner"
+                          className="rounded-lg"
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            minHeight: '170px',
+                            // border: ' 1px solid red',
+                            cursor: 'pointer',
+                          }}
+                          onClick={updateUserBanner}
+                        />
+                        {
+                          user?.firstVideoBanner
+                            ? // <img
+                              //   src={TutorialVideoImage || images.userDashboardTopBanner}
+                              //   alt="Dashboard Banner"
+                              //   className=""
+                              //   style={{
+                              //     width: '100%',
+                              //     height: '100%',
+                              //     minHeight: '170px',
+                              //     // border: ' 1px solid red',
+                              //     cursor: 'pointer',
+                              //   }}
+                              //   onClick={updateUserBanner}
+                              // />
+                              null
+                            : null
+                          // (
+                          // <img
+                          //   src={images.userDashboardTopBanner}
+                          //   alt="Dashboard Banner"
+                          //   onClick={updateUserBanner}
+                          //   className=""
+                          //   style={{ width: '100%', height: '100%', minHeight: '170px', cursor: 'pointer' }}
+                          // />
+                          // )
+                        }
+                      </div>
+                      <div className="flex lg:flex-col flex-wrap gap-2">
+                        {isReferalButtonVisible && (
+                          <div className="flex items-center justify-between gap-2 bg-gray-100 px-3 py-2 rounded-2xl">
+                            <span className="text-sm font-medium text-gray-700">
+                              {user?.refferalCode || ''}
+                            </span>
+          
+                            <button
+                              onClick={() => {
+                                showNotification({ type: 'success', message: 'Copied to clipboard' });
+                                navigator.clipboard.writeText(user?.refferalCode);
+                              }}
+                              className="p-1 hover:bg-gray-200 rounded-md transition"
+                            >
+                              <Icon icon="solar:copy-outline" width={16} />
+                            </button>
+                          </div>
+                        )}
+          
+                        <button
+                          className="bg-[#3DD455] hover:bg-black text-white font-medium text-sm px-3 py-2 rounded-lg transition"
+                          onClick={() => {
+                            setIsReferalButtonVisible(true);
+                            showNotification({ type: 'success', message: 'Copied to clipboard' });
+                            navigator.clipboard.writeText(user?.refferalCode);
+                          }}
+                        >
+                          Referral & Earn
+                        </button>
+                        <a
+                          href="mailto:support@completeprep.com"
+                          className="inline-flex items-center justify-center bg-[#3DD455] hover:bg-black text-white font-medium text-sm px-4 py-2 rounded-lg transition-colors duration-200 hover:no-underline"
+                        >
+                          Help us improve
+                        </a>
+                        <button onClick={() => window.open("https://forms.gle/1JUQT5ZKRdhwSoqH7", '_blank')} className="bg-[#3DD455] hover:bg-black text-white font-medium text-sm px-2.5 py-2 rounded-lg">
+                          Become an Ambassador
+                        </button>
+                      </div>
+                    </div>
+          </div>
           </div>
         </div>
       </div>

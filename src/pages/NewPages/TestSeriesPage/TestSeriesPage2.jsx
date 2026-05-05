@@ -264,7 +264,7 @@ const TestSeriesPage2 = () => {
                               //       });
                               // }
                             }}
-                            className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold px-4 py-2 mt-2 rounded-3xl min-w-[120px]"
+                            className="bg-[#3DD455] hover:bg-black text-white font-bold px-4 py-2 mt-2 rounded-3xl min-w-[120px]"
                           >
                             {isPurchased || testVariant === 'studyPlannerTest'
                               ? 'Start'

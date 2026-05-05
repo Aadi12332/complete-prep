@@ -136,7 +136,7 @@ const SelectHearAboutUs = () => {
           <div className="flex justify-between mt-6">
             <button
               onClick={handleBack}
-              className="px-4 py-2 rounded-3xl transition bg-gray-100 text-gray-800 hover:bg-gray-200"
+              className="px-4 py-2 rounded-lg transition bg-gray-100 text-gray-800 hover:bg-gray-200"
               disabled={isSaving}
             >
               Back

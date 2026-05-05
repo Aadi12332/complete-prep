@@ -265,7 +265,7 @@ const TestSectionPage4 = () => {
           <div className="w-full my-6 flex justify-center">
             <div className="flex flex-wrap justify-center gap-4">
               <button
-                className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold px-4 py-2 rounded-3xl"
+                className="bg-[#3DD455] hover:bg-black text-white font-bold px-4 py-2 rounded-lg"
                 onClick={() =>
                   navigate(
                     `/user/test-summary/${testId}?testSeriesFileId=${testSeriesFileId}&bundleId=${bundleId}&testVariant=${testVariant}`

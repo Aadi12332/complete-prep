@@ -376,25 +376,25 @@ const handleSubmit = async () => {
             </div>
 
             <div className="flex gap-2">
-              <button
+              {/* <button
                 onClick={() => setModalJoinVisible(true)}
-                className="px-3 py-2 font-bold text-black bg-transparent border border-black rounded-3xl hover:!bg-[#3DD455] hover:text-white"
+                className="px-3 py-2 font-bold text-black bg-transparent border border-black hover:!border-white rounded-3xl hover:!bg-[#3DD455] hover:!text-white"
               >
                 Join Waitlist
-              </button>
-              {/* <button
+              </button> */}
+              <button
                 onClick={() => setModalVisible(true)}
-                className="px-3 py-2 font-bold text-black bg-transparent border border-black rounded-3xl hover:!bg-[#3DD455] hover:text-white"
+                className="px-3 py-2 font-bold text-black bg-transparent border border-black rounded-lg hover:!bg-[#3DD455] hover:text-white"
               >
                 Register
               </button>
 
               <button
                 onClick={() => setModalVisible(true)}
-                className="px-3 py-2 font-bold bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] rounded-3xl"
+                className="px-3 py-2 font-bold bg-[#3DD455] hover:bg-black text-white rounded-lg"
               >
                 Login
-              </button> */}
+              </button>
             </div>
           </div>
         </div>
@@ -494,7 +494,7 @@ const handleSubmit = async () => {
               )}
 
               <div className="flex flex-col gap-2 mt-4">
-                <button
+                {/* <button
                   onClick={() => {
                     setModalJoinVisible(true);
                     setIsSidebarOpen(false);
@@ -502,14 +502,14 @@ const handleSubmit = async () => {
                   className="px-4 py-2 border border-black rounded-3xl"
                 >
                   Join Waitlist
-                </button>
+                </button> */}
 
-                {/* <button
+                <button
                   onClick={() => {
                     setModalVisible(true);
                     setIsSidebarOpen(false);
                   }}
-                  className="px-4 py-2 border border-black rounded-3xl"
+                  className="px-4 py-2 border border-black rounded-lg"
                 >
                   Register
                 </button>
@@ -519,16 +519,16 @@ const handleSubmit = async () => {
                     setModalVisible(true);
                     setIsSidebarOpen(false);
                   }}
-                  className="px-4 py-2 bg-[#3DD455] rounded-3xl"
+                  className="px-4 py-2 bg-[#3DD455] rounded-lg"
                 >
                   Login
-                </button> */}
+                </button>
               </div>
             </div>
           </div>
         </div>
 
-        {modalJoinVisible && (
+        {/* {modalJoinVisible && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
             <div className="bg-white w-full max-w-md rounded-xl p-6 relative">
               <button
@@ -641,7 +641,7 @@ const handleSubmit = async () => {
               </div>
             </div>
           </div>
-        )}
+        )} */}
 
         {success && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">

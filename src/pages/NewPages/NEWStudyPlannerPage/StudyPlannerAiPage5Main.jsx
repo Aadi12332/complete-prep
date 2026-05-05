@@ -151,7 +151,7 @@ const StudyPlannerAiPage5Main = () => {
                         <button
                           className={`font-bold py-2 px-4 rounded-lg mt-4 w-full ${
                             isPurchased
-                              ? 'bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold px-4 py-2 rounded-b-3xl'
+                              ? 'bg-[#3DD455] hover:bg-black text-white font-bold px-4 py-2 rounded-b-3xl'
                               : 'bg-orange-400 hover:bg-orange-500'
                           }`}
                           onClick={() =>

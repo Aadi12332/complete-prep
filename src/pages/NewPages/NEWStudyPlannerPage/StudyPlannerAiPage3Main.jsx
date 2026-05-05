@@ -115,7 +115,7 @@ const StudyPlannerAiPage3Main = () => {
                       </p>
                     </div>
                     <button
-                      className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold px-4 py-2 rounded-3xl "
+                      className="bg-[#3DD455] hover:bg-black text-white font-bold px-4 py-2 rounded-lg "
                       onClick={handleProceed}
                     >
                       Proceed

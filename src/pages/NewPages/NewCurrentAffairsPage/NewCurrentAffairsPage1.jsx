@@ -185,7 +185,7 @@ const NewCurrentAffairsPage1 = () => {
             {activeTab === 'Daily News' && (
               <button
                 onClick={handleDownloadPdf}
-                className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold rounded-3xl py-2 px-4 flex items-center"
+                className="bg-[#3DD455] hover:bg-black text-white font-bold rounded-lg py-2 px-4 flex items-center"
               >
                 <Icon icon="akar-icons:download" className="mr-2" />
                 Download PDF for Today
@@ -260,7 +260,7 @@ const NewCurrentAffairsPage1 = () => {
                           <span>{quiz.minutes}</span>
                         </p>
                         <button
-                          className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold rounded-3xl py-2 px-4"
+                          className="bg-[#3DD455] hover:bg-black text-white font-bold rounded-lg py-2 px-4"
                           onClick={() =>
                             user?.isSubscribed
                               ? navigate(`/user/test-section/1`)
@@ -312,7 +312,7 @@ const NewCurrentAffairsPage1 = () => {
                           </span>
                         </div>
                         <button
-                          className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold rounded-3xl py-2 px-4"
+                          className="bg-[#3DD455] hover:bg-black text-white font-bold rounded-lg py-2 px-4"
                           onClick={() => {
                             user?.isSubscribed
                               ? navigate(
@@ -365,7 +365,7 @@ const NewCurrentAffairsPage1 = () => {
                           </p>
                         </div>
                         <div className="flex justify-end items-end">
-                          <button className="flex items-center bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold rounded-3xl py-2 px-4">
+                          <button className="flex items-center bg-[#3DD455] hover:bg-black text-white font-bold rounded-lg py-2 px-4">
                             Watch Now <Icon icon="akar-icons:chevron-right" className="ml-1" />
                           </button>
                         </div>

@@ -152,7 +152,7 @@ const PYQSubjects = () => {
                                     type: 'error',
                                   })
                             }
-                            className="w-full py-2 mt-2 bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold rounded-3xl"
+                            className="w-full py-2 mt-2 bg-[#3DD455] hover:bg-black text-white font-bold rounded-lg"
                           >
                             Start
                           </button>

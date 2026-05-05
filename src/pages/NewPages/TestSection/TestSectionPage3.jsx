@@ -447,7 +447,7 @@ const TestSectionPage3 = () => {
                   </button>
                 ) : (
                   <button
-                    className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold px-4 py-2 rounded-3xl"
+                    className="bg-[#3DD455] hover:bg-black text-white font-bold px-4 py-2 rounded-lg"
                     onClick={handleSubmitTest}
                     disabled={testSubmitted || !isLastQuestion || isSubmitLoading}
                   >
@@ -540,7 +540,7 @@ const TestSectionPage3 = () => {
             </div>
 
             <button
-              className="w-full mt-6 px-6 py-2 font-bold bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] rounded-sm"
+              className="w-full mt-6 px-6 py-2 font-bold bg-[#3DD455] hover:bg-black text-white rounded-sm"
               onClick={handleSubmitTest}
               disabled={isSubmitLoading}
             >
@@ -564,7 +564,7 @@ const TestSectionPage3 = () => {
               </p>
               <h2 className="text-2xl font-bold mt-2 mb-4">Test Submitted</h2>
               <button
-                className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold px-4 py-2 rounded-3xl mt-4"
+                className="bg-[#3DD455] hover:bg-black text-white font-bold px-4 py-2 rounded-lg mt-4"
                 onClick={handleViewResult}
               >
                 View Result
@@ -583,7 +583,7 @@ const TestSectionPage3 = () => {
           <SummaryItem label="Correct" value={testResult.correct} />
           <SummaryItem label="Incorrect" value={testResult.incorrect} />
           <button
-            className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold px-4 py-2 rounded-3xl mt-4 w-full"
+            className="bg-[#3DD455] hover:bg-black text-white font-bold px-4 py-2 rounded-lg mt-4 w-full"
             onClick={handleProceed}
           >
             Proceed
@@ -598,7 +598,7 @@ const TestSectionPage3 = () => {
             You have reviewed your test summary. Click proceed to continue.
           </p>
           <button
-            className="bg-[#3DD455] hover:bg-black text-black hover:!text-[#3DD455] font-bold px-4 py-2 rounded-3xl w-full"
+            className="bg-[#3DD455] hover:bg-black text-white font-bold px-4 py-2 rounded-lg w-full"
             onClick={handleCloseProceedModal}
           >
             Proceed
