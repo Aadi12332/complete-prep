@@ -289,7 +289,7 @@ const UserHome = () => {
           </div>
           <div className='flex lg:flex-row flex-col-reverse gap-6 items-start'>
 
-          <div className="p-4 flex-1 lg:max-w-[70%]">
+          <div className="p-4 flex-1 lg:max-w-[70%] w-full">
             <div
               className="relative text-white md:rounded-xl rounded-lg md:p-3 p-2 bg-center bg-no-repeat bg-cover"
               style={{
@@ -389,7 +389,7 @@ const UserHome = () => {
               )}
             </div>
           </div>
-             <div className="w-full flex-1 lg:max-w-[30%] bg-white lg:border-l border-[#d0d0d0] p-6 lg:min-h-svh">
+          <div className="hidden lg:block w-full flex-1 lg:max-w-[30%] bg-white lg:border-l border-[#d0d0d0] p-6 lg:min-h-svh">
                     <div className="space-y-6">
                       <div className="flex flex-col justify-center relative">
                         <p className="flex justify-end absolute right-2 top-2 text-2xl">

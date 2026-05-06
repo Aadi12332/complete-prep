@@ -194,9 +194,9 @@ const ProfileTab = () => {
     }, [user?._id]);
 
     const firstName = user?.firstName || '';
-const lastName = user?.lastName || '';
+    const lastName = user?.lastName || '';
 
-  const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
+    const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
 
 
   return (

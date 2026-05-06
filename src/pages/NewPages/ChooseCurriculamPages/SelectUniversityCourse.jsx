@@ -76,7 +76,7 @@ const SelectUniversityCourse = () => {
       </div>
 
       <div className="bg-white px-4 py-3 flex-1 flex flex-col justify-between gap-5">
-        <div className="w-full max-w-8xl flex-1">
+        <div className="w-full max-w-8xl flex-1 mb-16">
           <h1 className="text-2xl md:text-3xl font-bold text-black text-left mb-3">Select a course</h1>
           {universityName ? (
             <p className="text-sm text-gray-600 mb-6">University: {universityName}</p>
@@ -141,7 +141,7 @@ const SelectUniversityCourse = () => {
           )}
         </div>
          {!isLoading && !loadError && (
-              <div className="flex justify-between">
+              <div className="flex justify-between fixed left-0 right-0 bottom-0 bg-white py-2 px-6">
                 <button
                   onClick={handleBack}
                   className="px-4 py-2 rounded-lg transition bg-gray-100 text-gray-800 hover:bg-gray-200"

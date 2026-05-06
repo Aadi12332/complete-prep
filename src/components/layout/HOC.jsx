@@ -150,7 +150,7 @@ const HOC = WrappedComponent => {
           <img
                       src={images.newMainLogo}
                       alt="Logo"
-                      onClick={() => navigate('/')}
+                      onClick={() => navigate('/user/home')}
                       className="w-[120px] object-contain"
                     />
           <Icon icon="mdi:menu" className="text-3xl cursor-pointer" onClick={handleShowCanvas} />
@@ -167,7 +167,7 @@ const HOC = WrappedComponent => {
               <img
                       src={images.newMainLogo}
                       alt="Logo"
-                      onClick={() => navigate('/')}
+                      onClick={() => navigate('/user/home')}
                       className="w-[120px] object-contain"
                     />
             </Offcanvas.Title>

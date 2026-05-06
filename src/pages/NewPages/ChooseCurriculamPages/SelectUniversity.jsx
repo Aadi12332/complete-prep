@@ -47,7 +47,7 @@ const SelectUniversity = () => {
       </div>
 
       <div className="bg-white px-4 py-3 flex-1 flex flex-col justify-between gap-5">
-        <div className="w-full max-w-8xl">
+        <div className="w-full max-w-8xl mb-16">
           <h1 className="text-2xl md:text-3xl font-bold text-black text-left">
             Which University do you take?
           </h1>
@@ -92,7 +92,7 @@ const SelectUniversity = () => {
 
         </div>
           {selectedUniversity && (
-            <div className="flex justify-end">
+            <div className="flex justify-end fixed left-0 right-0 bottom-0 bg-white py-2 px-6">
               <button
                 onClick={handleNext}
                 className="bg-[#3DD455] hover:bg-black text-white font-bold px-4 py-2 rounded-lg"

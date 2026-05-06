@@ -7,14 +7,17 @@ import { AuthContext } from '../../../Context/AuthContext';
 import { userApi } from '../../../services/apiFunctions';
 import { formatTimeSpentTimeLine } from '../../../utils/constants';
 import images from '../../../utils/images';
+import TutorialVideoImage from '../../../assets/images/tutorialBanner.jpg';
+import { showNotification } from '../../../services/exportComponents';
 import ProfileTab from './ProfileTab';
 
 const SettingPage1 = () => {
   const navigate = useNavigate();
-  const { user, logout, isAuthenticated } = useContext(AuthContext);
+  const { user, setUser, logout, isAuthenticated } = useContext(AuthContext);
   // const { goal = "" } = user || {};
   const goal = user?.goal || '';
   const [activeTab, setActiveTab] = useState('Profile');
+  const [subscriptionStatus, setSubscriptionStatus] = useState(false);
 
   const [profileData, setProfileData] = useState({
     avatar: user?.image || '',
@@ -65,6 +68,7 @@ const SettingPage1 = () => {
   ]);
   const [timelineEvents, setTimelineEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isReferalButtonVisible, setIsReferalButtonVisible] = useState(false);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -96,6 +100,62 @@ const SettingPage1 = () => {
     });
   };
 
+      const updateUserBanner = async () => {
+      userApi.landingPage.updateBannerStatus({
+        data: {
+          goalCategory: user?.goalCategory || '',
+          goal: user?.goal || '',
+          semester: user?.semester || '',
+          firstVideoBanner: true,
+        },
+        onSuccess: res => {
+          setUser({ ...user, firstVideoBanner: true });
+          setShowBannerModal(true);
+        },
+        onError: () => {
+          showNotification({ type: 'error', message: 'Failed to update banner status' });
+        },
+      });
+    };
+
+      const fetchSubScription = async () => {
+        try {
+          const res = await userApi.subscriptions.getSubscription({
+            params: { semester: user?.semester },
+          });
+          if (res?.data?.isActive) {
+            setSubscriptionStatus(true);
+            setCurrentSubscription(res.data);
+            setUser(prev => ({ ...prev, isSubscribed: true }));
+          } else {
+            setSubscriptionStatus(false);
+            setUser(prev => ({ ...prev, isSubscribed: false }));
+            const subs = await userApi.subscriptions.getAll({ params: { semester: user?.semester } });
+            setSubscriptions(subs?.data || []);
+          }
+        } catch (err) {
+          setSubscriptionStatus(false);
+          setUser(prev => ({ ...prev, isSubscribed: false }));
+          showNotification({ type: 'error', message: 'Failed to fetch subscription status' });
+        }
+      };
+    
+      const fetchCoupons = () => {
+        userApi.subscriptions.coupons.getAll({
+          onSuccess: res => {
+            setAllCoupons(res?.data || []);
+          },
+          onError: err => {
+            console.log(err, 'err');
+          },
+        });
+      };
+    
+      useEffect(() => {
+        fetchSubScription();
+        fetchCoupons();
+      }, [user?._id]);
+
   const handleSave = () => {
     userApi.settingPage.updateProfile({
       onSuccess: res => {
@@ -117,7 +177,27 @@ const SettingPage1 = () => {
     navigate('/');
   };
 
-  const tabs = ['Profile', 'Transactions', 'My Weekly Timeline'];
+  const [isLg, setIsLg] = useState(false);
+  const allTabs = ['Profile', 'Subscriptions', 'Transactions', 'My Weekly Timeline'];
+
+  useEffect(() => {
+    const checkScreen = () => setIsLg(window.innerWidth >= 1024);
+
+    checkScreen();
+    window.addEventListener('resize', checkScreen);
+
+    return () => window.removeEventListener('resize', checkScreen);
+  }, []);
+
+  const tabs = isLg
+    ? allTabs.filter((tab) => tab !== 'Subscriptions')
+    : allTabs;
+
+      useEffect(() => {
+    if (!tabs.includes(activeTab)) {
+      setActiveTab('Profile');
+    }
+  }, [tabs, activeTab]);
 
   return (
     <div className="">
@@ -126,13 +206,13 @@ const SettingPage1 = () => {
       </div>
       <div className=" bg-white rounded-xl p-6">
         <div className="w-full">
-          <div className="w-full">
-            <div className="flex flex-wrap justify-between bg-[#f3f4f6] rounded-3xl tab-button-container w-fit p-1">
+          <div className="w-full overflow-auto">
+            <div className="flex justify-between bg-[#f3f4f6] rounded-3xl tab-button-container w-fit p-1 min-w-[400px]">
               {tabs?.map(tab => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`px-4 py-2 text-sm sm:text-base font-medium transition-all duration-200 whitespace-nowrap ${
+                  className={`px-3 py-2 text-sm sm:text-base font-medium transition-all duration-200 whitespace-nowrap ${
                     activeTab === tab
                       ? 'bg-white text-black font-semibold rounded-3xl'
                       : 'text-gray-500 hover:text-gray-700'
@@ -145,6 +225,160 @@ const SettingPage1 = () => {
           </div>
 
           {activeTab === 'Profile' && <ProfileTab />}
+          {activeTab === 'Subscriptions' && 
+          <>
+          <div className="block lg:hidden w-full flex-1 bg-white border-[#d0d0d0]">
+                    <div className="space-y-6">
+                      <div className="flex flex-col justify-center relative">
+                        <p className="flex justify-end absolute right-2 top-2 text-2xl">
+                          <Icon
+                            icon="mdi:bell-outline"
+                            className="cursor-pointer"
+                            onClick={() => setShowNotifications(true)}
+                          />
+                        </p>
+                        <div className="flex flex-col items-center justify-center text-center gap-4 mt-4 mb-4">
+                          <img
+                            src={user?.image || images.newHandwrittenNotesImage1}
+                            alt="User Profile"
+                            className="w-[100px] h-[100px] rounded-full object-cover shadow-md"
+                          />
+                        </div>
+                        <div className="text-center">
+                          <h2 className="text-lg font-bold text-gray-900">{user?.fullName || ''}</h2>
+                          <p className="text-sm text-gray-500">
+                            Continue Your Journey And Achieve Your Target
+                          </p>
+                        </div>
+          
+                        {subscriptionStatus ? (
+                          <div className="mt-2">
+                            <p className="text-sm text-black text-center">
+                              Your Current Plan : -{' '}
+                              <span className="text-sm text-gray-500">
+                                {currentSubscription?.subscriptionPlanId?.name}
+                              </span>
+                            </p>
+                            <p className="text-sm text-black text-center items-center justify-center flex gap-2">
+                              <span className="text-sm text-black"> Expire On : </span>
+                              <span className="text-sm text-gray-500">
+                                {currentSubscription?.endDate?.slice(0, 10)?.split('-').reverse().join('-')}
+                              </span>
+                            </p>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col items-center justify-center text-center gap-4 mt-2 mb-4">
+                            <p className="text-sm text-black">Please Subscribe to Continue</p>
+                            <button
+                              className="bg-[#3DD455] hover:bg-black text-white font-bold px-4 py-2 rounded-lg"
+                              onClick={() => setModalVisible(true)}
+                            >
+                              Subscribe
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                      {/* <div>
+                        <img
+                          src={images.userDashboardTopBanner}
+                          alt="Dashboard Banner"
+                          className="object-cover"
+                          style={{ width: '100%', height: '100%', minHeight: 30 }}
+                        />
+                      </div> */}
+                      <div className="bg-yellow-100 rounded-lg p-2.5 flex flex-col items-center gap-2">
+                        <p className="font-semibold text-[13px] text-center">
+                          ■ Limited Time Offer: 50% Off All Courses! ■
+                        </p>
+                        <p className="text-xs text-center">
+                          Boost your exam prep with half off on our top-rated courses. Hurry, offer ends soon!
+                        </p>
+                      </div>
+                      <div>
+                        <img
+                          src={TutorialVideoImage || images.userDashboardTopBanner}
+                          alt="Dashboard Banner"
+                          className="rounded-lg"
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            minHeight: '170px',
+                            // border: ' 1px solid red',
+                            cursor: 'pointer',
+                          }}
+                          onClick={updateUserBanner}
+                        />
+                        {
+                          user?.firstVideoBanner
+                            ? // <img
+                              //   src={TutorialVideoImage || images.userDashboardTopBanner}
+                              //   alt="Dashboard Banner"
+                              //   className=""
+                              //   style={{
+                              //     width: '100%',
+                              //     height: '100%',
+                              //     minHeight: '170px',
+                              //     // border: ' 1px solid red',
+                              //     cursor: 'pointer',
+                              //   }}
+                              //   onClick={updateUserBanner}
+                              // />
+                              null
+                            : null
+                          // (
+                          // <img
+                          //   src={images.userDashboardTopBanner}
+                          //   alt="Dashboard Banner"
+                          //   onClick={updateUserBanner}
+                          //   className=""
+                          //   style={{ width: '100%', height: '100%', minHeight: '170px', cursor: 'pointer' }}
+                          // />
+                          // )
+                        }
+                      </div>
+                      <div className="flex lg:flex-col flex-wrap gap-2">
+                        {isReferalButtonVisible && (
+                          <div className="flex items-center justify-between gap-2 bg-gray-100 px-3 py-2 rounded-2xl">
+                            <span className="text-sm font-medium text-gray-700">
+                              {user?.refferalCode || ''}
+                            </span>
+          
+                            <button
+                              onClick={() => {
+                                showNotification({ type: 'success', message: 'Copied to clipboard' });
+                                navigator.clipboard.writeText(user?.refferalCode);
+                              }}
+                              className="p-1 hover:bg-gray-200 rounded-md transition"
+                            >
+                              <Icon icon="solar:copy-outline" width={16} />
+                            </button>
+                          </div>
+                        )}
+          
+                        <button
+                          className="bg-[#3DD455] hover:bg-black text-white font-medium text-sm px-3 py-2 rounded-lg transition"
+                          onClick={() => {
+                            setIsReferalButtonVisible(true);
+                            showNotification({ type: 'success', message: 'Copied to clipboard' });
+                            navigator.clipboard.writeText(user?.refferalCode);
+                          }}
+                        >
+                          Referral & Earn
+                        </button>
+                        <a
+                          href="mailto:support@completeprep.com"
+                          className="inline-flex items-center justify-center bg-[#3DD455] hover:bg-black text-white font-medium text-sm px-4 py-2 rounded-lg transition-colors duration-200 hover:no-underline"
+                        >
+                          Help us improve
+                        </a>
+                        <button onClick={() => window.open("https://forms.gle/1JUQT5ZKRdhwSoqH7", '_blank')} className="bg-[#3DD455] hover:bg-black text-white font-medium text-sm px-2.5 py-2 rounded-lg">
+                          Become an Ambassador
+                        </button>
+                      </div>
+                    </div>
+          </div>
+          </>
+          }
           {/* {activeTab === 'My Exams' && (
             <div className="p-6 bg-white">
               <h2 className="mb-4 text-2xl font-bold">Your Subscription</h2>
