@@ -16,6 +16,7 @@ import Header from './Header';
 import { HomePagePrepoComponent } from './HomePagePrepoComponent';
 import { FeaturesGrid } from './FeaturesGrid';
 import { motion } from 'framer-motion';
+import { Helmet } from 'react-helmet-async';
 import img1 from '../../assets/images/updated-img-logo/1.png';
 import img2 from '../../assets/images/updated-img-logo/2.png';
 import img3 from '../../assets/images/updated-img-logo/3.png';
@@ -39,6 +40,15 @@ import img20 from '../../assets/images/updated-img-logo/20.png';
 import img21 from '../../assets/images/updated-img-logo/21.png';
 import img22 from '../../assets/images/updated-img-logo/22.png';
 import heroimg from '../../assets/new-images/Transparent.png';
+
+<Helmet>
+  <title>Semprep | Smarter Study Resources for Semester Exams</title>
+
+  <meta
+    name="description"
+    content="Study smarter with Semprep. Access trusted video lessons, notes, PYQs, practice papers, AI study help, and last-minute prep tools for Semester Exams."
+  />
+</Helmet>
 
 const courses = [
   {

@@ -2,6 +2,16 @@ import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import { motion } from 'framer-motion';
+import { Helmet } from 'react-helmet-async';
+
+<Helmet>
+  <title>Semprep Community | Learn, Discuss & Grow Together</title>
+
+  <meta
+    name="description"
+    content="Join the Semprep community to connect with students & get important updates."
+  />
+</Helmet>
 
 const CommunityPage = () => {
   return (

@@ -37,6 +37,7 @@
     "react-circular-progressbar": "^2.1.0",
     "react-dom": "^18.3.1",
     "react-form-stepper": "^2.0.3",
+    "react-helmet-async": "^3.0.0",
     "react-hook-form": "^7.59.0",
     "react-loader-spinner": "^6.1.6",
     "react-markdown": "^10.1.0",

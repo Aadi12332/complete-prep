@@ -10,6 +10,16 @@ import Header from './Header';
 import Footer from './Footer';
 import { motion } from 'framer-motion';
 import aboutimages from '../../assets/new-images/aboutimage.png';
+import { Helmet } from 'react-helmet-async';
+
+<Helmet>
+  <title>About Semprep | Built for Smarter College Learning</title>
+
+  <meta
+    name="description"
+    content="Learn how Semprep makes semester exam prep simpler and smarter."
+  />
+</Helmet>
 
 const missionPoints = [
   { icon: 'solar:book-bold', text: 'Understand concepts deeply' },
@@ -142,7 +152,7 @@ const AboutMainPage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.6 }}
-                className="text-white text-2xl lg:text-4xl font-extrabold leading-tight max-w-lg"
+                className="text-start text-4xl font-bold text-white max-w-lg"
               >
                 Making Semesters Easy
               </motion.p>
@@ -188,18 +198,18 @@ const AboutMainPage = () => {
                   <span className="inline-block bg-[#3DD45510] border border-[#3DD45550] text-[#3DD455] text-xs font-bold tracking-widest uppercase rounded-3xl px-4 py-1 mb-3">
                     About Us
                   </span>
-                  <h2 className="text-2xl lg:text-3xl font-extrabold text-gray-900 leading-snug">
+                  <h2 className="text-start text-4xl font-bold text-black">
                     Empowering Education Through Technology
                   </h2>
                 </div>
                 <div className="md:w-1/2 flex flex-col gap-3">
-                  <p className="text-gray-500 text-sm lg:text-base leading-relaxed">
+                  <p className="text-gray-500 font-normal text-[16px] leading-relaxed">
                     We are a passionate team of educators and technologists dedicated to making learning accessible, engaging, and effective for everyone.
                   </p>
-                  <p className="text-gray-500 text-sm lg:text-base leading-relaxed">
+                  <p className="text-gray-500 font-normal text-[16px] leading-relaxed">
                     Our mission is to bridge the gap between traditional education and modern technology. We believe that every learner deserves access to high-quality, interactive, and personalized educational experiences.
                   </p>
-                  <p className="text-gray-500 text-sm lg:text-base leading-relaxed">
+                  <p className="text-gray-500 font-normal text-[16px] leading-relaxed">
                     From interactive courses to adaptive learning platforms, we design tools that empower students, teachers, and institutions to achieve their full potential.
                   </p>
                 </div>
@@ -252,8 +262,8 @@ const AboutMainPage = () => {
                     <div className={`w-11 h-11 rounded-xl ${val.bgColor} flex items-center justify-center mb-3`}>
                       <Icon icon={val.icon} className={`${val.iconColor} text-xl`} />
                     </div>
-                    <h4 className="font-bold text-gray-900 text-sm mb-1">{val.title}</h4>
-                    <p className="text-gray-500 text-xs leading-relaxed">{val.desc}</p>
+                    <h4 className="font-bold text-gray-900 text-xl mb-1">{val.title}</h4>
+                    <p className="text-gray-500 text-base leading-relaxed">{val.desc}</p>
                   </motion.div>
                 ))}
               </div>
@@ -289,7 +299,7 @@ const AboutMainPage = () => {
                     <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#3DD455] to-[#22c55e] flex items-center justify-center shrink-0">
                       <Icon icon={pt.icon} className="text-white text-xl" />
                     </div>
-                    <span className="font-semibold text-gray-800 text-sm">{pt.text}</span>
+                    <span className=" text-gray-800 text-[16px]">{pt.text}</span>
                   </motion.div>
                 ))}
               </div>
@@ -326,12 +336,12 @@ const AboutMainPage = () => {
                     <div className={`w-12 h-12 rounded-xl ${card.bgColor} flex items-center justify-center mb-4`}>
                       <Icon icon={card.icon} className={`${card.iconColor} text-2xl`} />
                     </div>
-                    <h4 className="font-bold text-gray-900 text-sm lg:text-base mb-2">{card.title}</h4>
-                    <p className="text-gray-500 text-sm leading-relaxed">{card.desc}</p>
+                    <h4 className="font-bold text-gray-900 text-[16px] lg:text-xl mb-2">{card.title}</h4>
+                    <p className="text-gray-500 text-[16px] leading-relaxed">{card.desc}</p>
                     {card.tools && (
                       <ul className="mt-3 space-y-1.5">
                         {card.tools.map((t, j) => (
-                          <li key={j} className="flex items-center gap-2 text-gray-500 text-xs">
+                          <li key={j} className="flex items-center gap-2 text-gray-500 text-[16px]">
                             <Icon icon="solar:check-circle-bold" className="text-emerald-500 text-base shrink-0" />
                             {t}
                           </li>
@@ -366,7 +376,7 @@ const AboutMainPage = () => {
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.4, delay: i * 0.07 }}
-                      className="flex items-center gap-3 bg-red-50 border border-red-100 rounded-xl px-4 py-2.5 text-red-700 text-sm font-medium"
+                      className="flex items-center gap-3 bg-red-50 border border-red-100 rounded-xl px-4 py-2.5 text-red-700 text-[16px]"
                     >
                       <Icon icon="solar:close-circle-bold" className="text-base shrink-0" />
                       {p}
@@ -390,7 +400,7 @@ const AboutMainPage = () => {
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.4, delay: i * 0.07 }}
-                      className="flex items-center gap-3 bg-white/10 rounded-xl px-4 py-2.5 text-sm font-medium"
+                      className="flex items-center gap-3 bg-white/10 rounded-xl px-4 py-2.5 text-[16px]"
                     >
                       <Icon icon="solar:check-circle-bold" className="text-emerald-400 text-base shrink-0" />
                       {s}
@@ -472,7 +482,7 @@ const AboutMainPage = () => {
                     className="flex items-center gap-3 bg-[#3DD45510] border border-[#3DD45530] rounded-xl px-4 py-3"
                   >
                     <Icon icon={card.icon} className="text-[#3DD455] text-xl shrink-0" />
-                    <span className="text-gray-800 font-semibold text-sm">{card.text}</span>
+                    <span className="text-gray-800 text-[16px]">{card.text}</span>
                   </motion.div>
                 ))}
               </div>

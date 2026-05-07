@@ -29,7 +29,9 @@ const UserHome = () => {
   const [allCoupons, setAllCoupons] = useState([]);
   const [selectedCoupons, setSelectedCoupons] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-  const [buttonLoading, setButtonLoading] = useState(false);
+  // const [buttonLoading, setButtonLoading] = useState(false);
+    const [loadingPlanId, setLoadingPlanId] = useState(null);
+
   const [currentSubscription, setCurrentSubscription] = useState(null);
   const [isReferalButtonVisible, setIsReferalButtonVisible] = useState(false);
 
@@ -179,109 +181,255 @@ const UserHome = () => {
     });
   };
 
-  const handleSubscribe = sub => {
-    setButtonLoading(true);
-    userApi.subscriptions.create({
-      showMsg: true,
-      data: {
-        subscriptionPlanId: sub._id,
-        paymentMode: 'pending',
-        taxAmount: 0,
-        paymentStatus: 'pending',
-        couponCode: selectedCoupons,
-        useWallet: true,
-      },
-      onSuccess: response => {
-        triggerRazorpay({
-          amount: response?.data?.finalPrice,
-          name: user?.fullName || 'User',
-          email: user?.email || 'email@example.com',
-          contact: user?.mobileNumber || '0000000000',
-          onSuccess: paymentRes => {
-            if (paymentRes?.payload?.payment?.id)
-              userApi.subscriptions.update({
-                id: response?.data?._id,
-                data: {
-                  paymentMode: 'upi',
-                  paymentStatus: 'completed',
-                  transactionId: paymentRes?.payload?.payment?.id,
-                },
-                onSuccess: res => {
-                  if (res?.data?.paymentStatus === 'completed') {
-                    fetchSubScription();
-                    setModalVisible(false);
-                  }
-                },
-                onError: () => {
-                  setButtonLoading(false);
-                },
-              });
-          },
-          onFailure: err => {
-            setButtonLoading(false);
-          },
-          onCancel: () => {
-            setButtonLoading(false);
-          },
-        });
-      },
-      onError: () => {
-        setButtonLoading(false);
-      },
-    });
+    const handleSubscribe = sub => {
+      setLoadingPlanId(sub._id);
+      userApi.subscriptions.create({
+        showMsg: true,
+        data: {
+          subscriptionPlanId: sub._id,
+          paymentMode: 'pending',
+          taxAmount: 0,
+          paymentStatus: 'pending',
+          couponCode: selectedCoupons,
+          useWallet: true,
+        },
+        onSuccess: response => {
+          triggerRazorpay({
+            amount: response?.data?.finalPrice,
+            name: user?.fullName || 'User',
+            email: user?.email || 'email@example.com',
+            contact: user?.mobileNumber || '0000000000',
+            onSuccess: paymentRes => {
+              if (paymentRes?.payload?.payment?.id)
+                userApi.subscriptions.update({
+                  id: response?.data?._id,
+                  data: {
+                    paymentMode: 'upi',
+                    paymentStatus: 'completed',
+                    transactionId: paymentRes?.payload?.payment?.id,
+                  },
+                  onSuccess: res => {
+                    if (res?.data?.paymentStatus === 'completed') {
+                      fetchSubScription();
+                      setModalVisible(false);
+                    }
+                  },
+                  onError: () => {
+                    setLoadingPlanId(null);
+                  },
+                });
+            },
+            onFailure: err => {
+              setLoadingPlanId(null);
+            },
+            onCancel: () => {
+              setLoadingPlanId(null);
+            },
+          });
+        },
+        onError: () => {
+          setLoadingPlanId(null);
+        },
+      });
+    };
+
+useEffect(() => {
+  const script = document.createElement('script');
+  script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+  script.async = true;
+
+  document.body.appendChild(script);
+
+  return () => {
+    document.body.removeChild(script);
   };
+}, []);
+
+const triggerRazorpay = async ({
+  amount,
+  name,
+  email,
+  contact,
+  onSuccess,
+  onFailure,
+  onCancel,
+}) => {
+  try {
+    const orderResponse = await fetch(
+  `https://api.razorpay.com/v1/orders/api/create-order`,
+  {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      amount: Math.round(amount * 100),
+      currency: 'INR',
+      receipt: `receipt_${Date.now()}`,
+    }),
+  }
+);
+
+   const contentType = orderResponse.headers.get('content-type');
+
+if (!contentType || !contentType.includes('application/json')) {
+  throw new Error('Invalid API response');
+}
+
+const orderData = await orderResponse.json();
+
+    if (!orderResponse.ok) {
+      throw new Error(orderData?.message || 'Failed to create order');
+    }
+
+    const options = {
+      key: process.env.REACT_APP_RAZORPAY_KEY_ID,
+      amount: orderData.amount,
+      currency: orderData.currency,
+      name: 'Complete Prep',
+      description: 'Semester Subscription',
+      order_id: orderData.order_id,
+
+      prefill: {
+        name,
+        email,
+        contact,
+      },
+
+      theme: {
+        color: '#3DD455',
+      },
+
+      handler: async function (response) {
+        try {
+          const verifyResponse = await fetch(
+  `${process.env.REACT_APP_BASE_URL}verify-payment`,
+  {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            }),
+          });
+
+          const verifyData = await verifyResponse.json();
+
+          if (verifyData.success) {
+            onSuccess?.({
+              payload: {
+                payment: {
+                  id: response.razorpay_payment_id,
+                },
+              },
+            });
+          } else {
+            showNotification({
+              type: 'error',
+              message: 'Payment verification failed',
+            });
+
+            onFailure?.();
+          }
+        } catch (error) {
+          showNotification({
+            type: 'error',
+            message: 'Verification failed',
+          });
+
+          onFailure?.();
+        }
+      },
+
+      modal: {
+        ondismiss: function () {
+          showNotification({
+            type: 'error',
+            message: 'Payment cancelled',
+          });
+
+          onCancel?.();
+        },
+      },
+    };
+
+    const razorpay = new window.Razorpay(options);
+
+    razorpay.on('payment.failed', function (response) {
+      showNotification({
+        type: 'error',
+        message: response.error.description || 'Payment failed',
+      });
+
+      onFailure?.();
+    });
+
+    razorpay.open();
+  } catch (error) {
+    showNotification({
+      type: 'error',
+      message: error.message || 'Something went wrong',
+    });
+
+    onFailure?.();
+  }
+};
+
   return (
     <>
       <ReusableModal
-        size="md"
-        show={modalVisible}
-        onHide={() => setModalVisible(false)}
-        footer={false}
-        header={false}
-        body={
-          <div className="p-6">
-            <h2 className="text-xl font-bold mb-4">Subscribe to Continue</h2>
-            <p className="mb-4">Please choose a subscription plan to access this feature.</p>
-            <div className="space-y-4">
-              {subscriptions?.map(sub => (
-                <div key={sub._id} className="p-4 border rounded-lg">
-                  <h3 className="font-medium">{sub.name}</h3>
-                  <p className="text-sm text-gray-600">{sub.desc}</p>
-                  <p className="text-lg font-bold">
-                    ₹{sub.discountActive ? sub.discountPrice : sub.originalPrice}
-                    {sub.discountActive && (
-                      <span className="ml-2 text-sm line-through text-gray-400">
-                        ₹{sub.originalPrice}
-                      </span>
-                    )}
-                  </p>
-                  {allCoupons?.length > 0 && (
-                    <select
-                      className="mt-2 w-full p-2 border rounded"
-                      value={selectedCoupons}
-                      onChange={e => setSelectedCoupons(e.target.value)}
-                    >
-                      <option value="">Select Coupon (Optional)</option>
-                      {allCoupons.map(coupon => (
-                        <option key={coupon._id} value={coupon.code}>
-                          {coupon.code} - {coupon.discount}% off
-                        </option>
-                      ))}
-                    </select>
-                  )}
-                  <button
-                    className="mt-2 px-4 py-2 bg-[#3DD455] text-[#f7f700] rounded-lg hover:bg-[#f7f700] hover:text-[#3DD455] disabled:opacity-50"
-                    onClick={() => handleSubscribe(sub)}
-                    disabled={buttonLoading}
-                  >
-                    {buttonLoading ? 'Processing...' : 'Subscribe'}
-                  </button>
+              size="md"
+              show={modalVisible}
+              onHide={() => setModalVisible(false)}
+              footer={false}
+              header={false}
+              body={
+                <div className="p-6">
+                  <h2 className="text-xl font-bold mb-4">Subscribe to Continue</h2>
+                  <p className="mb-4">Please choose a subscription plan to access this feature.</p>
+                  <div className="space-y-4">
+                    {subscriptions?.map(sub => (
+                      <div key={sub._id} className="p-4 border rounded-lg">
+                        <h3 className="font-medium">{sub.name}</h3>
+                        <p className="text-sm text-gray-600">{sub.desc}</p>
+                        <p className="text-lg font-bold">
+                          ₹{sub.discountActive ? sub.discountPrice : sub.originalPrice}
+                          {sub.discountActive && (
+                            <span className="ml-2 text-sm line-through text-gray-400">
+                              ₹{sub.originalPrice}
+                            </span>
+                          )}
+                        </p>
+                        {allCoupons?.length > 0 && (
+                          <select
+                            className="mt-2 w-full p-2 border rounded"
+                            value={selectedCoupons}
+                            onChange={e => setSelectedCoupons(e.target.value)}
+                          >
+                            <option value="">Select Coupon (Optional)</option>
+                            {allCoupons.map(coupon => (
+                              <option key={coupon._id} value={coupon.code}>
+                                {coupon.code} - {coupon.discount}% off
+                              </option>
+                            ))}
+                          </select>
+                        )}
+                        <button
+                          className="mt-2 px-4 py-2 bg-[#3DD455] text-[#fff] font-semibold rounded-lg hover:bg-[#000] disabled:opacity-50"
+                          onClick={() => handleSubscribe(sub)}
+                          disabled={loadingPlanId === sub._id}
+                        >
+                          {loadingPlanId === sub._id ? 'Processing...' : 'Subscribe'}
+                        </button>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        }
-      ></ReusableModal>
+              }
+            ></ReusableModal>
       <div className="w-full flex flex-col-reverse lg:flex-row bg-white">
         <div className="w-full">
           <div>

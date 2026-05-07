@@ -10,6 +10,16 @@ import { AuthContext } from '../../Context/AuthContext';
 import Header from './Header';
 import Footer from './Footer';
 import { motion } from 'framer-motion';
+import { Helmet } from 'react-helmet-async';
+
+<Helmet>
+  <title>Semprep Pricing | Affordable Study Plans for Students</title>
+
+  <meta
+    name="description"
+    content="Choose a Semprep plan that fits your preparation needs."
+  />
+</Helmet>
 const courseData = {
   CBSE: {
     'CBSE CLASS 12': [

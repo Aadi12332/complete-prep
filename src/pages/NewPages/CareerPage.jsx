@@ -3,6 +3,16 @@ import Header from './Header';
 import Footer from './Footer';
 import { motion } from 'framer-motion';
 import { TrendingUp, Laptop, Target, Icon } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
+
+<Helmet>
+  <title>Careers at Semprep | Build the Future of Learning</title>
+
+  <meta
+    name="description"
+    content="Join Semprep and help build smarter learning for every student."
+  />
+</Helmet>
 
 const stats = [
   {
