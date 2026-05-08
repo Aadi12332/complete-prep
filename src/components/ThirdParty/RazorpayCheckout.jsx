@@ -52,7 +52,7 @@ export const triggerRazorpay = async ({
     key,
     amount: amount * 100,
     currency: 'INR',
-    name: 'CompletePrep',
+    name: 'semprep',
     description: 'Cart Payment',
     order_id,
     handler: function (response) {

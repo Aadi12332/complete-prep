@@ -617,7 +617,7 @@ const triggerRazorpay = async ({
                           Referral & Earn
                         </button>
                       <a
-  href="https://mail.google.com/mail/?view=cm&fs=1&to=support@completeprep.com"
+  href="https://mail.google.com/mail/?view=cm&fs=1&to=support@semprep.com"
   target="_blank"
   rel="noopener noreferrer"
   className="inline-flex items-center justify-center bg-[#3DD455] hover:bg-black text-white font-medium text-sm px-4 py-2 rounded-lg transition-colors duration-200 hover:no-underline"

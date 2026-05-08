@@ -502,8 +502,8 @@ const HomePage = () => {
                 <h2 className="text-3xl font-bold">Frequently Asked Questions</h2>
                 <p className="text-gray-600">
                   Still have any questions? Contact our Team via <br />
-                  <a href="mailto:support@completeprep.com" className="text-blue-600 underline">
-                    support@completeprep.com
+                  <a href="mailto:support@semprep.com" className="text-blue-600 underline">
+                    support@semprep.com
                   </a>
                 </p>
               </div>

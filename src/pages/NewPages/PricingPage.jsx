@@ -979,10 +979,10 @@ const PricingPage = () => {
                           <p className="text-gray-600">
                             Still have any questions? Contact our Team via <br />
                             <a
-                              href="mailto:support@completeprep.com"
+                              href="mailto:support@semprep.com"
                               className="text-blue-600 underline"
                             >
-                              support@completeprep.com
+                              support@semprep.com
                             </a>
                           </p>
                         </div>
