@@ -384,7 +384,7 @@ const handleSubmit = async () => {
               </button> */}
               <button
                 onClick={() => setModalVisible(true)}
-                className="px-3 py-2 font-bold text-black bg-transparent border border-black rounded-lg hover:!bg-[#3DD455] hover:text-white"
+                className="px-3 py-2 font-bold text-black bg-transparent border border-black hover:!border-[#3DD455] rounded-lg hover:!bg-[#3DD455] hover:!text-white"
               >
                 Register
               </button>
