@@ -59,7 +59,7 @@ const ProfileTab = () => {
     }
   }, [watchedImage]);
 
-  const onSubmit = async data => {
+const onSubmit = async data => {
     try {
       setLoading(true);
 

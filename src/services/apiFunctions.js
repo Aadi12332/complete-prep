@@ -246,7 +246,7 @@ export const userApi = {
   settingPage: {
     getUser: createApiRequest('GET', endpoints.user.settingPage.getUser),
     updateProfile: createApiRequest('PUT', endpoints.user.settingPage.updateProfile),
-    updateProfileImage: createApiRequest('PUT', endpoints.user.settingPage.updateProfileImage),
+    updateProfileImage: createApiRequest('PUT', endpoints.user.settingPage.updateProfilePicture),
     getPurchasedCourses: createApiRequest('GET', endpoints.user.settingPage.getPurchasedCourses),
     getTimeLine: createApiRequest('GET', endpoints.user.settingPage.getTimeLine),
   },

@@ -281,27 +281,21 @@ const triggerRazorpay = async ({
 }) => {
   try {
     const orderResponse = await fetch(
-  `${process.env.REACT_APP_BASE_URL}create-order`,
-  {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      amount: Math.round(amount * 100),
-      currency: 'INR',
-      receipt: `receipt_${Date.now()}`,
-    }),
-  }
-);
+      `https://complete-prep-project-main.vercel.app/api/create-order`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: Math.max(100, Math.round(amount * 100)),
+          currency: 'INR',
+          receipt: `receipt_${Date.now()}`,
+        }),
+      }
+    );
 
-    const contentType = orderResponse.headers.get('content-type');
-
-if (!contentType || !contentType.includes('application/json')) {
-  throw new Error('Invalid API response');
-}
-
-const orderData = await orderResponse.json();
+    const orderData = await orderResponse.json();
 
     if (!orderResponse.ok) {
       throw new Error(orderData?.message || 'Failed to create order');
@@ -309,11 +303,12 @@ const orderData = await orderResponse.json();
 
     const options = {
       key: process.env.REACT_APP_RAZORPAY_KEY_ID,
-      amount: orderData.amount,
-      currency: orderData.currency,
+      amount: orderData?.data?.amount,
+      currency: orderData?.data?.currency,
+      order_id: orderData?.data?.order_id,
+
       name: 'Complete Prep',
       description: 'Semester Subscription',
-      order_id: orderData.order_id,
 
       prefill: {
         name,
@@ -328,22 +323,23 @@ const orderData = await orderResponse.json();
       handler: async function (response) {
         try {
           const verifyResponse = await fetch(
-  `${process.env.REACT_APP_BASE_URL}verify-payment`,
-  {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_signature: response.razorpay_signature,
-            }),
-          });
+            `https://complete-prep-project-main.vercel.app/api/verify-payment`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature,
+              }),
+            }
+          );
 
           const verifyData = await verifyResponse.json();
 
-          if (verifyData.success) {
+          if (verifyData?.success) {
             onSuccess?.({
               payload: {
                 payment: {
@@ -351,21 +347,21 @@ const orderData = await orderResponse.json();
                 },
               },
             });
-          } else {
-            showNotification({
-              type: 'error',
-              message: 'Payment verification failed',
-            });
 
-            onFailure?.();
+            showNotification({
+              type: 'success',
+              message: 'Payment successful',
+            });
+          } else {
+            throw new Error('Payment verification failed');
           }
         } catch (error) {
           showNotification({
             type: 'error',
-            message: 'Verification failed',
+            message: error?.message || 'Verification failed',
           });
 
-          onFailure?.();
+          onFailure?.(error);
         }
       },
 
@@ -386,20 +382,21 @@ const orderData = await orderResponse.json();
     razorpay.on('payment.failed', function (response) {
       showNotification({
         type: 'error',
-        message: response.error.description || 'Payment failed',
+        message:
+          response?.error?.description || 'Payment failed',
       });
 
-      onFailure?.();
+      onFailure?.(response);
     });
 
     razorpay.open();
   } catch (error) {
     showNotification({
       type: 'error',
-      message: error.message || 'Something went wrong',
+      message: error?.message || 'Something went wrong',
     });
 
-    onFailure?.();
+    onFailure?.(error);
   }
 };
 
@@ -495,7 +492,7 @@ const orderData = await orderResponse.json();
                           <img
                             src={user?.image || images.newHandwrittenNotesImage1}
                             alt="User Profile"
-                            className="w-[100px] h-[100px] rounded-full object-cover shadow-md"
+                            className="w-[100px] h-[100px] rounded-full object-cover"
                           />
                         </div>
                         <div className="text-center">
@@ -619,12 +616,14 @@ const orderData = await orderResponse.json();
                         >
                           Referral & Earn
                         </button>
-                        <a
-                          href="mailto:support@completeprep.com"
-                          className="inline-flex items-center justify-center bg-[#3DD455] hover:bg-black text-white font-medium text-sm px-4 py-2 rounded-lg transition-colors duration-200 hover:no-underline"
-                        >
-                          Help us improve
-                        </a>
+                      <a
+  href="https://mail.google.com/mail/?view=cm&fs=1&to=support@completeprep.com"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="inline-flex items-center justify-center bg-[#3DD455] hover:bg-black text-white font-medium text-sm px-4 py-2 rounded-lg transition-colors duration-200 hover:no-underline"
+>
+  Help us improve
+</a>
                         <button onClick={() => window.open("https://forms.gle/1JUQT5ZKRdhwSoqH7", '_blank')} className="bg-[#3DD455] hover:bg-black text-white font-medium text-sm px-2.5 py-2 rounded-lg">
                           Become an Ambassador
                         </button>

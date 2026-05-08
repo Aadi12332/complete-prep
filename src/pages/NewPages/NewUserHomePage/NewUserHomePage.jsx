@@ -388,7 +388,7 @@ const NewUserHomePage = () => {
               <img
                 src={images.newHandwrittenNotesImage1}
                 alt="Note Thumbnail"
-                className="w-[100px] h-[100px] rounded-full object-cover shadow-md"
+                className="w-[100px] h-[100px] rounded-full object-cover"
               />
             </div>
 
