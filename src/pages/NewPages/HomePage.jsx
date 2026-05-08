@@ -46,7 +46,7 @@ import heroimg from '../../assets/new-images/Transparent.png';
 
   <meta
     name="description"
-    content="Study smarter with Semprep. Access trusted video lessons, notes, PYQs, practice papers, AI study help, and last-minute prep tools for Semester Exams."
+    content="Semprep is a one stop solution for all the higher education students to prepare for their semester exams."
   />
 </Helmet>
 
@@ -399,7 +399,7 @@ const HomePage = () => {
               </h1>
 
               <p className="text-sm md:text-base text-white lg:text-start py-3 max-w-[400px]">
-                Everything you need to learn, Practice and achieve more in your college journey.
+                Semprep is a one stop solution for all the higher education students to prepare for their semester exams.
               </p>
 
               <button

@@ -2,7 +2,16 @@ import React, { useState } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import { motion } from 'framer-motion';
+import { Helmet } from 'react-helmet-async';
 
+<Helmet>
+  <title>Contact Page | Get In Touch</title>
+
+  <meta
+    name="description"
+    content="Study smarter with Semprep. Access trusted video lessons, notes, PYQs, practice papers, AI study help, and last-minute prep tools for Semester Exams."
+  />
+</Helmet>
 const ContactPage = () => {
   const [form, setForm] = useState({
     name: '',
