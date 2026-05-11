@@ -1,5 +1,7 @@
 import { Icon } from '@iconify/react/dist/iconify.js';
-import { useEffect, useState } from 'react';
+import { useEffect, useState,useContext } from 'react';
+import { AuthContext } from '../../../Context/AuthContext';
+
 import { Form } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
@@ -1107,14 +1109,16 @@ export const QuestionForm2 = ({
   );
 };
 
-export const ProfileEditFormMain = ({ closeModal, nextPage, setUser }) => {
+export const ProfileEditFormMain = ({ closeModal, nextPage, setUser,seletedStep }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const { user } = useContext(AuthContext);
+
   const [showPassword, setShowPassword] = useState(false);
-  const [step, setStep] = useState('login');
+  const [step, setStep] = useState(seletedStep||'login');
   const [loginMethod, setLoginMethod] = useState('phone');
   const [isLoading, setIsLoading] = useState(false);
   const [otpSentTo, setOtpSentTo] = useState(null);
@@ -1155,7 +1159,44 @@ export const ProfileEditFormMain = ({ closeModal, nextPage, setUser }) => {
             },
           });
         }
+        const universityId=sessionStorage.getItem("universityId");
+        const semesterId=sessionStorage.getItem("semesterId");
+        const courseId=sessionStorage.getItem("courseId");
+        if(savedToken){
+if(courseId&&semesterId&&universityId){
+  
+   userApi.profile.update({
+      data: {
+        goalCategory: universityId,
+        goal: courseId,
+        semester: semesterId,
+        firstHearAboutUs: true,
+      },
+      onSuccess: () => {
+        if (user?.firstHearAboutUs) {
+          navigate('/user/home');
+        } else {
+          navigate('/choose/hear-about-us');
+        }
+        sessionStorage.removeItem("universityId");
+        sessionStorage.removeItem("semesterId");
+        sessionStorage.removeItem("courseId");
+
+      },
+      onError: (e) => {
+        console.log(e)
+        navigate(-1);
+      },
+     
+    });
+        }else{
+          navigate('/choose-curriculum', { state: { nextPage } })
+        }
+        }
+        
+
         {
+
           savedToken && navigate('/choose-curriculum', { state: { nextPage } });
         }
       },
@@ -1203,7 +1244,7 @@ export const ProfileEditFormMain = ({ closeModal, nextPage, setUser }) => {
 
         {step === 'login' && (
           <>
-            <h2 className="text-2xl font-semibold text-center text-green-600 mb-3">Log in</h2>
+            <h2 className="text-2xl font-semibold text-center text-[#3DD455] mb-3">Log in</h2>
 
             <form className="space-y-4" onSubmit={handleSubmit(onSubmitLogin)}>
               <div>
@@ -1279,7 +1320,7 @@ export const ProfileEditFormMain = ({ closeModal, nextPage, setUser }) => {
 
         {step === 'register' && (
           <>
-            <h2 className="text-2xl font-semibold text-center text-green-600">Register</h2>
+            <h2 className="text-2xl font-semibold text-center text-[#3DD455]">Register</h2>
             <p className="text-sm text-center mb-3">
               Already have an account?{' '}
               <button onClick={() => setStep('login')} className="text-blue-500 underline">

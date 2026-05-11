@@ -18,9 +18,10 @@ const SemesterExamPage3 = () => {
   }, [universityId, courseId]);
 
   const fetchSemesters = async () => {
+    setLoading(true);
     userApi.semesterExam?.getAll
       ? userApi.semesterExam.getAll({
-          params: { university: universityId, universityCourse: courseId },
+          params: { goalCategory: universityId, goal: courseId },
           onSuccess: data => {
             setSemesters(data?.data || data || []);
             setLoading(false);

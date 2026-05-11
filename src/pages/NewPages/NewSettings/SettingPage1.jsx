@@ -400,6 +400,16 @@ const triggerRazorpay = async ({
   }
 };
 
+const getInitials = (name = "") => {
+  return name
+    .split(" ")
+    .filter(Boolean)
+    .map(word => word[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+};
+
   return (
     <div className="">
        <ReusableModal
@@ -489,18 +499,27 @@ const triggerRazorpay = async ({
                           />
                         </p>
                         <div className="flex flex-col items-center justify-center text-center gap-4 mt-4 mb-4">
-                          <img
-                            src={user?.image || images.newHandwrittenNotesImage1}
-                            alt="User Profile"
-                            className="w-[100px] h-[100px] rounded-full object-cover"
-                          />
-                        </div>
-                        <div className="text-center">
-                          <h2 className="text-lg font-bold text-gray-900">{user?.fullName || ''}</h2>
-                          <p className="text-sm text-gray-500">
-                            Continue Your Journey And Achieve Your Target
-                          </p>
-                        </div>
+  {user?.image ? (
+    <img
+      src={user.image}
+      alt="User Profile"
+      className="w-[100px] h-[100px] rounded-full object-cover"
+    />
+  ) : (
+    <div className="w-[100px] h-[100px] rounded-full bg-gray-200 flex items-center justify-center text-2xl font-semibold text-gray-700">
+      {getInitials(user?.fullName)}
+    </div>
+  )}
+</div>
+
+<div className="text-center">
+  <h2 className="text-lg font-bold text-gray-900 capitalize">
+    {user?.fullName || ""}
+  </h2>
+  <p className="text-sm text-gray-500">
+    Continue Your Journey And Achieve Your Target
+  </p>
+</div>
           
                         {subscriptionStatus ? (
                           <div className="mt-2">

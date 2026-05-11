@@ -124,7 +124,7 @@ const SelectHearAboutUs = () => {
                 <input
                   type="radio"
                   name={groupName}
-                  className="w-5 h-5 text-lime-500 border-gray-300 focus:ring-2 focus:ring-lime-500"
+                  className="w-5 h-5 min-w-5 accent-black"
                   checked={selectedSource === opt.id}
                   onChange={() => setSelectedSource(opt.id)}
                   aria-label={opt.label}
@@ -144,19 +144,15 @@ const SelectHearAboutUs = () => {
             <button
               onClick={handleNext}
               disabled={!selectedSource || isSaving}
-              className={`px-4 py-2 rounded-3xl transition ${
+              className={`px-4 py-2 rounded-lg transition ${
                 !selectedSource || isSaving
                   ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                  : 'text-[#f7f700] bg-[#3DD455] hover:bg-[#f7f700] hover:text-[#3DD455]'
+                  : 'text-[#fff] bg-[#3DD455] hover:bg-[#000] hover:text-[#fff]'
               }`}
             >
               {isSaving ? 'Saving...' : 'Next'}
             </button>
           </div>
-
-          {selectedLabel ? (
-            <p className="text-xs text-gray-500 mt-4">Selected: {selectedLabel}</p>
-          ) : null}
         </div>
       </div>
     </div>

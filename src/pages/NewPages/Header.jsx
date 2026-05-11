@@ -27,7 +27,6 @@ const Header = () => {
     email: '',
     phone: '',
   });
-
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -37,6 +36,13 @@ const Header = () => {
   const [selectedGoalCategory, setSelectedGoalCategory] = useState('');
   const [mainUniversities, setMainUniversities] = useState([]);
   const [popularCourses, setPopularCourses] = useState([]);
+  const [goalSemesters, setGoalSemesters] = useState({});
+  const [semesterLoading, setSemesterLoading] = useState(false);
+  const [semesterError, setSemesterError] = useState('');
+  const [goalLoading, setGoalLoading] = useState(false);
+  const [goalError, setGoalError] = useState('');
+  const [mainUniversitiesLoading, setMainUniversitiesLoading] = useState(false);
+  const [selectedSemester, setSelectedSemester] = useState('');
   const isActive = path => location.pathname === path;
 
   const resetForm = () => {
@@ -87,8 +93,16 @@ const Header = () => {
   };
 
   const fetchUniversities = async () => {
+    setMainUniversitiesLoading(true);
     userApi.university.getAll({
-      onSuccess: data => setMainUniversities(data?.data || []),
+      onSuccess: data => {
+        setMainUniversities(data?.data || []);
+        setMainUniversitiesLoading(false);
+      },
+      onError: () => {
+        setMainUniversities([]);
+        setMainUniversitiesLoading(false);
+      },
     });
   };
 
@@ -99,13 +113,69 @@ const Header = () => {
   };
 
   const fetchGoal = async () => {
-    userApi.universityCourse.getAll({
-      params: { universityId: selectedGoalCategory },
-      onSuccess: data => setGoal(data || []),
+    if (!selectedGoalCategory) return;
+    setGoalLoading(true);
+    setGoalError('');
+    userApi.universityCourse.getByUniversity({
+      id: selectedGoalCategory,
+      onSuccess: data => {
+        setGoal(data?.data || []);
+        setGoalLoading(false);
+      },
+      onError: error => {
+        console.error('Error fetching goals:', error);
+        setGoal([]);
+        setGoalError('Failed to load courses.');
+        setGoalLoading(false);
+      },
     });
   };
+
+  const fetchSemestersForGoal = async goalId => {
+    if (!selectedGoalCategory || !goalId) return;
+    setSemesterLoading(true);
+    setSemesterError('');
+    await userApi.semesterExam.getAll({
+      params: { goalCategory: selectedGoalCategory, goal: goalId },
+      onSuccess: data => {
+        setGoalSemesters(prev => ({
+          ...prev,
+          [goalId]: data?.data || [],
+        }));
+      },
+      onError: error => {
+        console.error('Error fetching semesters for goal:', error);
+        setGoalSemesters(prev => ({ ...prev, [goalId]: [] }));
+        setSemesterError('Failed to load semesters.');
+      },
+      setIsLoading: setSemesterLoading,
+    });
+  };
+
+  const handleGoalClick = item => {
+    const id = item?._id;
+    setSelectedGoal(id);
+     sessionStorage.setItem('courseId', id);
+
+    setNextPage(`/semester-exam/${selectedGoalCategory}/${id}`);
+    if (!goalSemesters[id]) {
+      fetchSemestersForGoal(id);
+    }
+    // setModalVisible(true);
+  };
+
   useEffect(() => {
-    if (selectedGoalCategory) fetchGoal();
+    setSelectedGoal('');
+    setSelectedSemester('');
+    setGoalSemesters({});
+    setSemesterError('');
+    setGoalError('');
+    setGoalLoading(false);
+    if (!selectedGoalCategory) {
+      setGoal([]);
+      return;
+    }
+    fetchGoal();
   }, [selectedGoalCategory]);
 
   useEffect(() => {
@@ -193,52 +263,81 @@ const Header = () => {
     return err;
   };
 
-const SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbyGMR_aGVtbSJboL8bvPBbqgsWntjceQ2v4OnsA5M9-KvcKyxw3kRfGR3b0iQ0sE2MW6Q/exec";
+  const SCRIPT_URL =
+    'https://script.google.com/macros/s/AKfycbyGMR_aGVtbSJboL8bvPBbqgsWntjceQ2v4OnsA5M9-KvcKyxw3kRfGR3b0iQ0sE2MW6Q/exec';
 
-const handleSubmit = async () => {
-  const err = validate();
+  const handleSubmit = async () => {
+    const err = validate();
 
-  if (Object.keys(err).length > 0) {
-    setErrors(err);
-    return;
-  }
-
-  const payload = {
-    name: form.name,
-    university: form.university,
-    courses: form.courses,
-    email: form.email,
-    phone: form.phone,
-  };
-
-  try {
-    setLoading(true);
-    setErrors({});
-
-    const res = await fetch(SCRIPT_URL, {
-      method: "POST",
-      body: JSON.stringify(payload),
-    });
-
-    const data = await res.json();
-
-    if (data.status === "success") {
-      setSuccess(true);
-      resetForm();
-      setModalJoinVisible(false);
-      setTimeout(() => setSuccess(false), 3000);
-    } else {
-      setErrors({ submit: "Submission failed. Try again." });
+    if (Object.keys(err).length > 0) {
+      setErrors(err);
+      return;
     }
-  } catch (e) {
-    console.error("Error submitting form:", e);
-    setErrors({ submit: "An error occurred. Please try again." });
-  } finally {
-    setLoading(false);
-  }
-};
 
+    const payload = {
+      name: form.name,
+      university: form.university,
+      courses: form.courses,
+      email: form.email,
+      phone: form.phone,
+    };
+
+    try {
+      setLoading(true);
+      setErrors({});
+
+      const res = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+
+      if (data.status === 'success') {
+        setSuccess(true);
+        resetForm();
+        setModalJoinVisible(false);
+        setTimeout(() => setSuccess(false), 3000);
+      } else {
+        setErrors({ submit: 'Submission failed. Try again.' });
+      }
+    } catch (e) {
+      console.error('Error submitting form:', e);
+      setErrors({ submit: 'An error occurred. Please try again.' });
+    } finally {
+      setLoading(false);
+    }
+  };
+const handleDirect = (semesterId) => {
+  console.log({selectedGoal,selectedGoalCategory,selectedSemester})
+    // if (!subscriptionStatus) {
+    //   setModalVisible(true);
+    //   return;
+    // }
+    userApi.profile.update({
+      data: {
+        goalCategory: selectedGoal,
+        goal: selectedGoalCategory,
+        semester: semesterId??selectedSemester,
+        firstHearAboutUs: true,
+      },
+      onSuccess: () => {
+        if (user?.firstHearAboutUs) {
+          navigate('/user/home');
+        } else {
+          navigate('/choose/hear-about-us');
+        }
+      },
+      onError: () => {
+        navigate(-1);
+      },
+      setIsLoading: v => {
+        if (!mounted.current) return;
+        setIsLoading(v);
+      },
+    });
+  };
+const [step,setStep]=useState("login")
   return (
     <>
       <ReusableModal
@@ -248,6 +347,8 @@ const handleSubmit = async () => {
             nextPage={nextPage}
             closeModal={() => setModalVisible(false)}
             setUser={setUser}
+            seletedStep={step}
+
           />
         }
         show={modalVisible}
@@ -330,67 +431,121 @@ const handleSubmit = async () => {
               {currentState === 0 && (
                 <div className="absolute top-[110%] left-0 bg-white text-black rounded-xl border w-full md:w-[491px] p-2 z-50">
                   <div className="flex flex-wrap gap-2 pb-2 border-b md:gap-3">
-                    {mainUniversities?.map(cat => (
-                      <button
-                        key={cat?._id}
-                        onClick={() => setSelectedGoalCategory(cat?._id)}
-                        className={`whitespace-nowrap px-2 py-1 text-sm rounded-3xl ${
-                          selectedGoalCategory === cat?._id
-                            ? 'bg-gray-900 text-white'
-                            : 'bg-white text-black border border-gray-300'
-                        }`}
-                      >
-                        {cat?.name}
-                      </button>
-                    ))}
-                  </div>
-
-                  <div className="flex flex-col gap-4 max-h-[300px] overflow-y-auto">
-                    {goal?.map((item, index) => (
-                      <div key={index}>
-                        <h5
-                          className="px-3 py-1 text-sm bg-gray-100 cursor-pointer hover:bg-gray-200 rounded-3xl w-fit"
+                    {mainUniversitiesLoading ? (
+                      <div className="px-3 py-2 text-sm bg-gray-100 rounded-3xl">
+                        Loading universities...
+                      </div>
+                    ) : (
+                      mainUniversities?.map(cat => (
+                        <button
+                          key={cat?._id}
                           onClick={() => {
-                            setNextPage(`/semester-exam/${selectedGoalCategory}/${item?._id}`);
-                            setModalVisible(true);
+                            sessionStorage.setItem('universityId', cat?._id);
+                            setSelectedGoalCategory(cat?._id);
                           }}
+                          className={`whitespace-nowrap px-2 py-1 text-sm rounded-3xl ${
+                            selectedGoalCategory === cat?._id
+                              ? 'bg-gray-900 text-white'
+                              : 'bg-white text-black border border-gray-300'
+                          }`}
                         >
-                          {item?.name}
-                        </h5>
+                          {cat?.name}
+                        </button>
+                      ))
+                    )}
+                  </div>
+                  {selectedGoalCategory && (
+                    <>
+                      {goalLoading ? (
+                        <div className="flex justify-center items-center mt-4">
+                          <span className="px-3 py-1 text-sm bg-gray-100 rounded-3xl">
+                            Loading courses...
+                          </span>
+                        </div>
+                      ) : goalError ? (
+                        <div className="flex justify-center items-center mt-4">
+                          <span className="px-3 py-1 text-sm bg-red-100 text-red-600 rounded-3xl">
+                            {goalError}
+                          </span>
+                        </div>
+                      ) : goal && goal.length > 0 ? (
+                        <div className="flex flex-col gap-2 mt-4 max-h-[300px] overflow-y-auto">
+                          {goal?.map((item, index) => (
+                            <div key={index}>
+                              <h5
+                                className={`px-3 py-1 text-sm cursor-pointer rounded-3xl w-fit ${
+                                  selectedGoal === item?._id
+                                    ? 'bg-gray-900 text-white'
+                                    : 'bg-gray-100 hover:bg-gray-200'
+                                }`}
+                                onClick={() => handleGoalClick(item)}
+                              >
+                                {item?.name}
+                              </h5>
+                              {selectedGoal === item?._id && (
+                                <div className="flex flex-wrap gap-2 mt-3 border-b pb-3">
+                                  {semesterLoading && selectedGoal === item?._id ? (
+                                    <span className="px-3 py-1 text-sm bg-gray-100 rounded-3xl flex justify-center items-center gap-2">
+                                      Loading semesters...
+                                    </span>
+                                  ) : semesterError ? (
+                                    <span className="px-3 py-1 text-sm bg-red-100 text-red-600 rounded-3xl">
+                                      {semesterError}
+                                    </span>
+                                  ) : (goalSemesters[item?._id] || []).length > 0 ? (
+                                    (goalSemesters[item?._id] || []).map((semester, idx) => (
+                                      <span
+                                        key={idx}
+                                        onClick={() => {
+                                          setSelectedSemester(semester?._id);
 
-                        <div className="flex flex-wrap gap-2">
-                          {item?.subjects?.map((subject, idx) => (
-                            <span
-                              key={idx}
-                              className="px-3 py-1 text-sm bg-gray-100 cursor-pointer hover:bg-gray-200 rounded-3xl"
-                            >
-                              {subject?.name}
-                            </span>
+                                          sessionStorage.setItem('semesterId', semester?._id);
+
+                                          setModalVisible(true);
+                                          
+                                        }}
+                                        className={`px-3 py-1 text-sm cursor-pointer rounded-3xl ${
+                                          selectedSemester === semester?._id
+                                            ? 'bg-black text-white'
+                                            : 'bg-gray-100 hover:bg-gray-200'
+                                        }`}
+                                      >
+                                        {`Semester - ${semester?.semesterNumber}`}
+                                      </span>
+                                    ))
+                                  ) : (
+                                    <span className="px-3 py-1 text-sm bg-gray-100 rounded-3xl">
+                                      No semesters found
+                                    </span>
+                                  )}
+                                </div>
+                              )}
+                            </div>
                           ))}
                         </div>
-                      </div>
-                    ))}
-                  </div>
+                      ) : (
+                        <div className="flex justify-center items-center mt-4">
+                          <span className="px-3 py-1 text-sm bg-gray-100 rounded-3xl">
+                            No courses found
+                          </span>
+                        </div>
+                      )}
+                    </>
+                  )}
                 </div>
               )}
             </div>
 
             <div className="flex gap-2">
-              {/* <button
-                onClick={() => setModalJoinVisible(true)}
-                className="px-3 py-2 font-bold text-black bg-transparent border border-black hover:!border-white rounded-3xl hover:!bg-[#3DD455] hover:!text-white"
-              >
-                Join Waitlist
-              </button> */}
               <button
-                onClick={() => setModalVisible(true)}
+                onClick={() => {setStep((prev)=>"register");setModalVisible(true)}}
                 className="px-3 py-2 font-bold text-black bg-transparent border border-black hover:!border-[#3DD455] rounded-lg hover:!bg-[#3DD455] hover:!text-white"
               >
                 Register
               </button>
 
               <button
-                onClick={() => setModalVisible(true)}
+                onClick={() => {setStep((prev)=>"login");setModalVisible(true)}}
                 className="px-3 py-2 font-bold bg-[#3DD455] hover:bg-black text-white rounded-lg"
               >
                 Login
@@ -448,66 +603,111 @@ const handleSubmit = async () => {
               {currentState === 0 && (
                 <div className="bg-white text-black rounded-lg shadow-lg w-full p-2 mt-2 absolute top-6 left-0">
                   <div className="flex flex-wrap gap-2 pb-2 mb-3 border-b">
-                    {mainUniversities?.map(cat => (
-                      <button
-                        key={cat?._id}
-                        onClick={() => setSelectedGoalCategory(cat?._id)}
-                        className={`text-start text-sm px-3 py-1 rounded-3xl ${
-                          selectedGoalCategory === cat?._id
-                            ? 'bg-gray-900 text-white'
-                            : 'bg-white text-black border border-gray-300'
-                        }`}
-                      >
-                        {cat?.name}
-                      </button>
-                    ))}
-                  </div>
-
-                  <div className="flex flex-col gap-3 max-h-[250px] overflow-y-auto">
-                    {goal?.map((item, index) => (
-                      <div key={index}>
-                        <h5
-                          className="px-3 py-1 text-sm bg-gray-100 cursor-pointer hover:bg-gray-200 rounded-3xl w-fit"
+                    {mainUniversitiesLoading ? (
+                      <div className="px-3 py-2 text-sm bg-gray-100 rounded-3xl">
+                        Loading universities...
+                      </div>
+                    ) : (
+                      mainUniversities?.map(cat => (
+                        <button
+                          key={cat?._id}
                           onClick={() => {
-                            setNextPage(`/semester-exam/${selectedGoalCategory}/${item?._id}`);
-                            setModalVisible(true);
-                            setIsSidebarOpen(false);
+                            setSelectedGoalCategory(cat?._id);
                           }}
+                          className={`text-start text-sm px-3 py-1 rounded-3xl ${
+                            selectedGoalCategory === cat?._id
+                              ? 'bg-gray-900 text-white'
+                              : 'bg-white text-black border border-gray-300'
+                          }`}
                         >
-                          {item?.name}
-                        </h5>
-
-                        <div className="flex flex-wrap gap-2">
-                          {item?.subjects?.map((subject, idx) => (
-                            <span
-                              key={idx}
-                              className="px-3 py-1 text-sm bg-gray-100 cursor-pointer hover:bg-gray-200 rounded-3xl"
-                            >
-                              {subject?.name}
-                            </span>
+                          {cat?.name}
+                        </button>
+                      ))
+                    )}
+                  </div>
+                  {selectedGoalCategory && (
+                    <>
+                      {goalLoading ? (
+                        <div className="flex justify-center items-center mt-3">
+                          <span className="px-3 py-1 text-sm bg-gray-100 rounded-3xl">
+                            Loading courses...
+                          </span>
+                        </div>
+                      ) : goalError ? (
+                        <div className="flex justify-center items-center mt-3">
+                          <span className="px-3 py-1 text-sm bg-red-100 text-red-600 rounded-3xl">
+                            {goalError}
+                          </span>
+                        </div>
+                      ) : goal && goal.length > 0 ? (
+                        <div className="flex flex-col gap-3 max-h-[250px] overflow-y-auto">
+                          {goal?.map((item, index) => (
+                            <div key={index}>
+                              <h5
+                                className={`px-3 py-1 text-sm cursor-pointer rounded-3xl w-fit ${
+                                  selectedGoal === item?._id
+                                    ? 'bg-gray-900 text-white'
+                                    : 'bg-gray-100 hover:bg-gray-200'
+                                }`}
+                                onClick={() => handleGoalClick(item)}
+                              >
+                                {item?.name}
+                              </h5>
+                              {selectedGoal === item?._id && (
+                                <div className="flex flex-wrap gap-2 mt-3">
+                                  {semesterLoading && selectedGoal === item?._id ? (
+                                    <span className="px-3 py-1 text-sm bg-gray-100 rounded-3xl">
+                                      Loading semesters...
+                                    </span>
+                                  ) : semesterError ? (
+                                    <span className="px-3 py-1 text-sm bg-red-100 text-red-600 rounded-3xl">
+                                      {semesterError}
+                                    </span>
+                                  ) : (goalSemesters[item?._id] || []).length > 0 ? (
+                                    (goalSemesters[item?._id] || []).map((semester, idx) => (
+                                      <span
+                                        key={idx}
+                                        onClick={() => {
+                                          setSelectedSemester(semester?._id);
+                                          setModalVisible(true);
+                                        }}
+                                        className={`px-3 py-1 text-sm cursor-pointer rounded-3xl ${
+                                          selectedSemester === semester?._id
+                                            ? 'bg-black text-white'
+                                            : 'bg-gray-100 hover:bg-gray-200'
+                                        }`}
+                                      >
+                                        {`Semester - ${semester?.semesterNumber}`}
+                                      </span>
+                                    ))
+                                  ) : (
+                                    <span className="px-3 py-1 text-sm bg-gray-100 rounded-3xl">
+                                      No semesters found
+                                    </span>
+                                  )}
+                                </div>
+                              )}
+                            </div>
                           ))}
                         </div>
-                      </div>
-                    ))}
-                  </div>
+                      ) : (
+                        <div className="flex justify-center items-center mt-3">
+                          <span className="px-3 py-1 text-sm bg-gray-100 rounded-3xl">
+                            No courses found
+                          </span>
+                        </div>
+                      )}
+                    </>
+                  )}
                 </div>
               )}
 
               <div className="flex flex-col gap-2 mt-4">
-                {/* <button
-                  onClick={() => {
-                    setModalJoinVisible(true);
-                    setIsSidebarOpen(false);
-                  }}
-                  className="px-4 py-2 border border-black rounded-3xl"
-                >
-                  Join Waitlist
-                </button> */}
-
                 <button
                   onClick={() => {
                     setModalVisible(true);
                     setIsSidebarOpen(false);
+                    setStep((prev)=>"register");
                   }}
                   className="px-4 py-2 border border-black rounded-lg"
                 >
@@ -518,6 +718,7 @@ const handleSubmit = async () => {
                   onClick={() => {
                     setModalVisible(true);
                     setIsSidebarOpen(false);
+                    setStep((prev)=>"login");
                   }}
                   className="px-4 py-2 bg-[#3DD455] rounded-lg"
                 >
@@ -527,121 +728,6 @@ const handleSubmit = async () => {
             </div>
           </div>
         </div>
-
-        {/* {modalJoinVisible && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-            <div className="bg-white w-full max-w-md rounded-xl p-6 relative">
-              <button
-                onClick={handleModalClose}
-                className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 hover:bg-gray-100 w-8 h-8 rounded-full flex items-center justify-center"
-                title="Close"
-              >
-                ✕
-              </button>
-
-              <h2 className="text-xl font-semibold mb-4">Join Waitlist</h2>
-
-              <div className="space-y-3">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={form.name}
-                    onChange={handleChange}
-                    placeholder="Enter your full name"
-                    className={`w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#3DD455] ${
-                      errors.name ? 'border-red-500' : 'border-gray-300'
-                    }`}
-                    disabled={loading}
-                  />
-                  {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">University</label>
-                  <input
-                    type="text"
-                    name="university"
-                    value={form.university}
-                    onChange={handleChange}
-                    placeholder="Enter your university name"
-                    className={`w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#3DD455] ${
-                      errors.university ? 'border-red-500' : 'border-gray-300'
-                    }`}
-                    disabled={loading}
-                  />
-                  {errors.university && (
-                    <p className="text-red-500 text-xs mt-1">{errors.university}</p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Courses</label>
-                  <input
-                    type="text"
-                    name="courses"
-                    value={form.courses}
-                    onChange={handleChange}
-                    placeholder="Enter your courses"
-                    className={`w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#3DD455] ${
-                      errors.courses ? 'border-red-500' : 'border-gray-300'
-                    }`}
-                    disabled={loading}
-                  />
-                  {errors.courses && <p className="text-red-500 text-xs mt-1">{errors.courses}</p>}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={form.email}
-                    onChange={handleChange}
-                    placeholder="Enter your email address"
-                    className={`w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#3DD455] ${
-                      errors.email ? 'border-red-500' : 'border-gray-300'
-                    }`}
-                    disabled={loading}
-                  />
-                  {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Phone Number
-                  </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={form.phone}
-                    onChange={handleChange}
-                    placeholder="Enter 10-digit phone number"
-                    className={`w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#3DD455] ${
-                      errors.phone ? 'border-red-500' : 'border-gray-300'
-                    }`}
-                    disabled={loading}
-                    maxLength="10"
-                  />
-                  {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
-                </div>
-
-                {errors.submit && <p className="text-red-500 text-xs">{errors.submit}</p>}
-
-                <button
-                  onClick={handleSubmit}
-                  disabled={loading}
-                  className={`w-full py-2 rounded-lg text-white font-medium ${
-                    loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3DD455]'
-                  }`}
-                >
-                  {loading ? 'Submitting...' : 'Submit'}
-                </button>
-              </div>
-            </div>
-          </div>
-        )} */}
 
         {success && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
