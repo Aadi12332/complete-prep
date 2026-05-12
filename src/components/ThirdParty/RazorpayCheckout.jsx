@@ -10,6 +10,49 @@ export const loadRazorpayScript = () =>
     document.body.appendChild(script);
   });
 
+const createOrder = async amount => {
+  const response = await fetch(
+    'https://complete-prep-project-main.vercel.app/api/create-order',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        amount: Math.max(100, Math.round(amount * 100)),
+        currency: 'INR',
+        receipt: `receipt_${Date.now()}`,
+      }),
+    }
+  );
+
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data?.message || 'Failed to create order');
+  }
+
+  return data?.data;
+};
+
+const verifyPayment = async response => {
+  const verifyResp = await fetch(
+    'https://complete-prep-project-main.vercel.app/api/verify-payment',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        razorpay_payment_id: response.razorpay_payment_id,
+        razorpay_order_id: response.razorpay_order_id,
+        razorpay_signature: response.razorpay_signature,
+      }),
+    }
+  );
+
+  return verifyResp.json();
+};
+
 export const triggerRazorpay = async ({
   amount,
   name,
@@ -44,19 +87,59 @@ export const triggerRazorpay = async ({
     return;
   }
 
-  const key = testMode ? 'rzp_test_1DP5mmOlF5G5ag' : 'rzp_live_XXXXXXXXXXXXXXXX';
+  let orderData = null;
+  if (!order_id) {
+    try {
+      orderData = await createOrder(amount);
+    } catch (error) {
+      console.error('Order creation failed:', error);
+      showNotification({
+        type: 'error',
+        message: error?.message || 'Unable to create payment order',
+      });
+      onFailure(error);
+      return;
+    }
+  }
+
+  const key = process.env.REACT_APP_RAZORPAY_KEY_ID || 'rzp_test_1DP5mmOlF5G5ag';
 
   onBeforeOpen?.();
 
   const options = {
     key,
-    amount: amount * 100,
-    currency: 'INR',
+    amount: orderData?.amount || amount * 100,
+    currency: orderData?.currency || 'INR',
     name: 'semprep',
     description: 'Cart Payment',
-    order_id,
-    handler: function (response) {
-      onSuccess(response);
+    order_id: order_id || orderData?.order_id,
+    handler: async function (response) {
+      if (!response?.razorpay_payment_id) {
+        onFailure({ message: 'Payment response invalid' });
+        return;
+      }
+
+      try {
+        const verifyData = await verifyPayment(response);
+        if (verifyData?.success) {
+          onSuccess({
+            payload: {
+              payment: {
+                id: response.razorpay_payment_id,
+              },
+            },
+          });
+        } else {
+          throw new Error(verifyData?.message || 'Payment verification failed');
+        }
+      } catch (err) {
+        console.error('Verification failed:', err);
+        showNotification({
+          type: 'error',
+          message: err?.message || 'Payment verification failed',
+        });
+        onFailure(err);
+      }
     },
     prefill: {
       name,
@@ -83,11 +166,7 @@ export const triggerRazorpay = async ({
     const rzp = new window.Razorpay(options);
 
     rzp.on('payment.failed', function (response) {
-      onFailure(response.error);
-    });
-
-    rzp.on('payment.success', function (response) {
-      onSuccess(response);
+      onFailure(response?.error || response);
     });
 
     rzp.on('modal.open', function () {

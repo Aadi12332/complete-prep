@@ -307,7 +307,7 @@ const triggerRazorpay = async ({
       currency: orderData?.data?.currency,
       order_id: orderData?.data?.order_id,
 
-      name: 'Complete Prep',
+      name: 'Semprep',
       description: 'Semester Subscription',
 
       prefill: {

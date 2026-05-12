@@ -13,7 +13,6 @@ const SkillsPage2 = () => {
   const { goal = '' } = user || {};
   const [courses, setCourses] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isButtonLoading, setIsButtonLoading] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
 
   useEffect(() => {
@@ -64,6 +63,78 @@ const SkillsPage2 = () => {
     });
   };
 
+  const handleSkillPayment = async course => {
+    setButtonLoading(true);
+
+    triggerRazorpay({
+      amount: course?.price || 0,
+      name: user?.fullName || 'User',
+      email: user?.email || 'email@example.com',
+      contact: user?.mobileNumber || '0000000000',
+      onSuccess: paymentRes => {
+        userApi.cart.addToCart({
+          data: {
+            skills: [course?._id],
+          },
+          onSuccess: () => {
+            userApi.cart.checkOut({
+              onSuccess: checkoutRes => {
+                userApi.cart.placeOrder({
+                  id: checkoutRes?.data?.orderId,
+                  data: {
+                    paymentMode: 'RAZORPAY',
+                    transactionId:
+                      paymentRes?.razorpay_payment_id || paymentRes?.payload?.payment?.id,
+                    paymentStatus: 'completed',
+                  },
+                  onSuccess: () => {
+                    setButtonLoading(false);
+                    navigate(`/user/skill/${course?._id}`);
+                  },
+                  onError: err => {
+                    console.error('Order placement failed:', err);
+                    setButtonLoading(false);
+                    showNotification({
+                      type: 'error',
+                      message: 'Payment succeeded but order placement failed. Please contact support.',
+                    });
+                  },
+                });
+              },
+              onError: err => {
+                console.error('Checkout failed:', err);
+                setButtonLoading(false);
+                showNotification({
+                  type: 'error',
+                  message: 'Checkout failed. Please try again.',
+                });
+              },
+            });
+          },
+          onError: err => {
+            console.error('Add to cart failed:', err);
+            setButtonLoading(false);
+            showNotification({
+              type: 'error',
+              message: 'Unable to add course to cart. Please try again.',
+            });
+          },
+        });
+      },
+      onFailure: err => {
+        console.error('Payment failed:', err);
+        setButtonLoading(false);
+        showNotification({
+          type: 'error',
+          message: 'Payment failed. Please try again.',
+        });
+      },
+      onCancel: () => {
+        setButtonLoading(false);
+      },
+    });
+  };
+
   return (
     <div className="user_container">
       <div>
@@ -108,50 +179,14 @@ const SkillsPage2 = () => {
                             );
                             return;
                           }
-
-                          triggerRazorpay({
-                            amount: course?.price,
-                            name: user?.fullName || 'User',
-                            email: user?.email || 'email@example.com',
-                            contact: user?.mobileNumber || '0000000000',
-
-                            onSuccess: paymentRes => {
-                              if (paymentRes?.payload?.payment?.id)
-                                userApi.cart.addToCart({
-                                  data: {
-                                    skills: [course._id],
-                                  },
-                                  onSuccess: () => {
-                                    userApi.cart.checkOut({
-                                      onSuccess: data => {
-                                        userApi.cart.placeOrder({
-                                          id: data?.data?.orderId,
-                                          data: { paymentStatus: 'completed' },
-
-                                          onSuccess: () => {
-                                            navigate(`/user/skill/${course._id}`);
-                                          },
-                                        });
-                                      },
-                                    });
-                                  },
-                                });
-                            },
-
-                            onFailure: () => {
-                              setButtonLoading(false);
-                            },
-
-                            onCancel: () => {
-                              setButtonLoading(false);
-                            },
-                          });
+                          handleSkillPayment(course);
                         }}
+                        disabled={buttonLoading}
                         className={`w-full py-2 mt-1 font-bold ${
                           course?.isPurchased ? 'bg-[#3DD455]' : 'bg-[#3DD455]'
-                        } hover:bg-black text-white rounded-lg`}
+                        } hover:bg-black text-white rounded-lg ${buttonLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
                       >
-                        {course?.isPurchased ? 'Start' : 'Unlock Now'}
+                        {buttonLoading ? 'Processing...' : course?.isPurchased ? 'Start' : 'Unlock Now'}
                       </button>
                     </div>
                   </div>

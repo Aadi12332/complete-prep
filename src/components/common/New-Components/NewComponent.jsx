@@ -1109,12 +1109,13 @@ export const QuestionForm2 = ({
   );
 };
 
-export const ProfileEditFormMain = ({ closeModal, nextPage, setUser,seletedStep }) => {
+export const ProfileEditFormMain = ({ closeModal, nextPage, setUser,seletedStep,onRegister }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  console.log({seletedStep})
   const { user } = useContext(AuthContext);
 
   const [showPassword, setShowPassword] = useState(false);
@@ -1190,6 +1191,10 @@ if(courseId&&semesterId&&universityId){
      
     });
         }else{
+          if(onRegister){
+            onRegister();
+            return
+          }
           navigate('/choose-curriculum', { state: { nextPage } })
         }
         }

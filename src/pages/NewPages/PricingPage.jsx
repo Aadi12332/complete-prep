@@ -11,15 +11,40 @@ import Header from './Header';
 import Footer from './Footer';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
+import { showNotification } from '../../services/exportComponents';
 
 <Helmet>
   <title>Semprep Pricing | Affordable Study Plans for Students</title>
 
-  <meta
-    name="description"
-    content="Choose a Semprep plan that fits your preparation needs."
-  />
-</Helmet>
+  <meta name="description" content="Choose a Semprep plan that fits your preparation needs." />
+</Helmet>;
+
+const subScriptionsStatic = [
+  {
+    _id: 'free',
+    name: 'Free',
+    price: 0,
+    discount: null,
+    features: [
+      { name: 'Real-time contact syncing' },
+      { name: 'Automatic data enrichment' },
+      { name: 'Up to 3 seats' },
+    ],
+  },
+  {
+    _id: '698ec78d940c8e91c25dda33',
+    name: 'Pro',
+    price: 399,
+    discount: null,
+    features: [
+      { name: 'Fully adjustable permissions' },
+      { name: 'Advanced data enrichment' },
+      { name: 'Priority support' },
+      { name: 'Up to 3 seats' },
+    ],
+  },
+];
+
 const courseData = {
   CBSE: {
     'CBSE CLASS 12': [
@@ -541,8 +566,11 @@ const PricingPage = () => {
   const [goal, setGoal] = useState([]);
   const [selectedGoalCategory, setSelectedGoalCategory] = useState('');
   const [selectedGoal, setSelectedGoal] = useState('');
-  const { setUser } = useContext(AuthContext);
+  const [selectedPlan, setSelectedPlan] = useState('');
+  const [loadingPlanId, setLoadingPlanId] = useState(null);
+  const [selectedCoupons, setSelectedCoupons] = useState('');
 
+  const { user, setUser, logout, isAuthenticated } = useContext(AuthContext);
   const [nextPage, setNextPage] = useState('');
   const fetchFaqs = async () => {
     userApi.faq.getAll({
@@ -580,13 +608,22 @@ const PricingPage = () => {
       onSuccess: res => setSubScriptions(res?.data),
     });
   };
+
   const navigate = useNavigate();
   const [openIndex, setOpenIndex] = useState(0);
   const toggleDropdown = state => {
     setCurrentState(currentState === state ? null : state);
   };
 
-  const PricingCard = ({ title, price, savings, features, isPro = false, discount }) => {
+  const PricingCard = ({
+    title,
+    price,
+    savings,
+    features,
+    isPro = false,
+    discount,
+    onBtnClick,
+  }) => {
     return (
       <div
         className={`flex flex-col p-6 rounded-lg border w-full h-full ${
@@ -596,7 +633,7 @@ const PricingPage = () => {
         <h2 className="text-2xl font-bold text-left">{title}</h2>
         <div className="my-4 text-left">
           <div className="text-3xl font-bold">
-            ${price}{' '}
+            ₹ {price}{' '}
             {discount > 0 && (
               <span className="text-sm text-white bg-gray-500 rounded px-2 py-1 ml-2">
                 -{discount}%
@@ -620,7 +657,8 @@ const PricingPage = () => {
           ))}
         </ul>
         <button
-          className={`mt-auto w-full py-2 rounded ${
+          onClick={onBtnClick}
+          className={`mt-auto w-full py-2 rounded cursor-pointer ${
             isPro ? 'bg-white text-gray-800' : 'bg-gray-100 text-gray-800'
           }`}
         >
@@ -630,6 +668,186 @@ const PricingPage = () => {
     );
   };
 
+  const triggerRazorpay = async ({
+    amount,
+    name,
+    email,
+    contact,
+    onSuccess,
+    onFailure,
+    onCancel,
+  }) => {
+    try {
+      const orderResponse = await fetch(
+        `https://complete-prep-project-main.vercel.app/api/create-order`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            amount: Math.max(100, Math.round(amount * 100)),
+            currency: 'INR',
+            receipt: `receipt_${Date.now()}`,
+          }),
+        }
+      );
+
+      const orderData = await orderResponse.json();
+
+      if (!orderResponse.ok) {
+        throw new Error(orderData?.message || 'Failed to create order');
+      }
+
+      const options = {
+        key: process.env.REACT_APP_RAZORPAY_KEY_ID,
+        amount: orderData?.data?.amount,
+        currency: orderData?.data?.currency,
+        order_id: orderData?.data?.order_id,
+
+        name: 'Semprep',
+        description: 'Semester Subscription',
+
+        prefill: {
+          name,
+          email,
+          contact,
+        },
+
+        theme: {
+          color: '#3DD455',
+        },
+
+        handler: async function (response) {
+          try {
+            const verifyResponse = await fetch(
+              `https://complete-prep-project-main.vercel.app/api/verify-payment`,
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_signature: response.razorpay_signature,
+                }),
+              }
+            );
+
+            const verifyData = await verifyResponse.json();
+
+            if (verifyData?.success) {
+              onSuccess?.({
+                payload: {
+                  payment: {
+                    id: response.razorpay_payment_id,
+                  },
+                },
+              });
+
+              showNotification({
+                type: 'success',
+                message: 'Payment successful',
+              });
+              navigate('/choose-curriculum', { state: { nextPage } });
+            } else {
+              throw new Error('Payment verification failed');
+            }
+          } catch (error) {
+            showNotification({
+              type: 'error',
+              message: error?.message || 'Verification failed',
+            });
+
+            onFailure?.(error);
+          }
+        },
+
+        modal: {
+          ondismiss: function () {
+            showNotification({
+              type: 'error',
+              message: 'Payment cancelled',
+            });
+
+            onCancel?.();
+          },
+        },
+      };
+
+      const razorpay = new window.Razorpay(options);
+
+      razorpay.on('payment.failed', function (response) {
+        showNotification({
+          type: 'error',
+          message: response?.error?.description || 'Payment failed',
+        });
+
+        onFailure?.(response);
+      });
+
+      razorpay.open();
+    } catch (error) {
+      showNotification({
+        type: 'error',
+        message: error?.message || 'Something went wrong',
+      });
+
+      onFailure?.(error);
+    }
+  };
+  const handleSubscribe = () => {
+    const sub = selectedPlan;
+    setLoadingPlanId(sub._id);
+    userApi.subscriptions.create({
+      showMsg: true,
+      data: {
+        subscriptionPlanId: sub._id,
+        paymentMode: 'pending',
+        taxAmount: 0,
+        paymentStatus: 'pending',
+        couponCode: selectedCoupons,
+        useWallet: true,
+      },
+      onSuccess: response => {
+        triggerRazorpay({
+          amount: response?.data?.finalPrice,
+          name: user?.fullName || 'User',
+          email: user?.email || 'email@example.com',
+          contact: user?.mobileNumber || '0000000000',
+          onSuccess: paymentRes => {
+            if (paymentRes?.payload?.payment?.id)
+              userApi.subscriptions.update({
+                id: response?.data?._id,
+                data: {
+                  paymentMode: 'upi',
+                  paymentStatus: 'completed',
+                  transactionId: paymentRes?.payload?.payment?.id,
+                },
+                onSuccess: res => {
+                  if (res?.data?.paymentStatus === 'completed') {
+                    setModalVisible(false);
+                  }
+                },
+                onError: () => {
+                  setLoadingPlanId(null);
+                },
+              });
+          },
+          onFailure: err => {
+            setLoadingPlanId(null);
+          },
+          onCancel: () => {
+            setLoadingPlanId(null);
+          },
+        });
+      },
+      onError: () => {
+        setLoadingPlanId(null);
+      },
+    });
+  };
   return (
     <>
       {' '}
@@ -640,6 +858,8 @@ const PricingPage = () => {
             nextPage={nextPage}
             closeModal={() => setModalVisible(false)}
             setUser={setUser}
+            seletedStep={'register'}
+            onRegister={handleSubscribe}
           />
         }
         show={modalVisible}
@@ -657,7 +877,7 @@ const PricingPage = () => {
               transition={{ duration: 0.6 }}
             >
               <h2 className="text-center text-4xl font-bold text-black">
-                Complete Prep pricing plan for your startup
+                Semprep pricing plan for your startup
               </h2>
               <p className="text-center text-gray-500 mt-2 text-sm md:text-base max-w-xl mx-auto">
                 Perfectly tailored for every stage of your growth.Get started today, no credit card
@@ -689,8 +909,8 @@ const PricingPage = () => {
                 </div>
               </div> */}
               <div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto mt-5">
-                  {subScriptions?.map((plan, index) => {
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto max-w-[767px] mt-5">
+                  {subScriptionsStatic.map((plan, index) => {
                     const yearlyPrice = Number(plan.price) || 0;
                     const monthlyPrice = Math.round(yearlyPrice / 12);
 
@@ -706,11 +926,19 @@ const PricingPage = () => {
                           {...plan}
                           title={plan.name}
                           price={billingType === 'monthly' ? monthlyPrice : yearlyPrice}
-                          features={
-                            Array.isArray(plan.features) ? plan.features.map(f => f.name) : []
-                          }
+                          features={plan.features.map(f => f.name)}
                           isPro={plan.name === 'Pro'}
                           discount={plan.discount}
+                          onBtnClick={() => {
+                            if (plan._id === 'free') {
+                              setModalVisible(true);
+                              return;
+                            }
+                            setSelectedPlan(prev => plan);
+                            setModalVisible(true);
+
+                            // handleSubscribe(plan)
+                          }}
                         />
                       </motion.div>
                     );
@@ -964,7 +1192,7 @@ const PricingPage = () => {
                   </table>
                 </motion.div> */}
 
-                <div className="flex flex-col md:flex-row gap-8 md:mt-24 mt-16">
+                {/* <div className="flex flex-col md:flex-row gap-8 md:mt-24 mt-16">
                   <div>
                     <div className="flex flex-col md:flex-row gap-8">
                       <motion.div
@@ -1040,7 +1268,7 @@ const PricingPage = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
