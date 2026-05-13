@@ -1206,12 +1206,14 @@ const PricingPage = () => {
                           <h2 className="text-3xl font-bold">Frequently Asked Questions</h2>
                           <p className="text-gray-600">
                             Still have any questions? Contact our Team via <br />
-                            <a
-                              href="mailto:support@semprep.com"
-                              className="text-blue-600 underline"
-                            >
-                              support@semprep.com
-                            </a>
+                                 <a
+  href="https://mail.google.com/mail/?view=cm&fs=1&to=support@semprep.com"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="text-blue-600 underline"
+>
+  support@semprep.com
+</a>
                           </p>
                         </div>
                         <button

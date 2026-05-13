@@ -362,7 +362,7 @@ const [step,setStep]=useState("login")
             src={images.newMainLogo}
             alt="Logo"
             onClick={() => navigate('/')}
-            className="md:max-w-[150px] w-[120px] object-contain"
+            className="md:max-w-[150px] w-[120px] object-contain cursor-pointer"
           />
 
           <span className="lg:hidden block cursor-pointer" onClick={() => setIsSidebarOpen(true)}>

@@ -48,7 +48,7 @@ import heroimg from '../../assets/new-images/Transparent.png';
     name="description"
     content="Semprep is a one stop solution for all the higher education students to prepare for their semester exams."
   />
-</Helmet>
+</Helmet>;
 
 const courses = [
   {
@@ -192,6 +192,69 @@ const exploreCourses = [
   },
 ];
 
+// const testimonials = [
+//   {
+//     id: 1,
+//     name: 'Anubhav Tyagi',
+//     university: 'Delhi University',
+//     course: 'B.Com (Prog)',
+//     rating: 5,
+//     avatar: '',
+//     review:
+//       'If you’re a college student looking for a single platform for video lectures, notes, revision, AI support, and placements, Semprep is exactly what you need.',
+//   },
+//   {
+//     id: 2,
+//     name: 'Aditi Yadav',
+//     university: 'Delhi University',
+//     course: 'BA Political Science (Hons)',
+//     rating: 4,
+//     avatar: '',
+//     review:
+//       'I used to spend hours searching for reliable study material. With Semprep, everything I need is available in one place — notes, revision material, and practice tests. The community feature is also very useful.',
+//   },
+//   {
+//     id: 3,
+//     name: 'Raman',
+//     university: 'Delhi University',
+//     course: 'BA Pol Sci (Hons)',
+//     rating: 5,
+//     avatar: '',
+//     review:
+//       'Semprep gives me everything in one place — study resources, doubt-solving, and even placement support. It’s much more than just a prep platform.',
+//   },
+//   {
+//     id: 4,
+//     name: 'Kunal Singh',
+//     university: 'Delhi University',
+//     course: 'BA History (Hons)',
+//     rating: 4,
+//     avatar: '',
+//     review:
+//       'The video solutions for PYQs are excellent. Instead of just memorizing answers, I actually understand how to approach exam questions.',
+//   },
+//   {
+//     id: 5,
+//     name: 'Ananya Gupta',
+//     university: 'Delhi University',
+//     course: 'BA Economics (Hons)',
+//     rating: 5,
+//     avatar: '',
+//     review:
+//       'Prepo AI is my favourite feature. It explains difficult concepts in simple language and even helps me structure my assignments. It’s much more useful than generic AI tools because it is built specifically for students.',
+//   },
+//   {
+//     id: 6,
+//     name: 'Abhishek Sharma',
+//     university: 'Delhi University',
+//     course: 'B.Com (Hons)',
+//     rating: 5,
+//     avatar: '',
+//     review:
+//       'Honestly, Semprep has made my semester preparation so much easier. The notes are concise, the PYQs are extremely helpful, and Prepo AI clears my doubts instantly. It feels like having a personal tutor available 24/7.',
+//   },
+// ];
+
 const HomePage = () => {
   const [currentState, setCurrentState] = useState(null);
   const [activeCategory, setActiveCategory] = useState('CBSE');
@@ -315,7 +378,7 @@ const HomePage = () => {
 
   const fetchFaqs = async () => {
     userApi.faq.getAll({
-      onSuccess: data => setFaqs(data?.data || []),
+      onSuccess: data => setFaqs((data?.data || []).filter(item => item?.showOnHomepage)),
     });
   };
 
@@ -392,14 +455,17 @@ const HomePage = () => {
                 className="w-48 mb-4 object-contain md:block hidden"
               /> */}
 
-              <h2 className="text-3xl md:text-7xl font-bold text-white lg:text-start text-center">Now</h2>
+              <h2 className="text-3xl md:text-7xl font-bold text-white lg:text-start text-center">
+                Now
+              </h2>
 
               <h1 className="text-3xl md:text-7xl font-bold text-white lg:text-start mb-3">
-                 <span className="text-[#3DD455]">Semesters </span> <br /> Made Easy!
+                <span className="text-[#3DD455]">Semesters </span> <br /> Made Easy!
               </h1>
 
               <p className="text-sm md:text-base text-white lg:text-start py-3 max-w-[400px]">
-                Semprep is a one stop solution for all the higher education students to prepare for their semester exams.
+                Semprep is a one stop solution for all the higher education students to prepare for
+                their semester exams.
               </p>
 
               <button
@@ -409,8 +475,10 @@ const HomePage = () => {
                 TRY FOR FREE
               </button>
             </div>
-            <img src={heroimg} className="w-full flex-1 lg:max-w-[900px] max-w-[600px] lg:!ml-auto mx-auto lg:!mx-[unset]" />
-
+            <img
+              src={heroimg}
+              className="w-full flex-1 lg:max-w-[900px] max-w-[600px] lg:!ml-auto mx-auto lg:!mx-[unset]"
+            />
           </div>
 
           <motion.div
@@ -475,15 +543,33 @@ const HomePage = () => {
                     viewport={{ once: true }}
                     className="md:p-4 p-3 md:rounded-xl rounded-lg bg-[#efefef]"
                   >
-                    <div className="flex items-center gap-4 mb-4">
+                    <div className="flex items-center gap-4 mb-1">
                       <div>
-                        <img src={t.avatar} alt="avatar" className="w-12 h-12 rounded-full" />
+                        {t.avatar ? (
+                          <img
+                            src={t.avatar}
+                            alt={t.name}
+                            className="w-12 h-12 rounded-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center font-semibold text-lg uppercase">
+                            {t.name
+                              ?.split(' ')
+                              .slice(0, 2)
+                              .map(word => word.charAt(0))
+                              .join('')}
+                          </div>
+                        )}
                       </div>
+
                       <div>
                         <h3 className="font-semibold text-lg text-gray-800">{t.name}</h3>
-                        <div className="text-yellow-500">{'★'.repeat(t.rating)}</div>
+                        <p className="text-sm text-gray-500">{t.designation}</p>
+
+                        {t.rating && <div className="text-yellow-500">{'★'.repeat(t.rating)}</div>}
                       </div>
                     </div>
+
                     <p className="text-gray-600">{t.review}</p>
                   </motion.div>
                 ))}
@@ -502,7 +588,12 @@ const HomePage = () => {
                 <h2 className="text-3xl font-bold">Frequently Asked Questions</h2>
                 <p className="text-gray-600">
                   Still have any questions? Contact our Team via <br />
-                  <a href="mailto:support@semprep.com" className="text-blue-600 underline">
+                  <a
+                    href="https://mail.google.com/mail/?view=cm&fs=1&to=support@semprep.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 underline"
+                  >
                     support@semprep.com
                   </a>
                 </p>
@@ -542,7 +633,7 @@ const HomePage = () => {
                     </div>
                     {isOpen && faq.answer && (
                       <div className="mt-4 text-gray-700 space-y-3">
-                        <p>{faq.answer}</p>
+                        <p className='whitespace-pre-line'>{faq.answer}</p>
                         {faq.link && (
                           <div className="flex items-center justify-between p-3 rounded-md hover:bg-gray-100 cursor-pointer">
                             <span>{faq.link}</span>

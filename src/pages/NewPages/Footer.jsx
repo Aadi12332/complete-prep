@@ -14,7 +14,7 @@ const Footer = () => {
               viewport={{ once: true }}
               className="md:grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 md:px-6 px-3 py-16 mainMaxWidth w-full">
         <div className="flex flex-col gap-6 lg:max-w-sm">
-          <img src={images.navBarLogo} alt="Company Logo" className="md:w-60 w-[120px]" />
+          <img src={images.navBarLogo} alt="Company Logo" className="md:w-40 w-[120px]" />
 
           <p>
             Video explanations, AI-powered preparation tools, notes, mind maps, one-shot revisions,
@@ -68,6 +68,9 @@ const Footer = () => {
               </Link>
               <Link to="/testimonials" className="hover:text-gray-300 block transition">
                 Testimonials
+              </Link>
+              <Link to="/faqs" className="hover:text-gray-300 block transition">
+                FAQs
               </Link>
             </ul>
           </div>

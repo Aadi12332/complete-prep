@@ -108,6 +108,7 @@ const Reviews = () => {
     useEffect(() => {
       fetchGoal();
     }, [selectedGoalCategory]);
+
   useEffect(() => {
     fetchTestimonials();
   }, []);
@@ -117,6 +118,7 @@ const Reviews = () => {
       onSuccess: (data) => setTestimonials(data?.data || []),
     });
   };
+
   const navigate = useNavigate();
   const toggleDropdown = (state) => {
     setCurrentState(currentState === state ? null : state);
@@ -152,33 +154,45 @@ const Reviews = () => {
           </p>
           <div>
             <div className="grid grid-cols-1 gap-6 py-6 md:grid-cols-2 lg:grid-cols-3">
-              {testimonials?.map((t, index) => (
-                <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: index * 0.2 }}
-            viewport={{ once: true }}
-             key={index} className="p-6 bg-white shadow-sm rounded-2xl">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div>
-                      <img
-                        src={t.avatar}
-                        alt="avatar"
-                        className="w-12 h-12 rounded-full"
-                      />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-gray-800">
-                        {t.name}
-                      </h3>
-                      <div className="text-yellow-500">
-                        {"★".repeat(t.rating)}
-                      </div>
-                    </div>
-                  </div>
-                  <p className="text-gray-600">{t.review}</p>
-                </motion.div>
-              ))}
+              {testimonials.map((t, index) => (
+                               <motion.div
+                                 key={index}
+                                 initial={{ opacity: 0, y: 40 }}
+                                 whileInView={{ opacity: 1, y: 0 }}
+                                 transition={{ duration: 1, delay: index * 0.2 }}
+                                 viewport={{ once: true }}
+                                 className="md:p-4 p-3 md:rounded-xl rounded-lg bg-[#efefef]"
+                               >
+                                 <div className="flex items-center gap-4 mb-1">
+                                   <div>
+                                     {t.avatar ? (
+                                       <img
+                                         src={t.avatar}
+                                         alt={t.name}
+                                         className="w-12 h-12 rounded-full object-cover"
+                                       />
+                                     ) : (
+                                       <div className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center font-semibold text-lg uppercase">
+                                         {t.name
+                                           ?.split(' ')
+                                           .slice(0, 2)
+                                           .map(word => word.charAt(0))
+                                           .join('')}
+                                       </div>
+                                     )}
+                                   </div>
+             
+                                   <div>
+                                     <h3 className="font-semibold text-lg text-gray-800">{t.name}</h3>
+                                     <p className="text-sm text-gray-500">{t.designation}</p>
+             
+                                     {t.rating && <div className="text-yellow-500">{'★'.repeat(t.rating)}</div>}
+                                   </div>
+                                 </div>
+             
+                                 <p className="text-gray-600">{t.review}</p>
+                               </motion.div>
+                             ))}
             </div>
           </div>
         </div>
