@@ -603,6 +603,7 @@ const PricingPage = () => {
   useEffect(() => {
     fetchGoal();
   }, [selectedGoalCategory]);
+
   const fetchSubScriptions = async () => {
     userApi.subscription.getAll({
       onSuccess: res => setSubScriptions(res?.data),
@@ -910,7 +911,7 @@ const PricingPage = () => {
               </div> */}
               <div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto max-w-[767px] mt-5">
-                  {subScriptionsStatic.map((plan, index) => {
+                  {subScriptions.map((plan, index) => {
                     const yearlyPrice = Number(plan.price) || 0;
                     const monthlyPrice = Math.round(yearlyPrice / 12);
 
