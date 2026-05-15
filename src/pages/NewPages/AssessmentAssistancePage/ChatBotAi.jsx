@@ -3,6 +3,19 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MessageRenderer from '../../../components/chat/MessageRenderer';
 import HOC from '../../../components/layout/HOC';
+import api from '../../../services/api';
+
+const ALLOWED_IMAGE_TYPES = [
+  'image/png',
+  'image/jpeg',
+  'image/webp',
+  'image/heic',
+  'image/heif',
+];
+const MAX_IMAGE_COUNT = 4;
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
+const CHAT_SESSIONS_LIMIT = 20;
+const CHAT_MESSAGES_LIMIT = 50;
 
 const ChatBotAi = () => {
   const [messages, setMessages] = useState([
@@ -16,79 +29,127 @@ const ChatBotAi = () => {
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
-  const [chatHistory, setChatHistory] = useState([]);
+  const [sessions, setSessions] = useState([]);
   const [currentChatId, setCurrentChatId] = useState(null);
+  const [historyVersion, setHistoryVersion] = useState(null);
+  const [selectedImages, setSelectedImages] = useState([]);
+  const [pendingClientMessageIds, setPendingClientMessageIds] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
 
   const chatEndRef = useRef(null);
-  const typingIntervalRef = useRef(null);
-  const abortTypingRef = useRef(false);
+  const controllerRef = useRef(null);
+  const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
-  const OPENAI_KEY = process.env.REACT_APP_OPENAI_KEY || '';
+  const generateUUID = () => {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+      const r = (Math.random() * 16) | 0;
+      const v = c === 'x' ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
+  };
 
-  const SYSTEM_PROMPT = `You are **Prepo AI**, an academic study assistant.
+  const createPreviewForFile = file => ({ file, previewUrl: URL.createObjectURL(file) });
 
-Your ONLY purpose is to help users with:
-- School and university subjects
-- Homework, assignments, projects
-- Exam preparation and concepts
-- Programming, engineering, science, math, business, literature
-- Research, explanations, summaries, learning guidance
+  const isValidImageFile = file => {
+    if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+      window.alert('Only PNG, JPEG, WEBP, HEIC, and HEIF images are allowed.');
+      return false;
+    }
+    if (file.size > MAX_IMAGE_SIZE) {
+      window.alert('Each image must be 5MB or smaller.');
+      return false;
+    }
+    return true;
+  };
 
-### 🚫 Forbidden Topics
-You must NEVER answer questions related to:
-- Personal advice
-- Mental health
-- Relationships
-- Life coaching
-- Entertainment, movies, celebrities
-- Politics, religion, current news
-- General chat or casual conversation
-- Any non-educational topic
+  const convertServerMessage = serverMessage => ({
+    id: serverMessage.id,
+    role: serverMessage.role,
+    content:
+      serverMessage.parts
+        ?.filter(part => part.type === 'text')
+        .map(part => part.text)
+        .join('') || '',
+    parts: serverMessage.parts?.map(part => ({
+      ...part,
+      previewUrl: part.type === 'image' ? part.url : undefined,
+    })) ?? [],
+    createdAt: serverMessage.createdAt ? new Date(serverMessage.createdAt).getTime() : Date.now(),
+    clientMessageId: serverMessage.clientMessageId,
+  });
 
-### 🛑 Enforcement Rule
-If the user asks ANY question outside academic or learning scope:
-Respond ONLY with this exact message (no extra text):
-"I'm here to help only with study-related questions. Please ask something related to your learning, homework, or academic subjects."
+  const replaceMessageById = (messageId, updatedMessage) => {
+    setMessages(prev => prev.map(msg => (msg.id === messageId ? updatedMessage : msg)));
+  };
 
-### 📚 Response Formatting Rules
-You must ALWAYS format responses using Markdown:
-1. Start with a short clear introduction paragraph
-2. Use proper section headings (##, ###)
-3. Use bullet points and numbered lists
-4. Keep paragraphs short and readable
-5. Use fenced code blocks with language tags for technical examples
-6. Use **bold** for key concepts
-7. Never return a flat paragraph
+  const loadSessions = async () => {
+    try {
+      const response = await api.get('/user/chat/sessions', {
+        params: { limit: CHAT_SESSIONS_LIMIT },
+      });
+      setSessions(response.data?.data?.sessions ?? []);
+    } catch (error) {
+      console.error('Unable to load chat sessions', error);
+    }
+  };
 
-### 🎓 Tone & Quality
-- Professional, clear, supportive
-- Optimized for learning and understanding
-- No fluff, no casual chat
+  const loadChatMessages = async chatId => {
+    if (!chatId) return;
 
-### 💡 Code Block Styling
-When showing code examples, always use proper syntax highlighting and include clear explanations.`;
+    try {
+      const response = await api.get(`/user/chat/sessions/${chatId}/messages`, {
+        params: { limit: CHAT_MESSAGES_LIMIT },
+      });
+      const chatData = response.data?.data?.chat;
+      const serverMessages = response.data?.data?.messages ?? [];
+
+      if (chatData) {
+        setCurrentChatId(chatData.id);
+        setHistoryVersion(chatData.historyVersion ?? null);
+      }
+
+      const uiMessages = serverMessages.map(convertServerMessage);
+      setMessages(uiMessages.length > 0 ? uiMessages : [
+        {
+          id: Date.now(),
+          role: 'assistant',
+          content:
+            "Hello! I'm Prepo AI, your academic study assistant. How can I help you with your studies today?",
+          ts: Date.now(),
+        },
+      ]);
+      setShowSidebar(false);
+    } catch (error) {
+      console.error('Unable to load chat messages', error);
+    }
+  };
 
   useEffect(() => {
-    const savedHistory = localStorage.getItem('chatHistory');
-    if (savedHistory) {
-      try {
-        const parsedHistory = JSON.parse(savedHistory);
-        setChatHistory(Array.isArray(parsedHistory) ? parsedHistory : []);
-      } catch (error) {
-        console.error('Error loading chat history:', error);
-        setChatHistory([]);
-      }
+    const savedDraft = localStorage.getItem('chatDraft');
+    const savedChatId = localStorage.getItem('activeChatId');
+
+    if (savedDraft) setInput(savedDraft);
+    if (savedChatId) setCurrentChatId(savedChatId);
+
+    loadSessions();
+    if (savedChatId) {
+      loadChatMessages(savedChatId).catch(() => {});
     }
   }, []);
 
   useEffect(() => {
-    if (chatHistory.length > 0) {
-      localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+    localStorage.setItem('chatDraft', input);
+  }, [input]);
+
+  useEffect(() => {
+    if (currentChatId) {
+      localStorage.setItem('activeChatId', currentChatId);
+    } else {
+      localStorage.removeItem('activeChatId');
     }
-  }, [chatHistory]);
+  }, [currentChatId]);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -96,18 +157,19 @@ When showing code examples, always use proper syntax highlighting and include cl
 
   useEffect(() => {
     return () => {
-      if (typingIntervalRef.current) {
-        clearInterval(typingIntervalRef.current);
+      selectedImages.forEach(image => URL.revokeObjectURL(image.previewUrl));
+      if (controllerRef.current) {
+        controllerRef.current.abort();
       }
-      abortTypingRef.current = true;
     };
-  }, []);
+  }, [selectedImages]);
 
   const addMessage = (role, content, meta = {}) => {
     const newMessage = {
       id: Date.now() + Math.random(),
       role,
       content,
+      parts: [{ type: 'text', text: content }],
       meta,
       ts: Date.now(),
     };
@@ -122,61 +184,18 @@ When showing code examples, always use proper syntax highlighting and include cl
 
       return prev.map((msg, index) =>
         index === lastIndex && msg.role === 'assistant'
-          ? { ...msg, content, meta, ts: Date.now() }
+          ? { ...msg, content, parts: [{ type: 'text', text: content }], meta, ts: Date.now() }
           : msg
       );
     });
   };
 
-  const generateChatTitle = userMessage => {
-    const words = userMessage.trim().split(/\s+/);
-    if (words.length <= 4) return userMessage;
-    return words.slice(0, 4).join(' ') + '...';
-  };
-
-  const saveCurrentChatToHistory = () => {
-    if (messages.length <= 1) return;
-
-    const userMessages = messages.filter(msg => msg.role === 'user');
-    const firstUserMessage = userMessages[0]?.content || 'New Chat';
-    const title = generateChatTitle(firstUserMessage);
-
-    const newChat = {
-      id: currentChatId || Date.now(),
-      title,
-      messages: [...messages],
-      lastUpdated: Date.now(),
-    };
-
-    setChatHistory(prev => {
-      const existingIndex = prev.findIndex(chat => chat.id === newChat.id);
-      let updatedHistory;
-
-      if (existingIndex >= 0) {
-        updatedHistory = [...prev];
-        updatedHistory[existingIndex] = newChat;
-      } else {
-        updatedHistory = [newChat, ...prev];
-      }
-
-      return updatedHistory.slice(0, 20);
-    });
-
-    if (!currentChatId) {
-      setCurrentChatId(newChat.id);
-    }
-  };
-
-  const loadChatFromHistory = chat => {
-    setMessages(chat.messages);
-    setCurrentChatId(chat.id);
-    abortTypingRef.current = true;
-    setIsTyping(false);
+  const handleSessionSelect = async chat => {
+    await loadChatMessages(chat.id);
     setShowSidebar(false);
   };
 
   const startNewChat = () => {
-    saveCurrentChatToHistory();
     setMessages([
       {
         id: Date.now(),
@@ -187,106 +206,152 @@ When showing code examples, always use proper syntax highlighting and include cl
       },
     ]);
     setCurrentChatId(null);
+    setHistoryVersion(null);
+    setSelectedImages([]);
     setInput('');
     setShowSidebar(false);
   };
 
-  const deleteChatFromHistory = (chatId, e) => {
+  const deleteChatFromHistory = async (chatId, e) => {
     e.stopPropagation();
-    setChatHistory(prev => prev.filter(chat => chat.id !== chatId));
-
-    if (currentChatId === chatId) {
-      startNewChat();
+    try {
+      setLoading(true);
+      await api.delete(`/user/chat/sessions/${chatId}`);
+      setSessions(prev => prev.filter(chat => chat.id !== chatId));
+      if (currentChatId === chatId) {
+        startNewChat();
+      }
+    } catch (error) {
+      console.error('Unable to delete chat session', error);
+      window.alert('Unable to delete the chat session. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
-  const simulateTyping = (fullText, onComplete) => {
-    abortTypingRef.current = false;
-    setIsTyping(true);
+  const addSelectedImages = files => {
+    const incomingFiles = Array.from(files || []);
+    const newFiles = [];
 
-    let charIdx = 0;
-    const typingSpeed = Math.max(10, Math.min(50, 1000 / fullText.length));
-
-    if (typingIntervalRef.current) {
-      clearInterval(typingIntervalRef.current);
+    for (const file of incomingFiles) {
+      if (selectedImages.length + newFiles.length >= MAX_IMAGE_COUNT) {
+        window.alert(`You can only upload up to ${MAX_IMAGE_COUNT} images.`);
+        break;
+      }
+      if (!isValidImageFile(file)) continue;
+      newFiles.push(createPreviewForFile(file));
     }
 
-    typingIntervalRef.current = setInterval(() => {
-      if (abortTypingRef.current) {
-        clearInterval(typingIntervalRef.current);
-        setIsTyping(false);
-        onComplete(fullText);
-        return;
-      }
-
-      charIdx += 1;
-      const partialText = fullText.substring(0, charIdx);
-      updateLastAssistantMessage(partialText, { typing: true });
-
-      if (charIdx >= fullText.length) {
-        clearInterval(typingIntervalRef.current);
-        setIsTyping(false);
-        updateLastAssistantMessage(fullText, { typing: false });
-        onComplete();
-      }
-    }, typingSpeed);
+    if (newFiles.length > 0) {
+      setSelectedImages(prev => [...prev, ...newFiles]);
+    }
   };
 
-  const controllerRef = useRef(null);
+  const removeSelectedImage = index => {
+    setSelectedImages(prev => {
+      const next = [...prev];
+      const [removed] = next.splice(index, 1);
+      if (removed?.previewUrl) {
+        URL.revokeObjectURL(removed.previewUrl);
+      }
+      return next;
+    });
+  };
+
+  const buildUploadFormData = ({ prompt, clientMessageId }) => {
+    const formData = new FormData();
+    formData.append('prompt', prompt);
+    formData.append('clientMessageId', clientMessageId);
+
+    if (currentChatId) {
+      formData.append('chatId', currentChatId);
+    }
+    if (historyVersion !== null) {
+      formData.append('expectedHistoryVersion', String(historyVersion));
+    }
+    selectedImages.forEach(({ file }) => formData.append('images', file));
+    return formData;
+  };
 
   const sendMessage = async () => {
-    const userMessage = input.trim();
-    if (!userMessage || loading) return;
+    const prompt = input.trim();
+    if (!prompt || loading) return;
 
-    addMessage('user', userMessage);
+    const clientMessageId = generateUUID();
+    if (pendingClientMessageIds.includes(clientMessageId)) return;
+
+    setPendingClientMessageIds(prev => [...prev, clientMessageId]);
+    const optimisticUserMessage = {
+      id: clientMessageId,
+      role: 'user',
+      content: prompt,
+      parts: [
+        { type: 'text', text: prompt },
+        ...selectedImages.map(({ previewUrl }) => ({
+          type: 'image',
+          previewUrl,
+        })),
+      ],
+      meta: { pending: true, clientMessageId },
+      ts: Date.now(),
+    };
+
+    setMessages(prev => [...prev, optimisticUserMessage, { id: `assistant-${Date.now()}`, role: 'assistant', content: '', parts: [], meta: { typing: true }, ts: Date.now() }]);
     setInput('');
     setLoading(true);
 
     controllerRef.current?.abort();
     controllerRef.current = new AbortController();
 
-    addMessage('assistant', '');
-
     try {
-      const apiMessages = [
-        { role: 'system', content: SYSTEM_PROMPT },
-        ...messages.map(m => ({ role: m.role, content: m.content })),
-        { role: 'user', content: userMessage },
-      ];
-
-      const timeoutId = setTimeout(() => {
-        controllerRef.current.abort();
-      }, 80000);
-
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
+      const formData = buildUploadFormData({ prompt, clientMessageId });
+      const response = await api.post('/user/chat/messages', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
         signal: controllerRef.current.signal,
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${OPENAI_KEY}`,
-        },
-        body: JSON.stringify({
-          model: 'gpt-5',
-          messages: apiMessages,
-        }),
       });
 
-      clearTimeout(timeoutId);
-
-      if (!response.ok) {
-        throw new Error(await response.text());
+      const payload = response.data?.data;
+      if (!payload) {
+        throw new Error('Unexpected server response.');
       }
 
-      const data = await response.json();
-      const aiText = data.choices?.[0]?.message?.content || 'No response received. Please retry.';
+      setCurrentChatId(payload.chatId);
+      setHistoryVersion(payload.historyVersion ?? null);
 
-      updateLastAssistantMessage(aiText);
-      saveCurrentChatToHistory();
-    } catch (err) {
-      updateLastAssistantMessage(
-        err.name === 'AbortError' ? '⚠️ Request timed out. Please try again.' : `❌ ${err.message}`
+      const serverUser = convertServerMessage(payload.userMessage);
+      const serverAssistant = convertServerMessage(payload.assistantMessage);
+
+      setMessages(prev =>
+        prev
+          .map(msg => (msg.id === clientMessageId ? serverUser : msg))
+          .map((msg, index, arr) => {
+            if (index === arr.length - 1 && msg.role === 'assistant' && msg.meta?.typing) {
+              return {
+                ...serverAssistant,
+                meta: { typing: false },
+              };
+            }
+            return msg;
+          })
       );
+
+      setSelectedImages([]);
+      await loadSessions();
+    } catch (error) {
+      const errorCode = error?.response?.data?.errorCode;
+      const errorMessage =
+        error?.response?.data?.message || error.message || 'Unable to send your message.';
+
+      if (errorCode === 'CHAT_VERSION_CONFLICT' && currentChatId) {
+        await loadChatMessages(currentChatId);
+        window.alert('Chat history has changed. Reloaded the latest messages. Please try again.');
+      } else if (errorCode === 'CHAT_MESSAGE_IN_PROGRESS') {
+        window.alert('This message is already being processed. Please wait a moment.');
+      } else {
+        updateLastAssistantMessage(`❌ ${errorMessage}`);
+      }
     } finally {
+      setPendingClientMessageIds(prev => prev.filter(id => id !== clientMessageId));
       setLoading(false);
     }
   };
@@ -320,22 +385,13 @@ When showing code examples, always use proper syntax highlighting and include cl
     }
   };
 
-    const fileInputRef = useRef(null);
-
   const handleClick = () => {
-    fileInputRef.current.click();
+    fileInputRef.current?.click();
   };
 
-  const handleChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    if (!file.type.startsWith("image/")) {
-      alert("Only image files allowed");
-      return;
-    }
-
-    console.log("Selected image:", file);
+  const handleChange = e => {
+    addSelectedImages(e.target.files);
+    e.target.value = '';
   };
 
   return (
@@ -405,14 +461,14 @@ When showing code examples, always use proper syntax highlighting and include cl
             <div className="flex-1 overflow-y-auto p-3 min-h-0">
               <h3 className="text-sm font-semibold text-gray-500 px-2 mb-3">Recent Chats</h3>
 
-              {chatHistory.length === 0 ? (
+              {sessions.length === 0 ? (
                 <div className="text-center py-8 text-gray-400 text-sm">
                   <Icon icon="mdi:chat-outline" className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                  <p>No chat history yet</p>
+                  <p>No chat sessions yet</p>
                 </div>
               ) : (
                 <div className="space-y-1">
-                  {chatHistory.map(chat => (
+                  {sessions.map(chat => (
                     <div
                       key={chat.id}
                       className={`group relative flex items-center gap-2 p-3 rounded-lg cursor-pointer transition-all duration-200 ${
@@ -420,7 +476,7 @@ When showing code examples, always use proper syntax highlighting and include cl
                           ? 'bg-emerald-50 border border-emerald-200'
                           : 'hover:bg-gray-100'
                       }`}
-                      onClick={() => loadChatFromHistory(chat)}
+                      onClick={() => handleSessionSelect(chat)}
                     >
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
@@ -440,7 +496,7 @@ When showing code examples, always use proper syntax highlighting and include cl
                             {chat.title}
                           </span>
                         </div>
-                        <div className="text-xs text-gray-500">{formatDate(chat.lastUpdated)}</div>
+                        <div className="text-xs text-gray-500">{formatDate(chat.lastMessageAt)}</div>
                       </div>
                       <button
                         onClick={e =>
@@ -485,36 +541,73 @@ When showing code examples, always use proper syntax highlighting and include cl
                       }`}
                     >
                       {message.role === 'user' ? (
-                        <div className="whitespace-pre-wrap break-words text-sm md:text-base">
-                          {message.content}
+                        <div>
+                          <div className="whitespace-pre-wrap break-words text-sm md:text-base">
+                            {message.parts?.filter(part => part.type === 'text').map(part => part.text).join('') || message.content}
+                          </div>
+                          {message.parts?.filter(part => part.type === 'image').length > 0 && (
+                            <div className="mt-3 grid grid-cols-2 gap-2">
+                              {message.parts
+                                .filter(part => part.type === 'image')
+                                .map((part, idx) => (
+                                  <img
+                                    key={`user-image-${idx}`}
+                                    src={part.previewUrl}
+                                    alt="uploaded"
+                                    className="rounded-xl border border-white/20 object-cover max-h-40 w-full"
+                                  />
+                                ))}
+                            </div>
+                          )}
+                        </div>
+                      ) : message.meta?.typing ? (
+                        <div className="flex items-center gap-2">
+                          <span className="text-gray-600 text-sm md:text-base">Prepo AI is typing</span>
+                          <div className="flex space-x-1">
+                            <div
+                              className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"
+                              style={{ animationDelay: '0ms' }}
+                            />
+                            <div
+                              className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"
+                              style={{ animationDelay: '150ms' }}
+                            />
+                            <div
+                              className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"
+                              style={{ animationDelay: '300ms' }}
+                            />
+                          </div>
                         </div>
                       ) : (
-                        <div className="prose prose-sm max-w-none">
-                          {message.meta?.typing ? (
-                            <div className="flex items-center gap-2">
-                              <span className="text-gray-600 text-sm md:text-base">
-                                Prepo AI is typing
-                              </span>
-                              <div className="flex space-x-1">
-                                <div
-                                  className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"
-                                  style={{ animationDelay: '0ms' }}
-                                />
-                                <div
-                                  className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"
-                                  style={{ animationDelay: '150ms' }}
-                                />
-                                <div
-                                  className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"
-                                  style={{ animationDelay: '300ms' }}
-                                />
-                              </div>
-                            </div>
+                        <div className="message-content">
+                          {message.parts?.some(part => part.type === 'text') ? (
+                            <MessageRenderer
+                              content={message.parts
+                                .filter(part => part.type === 'text')
+                                .map(part => part.text)
+                                .join('')}
+                            />
                           ) : (
-                            <div className="message-content">
-                              <MessageRenderer content={message.content} />
+                            <div className="whitespace-pre-wrap break-words text-sm md:text-base">
+                              {message.content}
+                            </div>
+                          )}
+                          {message.parts?.filter(part => part.type === 'image').length > 0 && (
+                            <div className="mt-3 grid grid-cols-2 gap-2">
+                              {message.parts
+                                .filter(part => part.type === 'image')
+                                .map((part, idx) => (
+                                  <img
+                                    key={`assistant-image-${idx}`}
+                                    src={part.previewUrl || part.url}
+                                    alt="assistant attachment"
+                                    className="rounded-xl border border-gray-200 object-cover max-h-52 w-full"
+                                  />
+                                ))}
+                            </div>
+                          )}
 
-                              <style>{`
+                          <style>{`
                                 .message-content pre {
                                   background-color: #1a202c !important;
                                   color: #e2e8f0 !important;
@@ -683,24 +776,22 @@ When showing code examples, always use proper syntax highlighting and include cl
                                   }
                                 }
                               `}</style>
-                            </div>
-                          )}
                         </div>
                       )}
                     </div>
 
-                    <div
-                      className={`text-xs mt-1 px-1 text-gray-500 ${
-                        message.role === 'user' ? 'text-right' : 'text-left'
-                      }`}
-                    >
-                      {formatTime(message.ts)}
-                    </div>
+                   <div
+  className={`text-xs mt-1 px-1 text-gray-500 ${
+    message.role === 'user' ? 'text-right' : 'text-left'
+  }`}
+>
+  {formatTime(message.createdAt || message.ts)}
+</div>
                   </div>
                 </div>
               ))}
 
-              {loading && !isTyping && (
+              {/* {loading && !isTyping && (
                 <div className="flex justify-start">
                   <div className="max-w-[80%]">
                     <div className="bg-white border border-gray-200 rounded-2xl rounded-bl-none px-4 py-3 shadow-sm">
@@ -724,7 +815,7 @@ When showing code examples, always use proper syntax highlighting and include cl
                     </div>
                   </div>
                 </div>
-              )}
+              )} */}
 
               <div ref={chatEndRef} />
             </div>
@@ -733,7 +824,7 @@ When showing code examples, always use proper syntax highlighting and include cl
 
         <div className="border-t border-gray-200 bg-white flex-shrink-0">
           <div className="py-3">
-            <div className="flex items-center gap-2 md:gap-3">
+            <div className="flex items-start gap-2 md:gap-3 relative">
               <div className="flex-1 relative">
                 <textarea
                   value={input}
@@ -745,10 +836,31 @@ When showing code examples, always use proper syntax highlighting and include cl
                   style={{ minHeight: '44px', maxHeight: '100px' }}
                   disabled={loading || isTyping}
                 />
-                    <>
+                {selectedImages.length > 0 && (
+                  <div className="mt-2 grid grid-cols-2 gap-2">
+                    {selectedImages.map((image, idx) => (
+                      <div key={`preview-${idx}`} className="relative rounded-xl overflow-hidden border border-gray-200">
+                        <img
+                          src={image.previewUrl}
+                          alt="attachment preview"
+                          className="h-24 w-full object-contain"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => removeSelectedImage(idx)}
+                          className="absolute top-1 right-1 rounded-full bg-black/50 text-white p-1"
+                          title="Remove image"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <>
       <div
         onClick={handleClick}
-        className="absolute right-3 bottom-5 cursor-pointer"
+        className="absolute right-3 top-4 cursor-pointer"
       >
         <Icon
           icon="mdi:image-plus-outline"
@@ -771,7 +883,7 @@ When showing code examples, always use proper syntax highlighting and include cl
               <button
                 onClick={sendMessage}
                 disabled={!input.trim() || loading || isTyping}
-                className="px-4 md:px-6 py-2.5 md:py-3 relative bottom-[4px] bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-1 md:gap-2 font-medium text-sm md:text-base"
+                className="px-4 md:px-6 py-2.5 md:py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-1 md:gap-2 font-medium text-sm md:text-base"
               >
                 {loading ? (
                   <>
