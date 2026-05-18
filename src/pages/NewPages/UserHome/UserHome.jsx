@@ -255,7 +255,7 @@ const triggerRazorpay = async ({
 }) => {
   try {
     const orderResponse = await fetch(
-      `https://complete-prep-project-main.vercel.app/api/create-order`,
+      `https://api.semprep.com/api/create-order`,
       {
         method: 'POST',
         headers: {
@@ -297,7 +297,7 @@ const triggerRazorpay = async ({
       handler: async function (response) {
         try {
           const verifyResponse = await fetch(
-            `https://complete-prep-project-main.vercel.app/api/verify-payment`,
+            `https://api.semprep.com/api/verify-payment`,
             {
               method: 'POST',
               headers: {
@@ -499,7 +499,7 @@ const getInitials = (name = "") => {
                           decoding="async"
                           width={800}
                           height={450}
-                          className="max-h-[300px] md:rounded-xl rounded-lg w-full object-cover"
+                          className="h-[135px] md:rounded-xl rounded-lg w-full object-cover"
                         />
                         <div className="w-full flex items-center mt-4">
                           <input
@@ -528,7 +528,7 @@ const getInitials = (name = "") => {
                           </span>
                         )}
                       </div>
-                      <div className="p-3 space-y-2">
+                      <div className="pt-3 space-y-2">
                         <p className="text-sm font-semibold text-black leading-tight">
                           {course?.name || ''}
                         </p>

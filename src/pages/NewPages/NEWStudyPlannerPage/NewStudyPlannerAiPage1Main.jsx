@@ -168,6 +168,11 @@ const NewStudyPlannerAiPage1Main = () => {
 
                   </div>
                 )}
+                {!isLoading && courses.length === 0 && (
+                  <div className="flex justify-center items-center mt-8 w-full">
+                    <p>No courses found for your goal category. Please check back later.</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>

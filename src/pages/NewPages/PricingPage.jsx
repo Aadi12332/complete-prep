@@ -680,7 +680,7 @@ const PricingPage = () => {
   }) => {
     try {
       const orderResponse = await fetch(
-        `https://complete-prep-project-main.vercel.app/api/create-order`,
+        `https://api.semprep.com/api/create-order`,
         {
           method: 'POST',
           headers: {
@@ -722,7 +722,7 @@ const PricingPage = () => {
         handler: async function (response) {
           try {
             const verifyResponse = await fetch(
-              `https://complete-prep-project-main.vercel.app/api/verify-payment`,
+              `https://api.semprep.com/api/verify-payment`,
               {
                 method: 'POST',
                 headers: {
@@ -798,6 +798,7 @@ const PricingPage = () => {
       onFailure?.(error);
     }
   };
+  
   const handleSubscribe = () => {
     const sub = selectedPlan;
     setLoadingPlanId(sub._id);

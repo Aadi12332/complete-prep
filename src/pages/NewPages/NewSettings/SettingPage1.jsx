@@ -25,7 +25,8 @@ const SettingPage1 = () => {
   const [selectedCoupons, setSelectedCoupons] = useState('');
     const [loadingPlanId, setLoadingPlanId] = useState(null);
   const [currentSubscription, setCurrentSubscription] = useState(null);
-
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [showBannerModal, setShowBannerModal] = useState(false);
   const [profileData, setProfileData] = useState({
     avatar: user?.image || '',
     fullName: user?.fullName || '',
@@ -281,7 +282,7 @@ const triggerRazorpay = async ({
 }) => {
   try {
     const orderResponse = await fetch(
-      `https://complete-prep-project-main.vercel.app/api/create-order`,
+      `https://api.semprep.com/api/create-order`,
       {
         method: 'POST',
         headers: {
@@ -323,7 +324,7 @@ const triggerRazorpay = async ({
       handler: async function (response) {
         try {
           const verifyResponse = await fetch(
-            `https://complete-prep-project-main.vercel.app/api/verify-payment`,
+            `https://api.semprep.com/api/verify-payment`,
             {
               method: 'POST',
               headers: {

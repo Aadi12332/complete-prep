@@ -194,6 +194,11 @@ const SkillsPage2 = () => {
               ))}
             </div>
           )}
+          {courses.length === 0 && !isLoading && (
+            <div className="flex flex-col items-center justify-center mt-10">
+              No skill courses available at the moment.
+            </div>
+          )}
         </div>
       </div>
     </div>

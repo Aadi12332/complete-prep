@@ -87,7 +87,7 @@ const CoursePage2_1 = () => {
                   {courses?.[0]?.title || 'Course'}
                 </p> */}
 
-                <div className="space-y-4 grid grid-cols-1 lg:grid-cols-4 gap-4">
+                <div className="space-y-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {courses?.[0]?.subjects?.map((course, index) => (
                     // <div
                     //   key={index}
@@ -113,6 +113,7 @@ const CoursePage2_1 = () => {
                     //   <span className="text-lg text-gray-500">→</span>
                     // </div>
                     <div
+                    key={index}
                       style={{
                         width: '100%',
                         position: 'relative',
@@ -136,7 +137,7 @@ const CoursePage2_1 = () => {
                           objectFit: 'cover',
                           transition: 'transform 0.35s ease',
                         }}
-                        className="group-hover:scale-110 max-h-[300px]"
+                        className="group-hover:scale-110 aspect-[3/4]"
                       />
                     </div>
                   ))}

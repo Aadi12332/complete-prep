@@ -140,15 +140,10 @@ const PlacementPage1 = () => {
                   </div>
                 </div>
 
-                <div className="w-full gc-2 gap-4">
                   {loading && (
-                    <div className="text-center py-8 text-sm text-gray-500">Loading jobs…</div>
+                    <div className="flex items-center justify-center text-center py-8 text-sm text-gray-500">Loading jobs…</div>
                   )}
-                  {!loading && jobs?.length === 0 && (
-                    <div className="flex items-center justify-center text-center py-8 text-sm text-gray-500">
-                      <span>No jobs available</span>
-                    </div>
-                  )}
+                <div className="w-full gc-2 gap-4">
                   {jobs?.map(job => (
                     <div
                       key={job._id}
@@ -196,6 +191,12 @@ const PlacementPage1 = () => {
                     </div>
                   ))}
                 </div>
+
+                 {!loading && jobs?.length === 0 && (
+                    <div className="flex items-center justify-center text-center py-8 text-sm text-gray-500">
+                      <span>No jobs available</span>
+                    </div>
+                  )}
               </div>
 
               <div className="bg-[#efefef] rounded-xl p-3 sm:full lg:w-[30%]">

@@ -12,11 +12,12 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const sidebarRef = useRef();
+  const mounted = useRef(true);
   const [currentState, setCurrentState] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalJoinVisible, setModalJoinVisible] = useState(false);
-  const { setUser } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   const [nextPage, setNextPage] = useState('');
   const [goalCategory, setGoalCategory] = useState([]);
   const [goal, setGoal] = useState([]);
@@ -76,6 +77,12 @@ const Header = () => {
 
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isSidebarOpen]);
+
+  useEffect(() => {
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
 
   const fetchTopBanner = async () => {
     userApi.landingPage.getTopBanner({
@@ -333,7 +340,7 @@ const handleDirect = (semesterId) => {
       },
       setIsLoading: v => {
         if (!mounted.current) return;
-        setIsLoading(v);
+        setLoading(v);
       },
     });
   };

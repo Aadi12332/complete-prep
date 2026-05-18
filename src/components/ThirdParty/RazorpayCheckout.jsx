@@ -12,7 +12,7 @@ export const loadRazorpayScript = () =>
 
 const createOrder = async amount => {
   const response = await fetch(
-    'https://complete-prep-project-main.vercel.app/api/create-order',
+    'https://api.semprep.com/api/create-order',
     {
       method: 'POST',
       headers: {
@@ -36,7 +36,7 @@ const createOrder = async amount => {
 
 const verifyPayment = async response => {
   const verifyResp = await fetch(
-    'https://complete-prep-project-main.vercel.app/api/verify-payment',
+    'https://api.semprep.com/api/verify-payment',
     {
       method: 'POST',
       headers: {

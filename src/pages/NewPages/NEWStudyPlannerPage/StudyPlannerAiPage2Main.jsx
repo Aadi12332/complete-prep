@@ -149,6 +149,11 @@ const StudyPlannerAiPage2Main = () => {
                     })}
                   </div>
                 )}
+                {!isLoading && profiles.length === 0 && (
+                  <div className="flex justify-center items-center mt-8 w-full">
+                    <p>No profiles found. Please create a profile to proceed.</p>
+                  </div>
+                )}
 
                 {selectedProfile && (
                   <div className="flex justify-center mt-6">

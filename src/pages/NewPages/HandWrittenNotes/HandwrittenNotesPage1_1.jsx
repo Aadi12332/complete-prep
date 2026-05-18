@@ -108,6 +108,13 @@ handleBundleClick(response?.data[0]?._id);
             </div>
           ))}
         </div>
+        {
+          bundles.length === 0 && (
+            <div className="flex flex-col items-center justify-center mt-10">
+              No handwritten notes bundles available at the moment.
+            </div>
+          )
+        }
       </div>
     </div>
   );

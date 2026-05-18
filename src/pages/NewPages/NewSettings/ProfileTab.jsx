@@ -13,10 +13,10 @@ const ProfileTab = () => {
   const [loading, setLoading] = useState(false);
   const [subscriptionStatus, setSubscriptionStatus] = useState(false);
   const [isReferalButtonVisible, setIsReferalButtonVisible] = useState(false);
-  const [showNotifications, setShowNotifications] = useState(false);
   const [currentSubscription, setCurrentSubscription] = useState(null);
   const [subscriptions, setSubscriptions] = useState([]);
   const [allCoupons, setAllCoupons] = useState([]);
+  const [showNotifications, setShowNotifications] = useState(false);
   const [showBannerModal, setShowBannerModal] = useState(false);
   const {
     register,
