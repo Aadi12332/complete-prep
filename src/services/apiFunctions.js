@@ -37,6 +37,8 @@ const createApiRequest =
 export const userApi = {
   auth: {
     login: createApiRequest('POST', endpoints.auth.userLogin),
+    emailLogin: createApiRequest('POST', endpoints.auth.userEmailLogin),
+
     registerUser: createApiRequest('POST', endpoints.auth.registerUser),
     forgotPassword: createApiRequest('POST', endpoints.auth.forgotPassword),
     changePassword: createApiRequest('PUT', endpoints.auth.changePassword),

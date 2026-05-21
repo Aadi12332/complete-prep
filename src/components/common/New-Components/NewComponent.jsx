@@ -1123,6 +1123,8 @@ export const ProfileEditFormMain = ({ closeModal, nextPage, setUser,seletedStep,
   const [loginMethod, setLoginMethod] = useState('phone');
   const [isLoading, setIsLoading] = useState(false);
   const [otpSentTo, setOtpSentTo] = useState(null);
+  const [otpEmailSentTo, setOtpEmailSentTo] = useState(null);
+
   const [userId, setUserId] = useState('');
   const navigate = useNavigate();
 
@@ -1139,11 +1141,44 @@ export const ProfileEditFormMain = ({ closeModal, nextPage, setUser,seletedStep,
         });
 
         setOtpSentTo(data.mobileNumber);
+        setOtpEmailSentTo(data.email);
         setStep('otp');
       },
     });
   };
+  const onSubmitEmailLogin = async data => {
+    userApi.auth.emailLogin({
+      data: { email: data.email },
+      setIsLoading,
+      onSuccess: res => {
+        setUserId(res?.data?.id);
+        showNotification({
+          type: res?.data?.otp ? 'success' : 'error',
+          message: res?.data?.otp ? `Otp is ${res?.data?.otp}` : 'Something went wrong',
+        });
+        setOtpSentTo(data.email);
+        setOtpEmailSentTo(data.email);
+        setStep('otp');
+      },
+    });
+  };
+const onVerifyOtp = data => {
+userApi.auth.verifyOtp({
+      data: { id: data.id },
+      setIsLoading,
+      onSuccess: res => {
+        setUserId(res?.data?.id);
+        showNotification({
+          type: res?.data?.otp ? 'success' : 'error',
+          message: res?.data?.otp ? `Otp is ${res?.data?.otp}` : 'Something went wrong',
+        });
+        setOtpSentTo(data.email);
+        setOtpEmailSentTo(data.email);
+        
+      },
+    });
 
+}
   const onSubmitOtp = data => {
     userApi.auth.verifyOtp({
       id: userId,
@@ -1223,6 +1258,7 @@ if(courseId&&semesterId&&universityId){
       showMsg: true,
       onSuccess: res => {
         setOtpSentTo(data.mobileNumber);
+        setOtpEmailSentTo(data.email);
         setStep('login');
       },
     });
@@ -1270,6 +1306,24 @@ if(courseId&&semesterId&&universityId){
                   <p className="text-xs italic text-red-500">{errors.mobileNumber.message}</p>
                 )}
               </div>
+            {false&&   <div>
+                <label className="block text-sm font-medium text-gray-700">Email</label>
+                <input
+                  type="email"
+                  {...register('email', {
+                    required: 'Email is required',
+                    pattern: {
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                      message: 'Enter a valid email address',
+                    },
+                  })}
+                  className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
+                  placeholder="you@example.com"
+                />
+                {errors.email && (
+                  <p className="text-xs italic text-red-500">{errors.email.message}</p>
+                )}
+              </div>}
               <button
                 type="submit"
                 className="w-full bg-[#3DD455] hover:bg-black text-white font-bold px-4 py-2 rounded-lg"

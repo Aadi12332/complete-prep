@@ -66,7 +66,6 @@ const CoursePage2_1 = () => {
           });
     }
   };
-
   return (
     <div className="user_container">
 
@@ -87,7 +86,7 @@ const CoursePage2_1 = () => {
                   {courses?.[0]?.title || 'Course'}
                 </p> */}
 
-                <div className="space-y-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {courses?.[0]?.subjects?.map((course, index) => (
                     // <div
                     //   key={index}
@@ -126,8 +125,9 @@ const CoursePage2_1 = () => {
                       onClick={() => handleCourseSelect(course)}
                       className="group"
                     >
+                      {course?.imageUrl }
                       <img
-                        src={course.image || images.newSubjectImage1}
+                        src={course?.subject?.imageUrl || images.newSubjectImage1}
                         alt="Course Thumbnail"
                         style={{
                           position: 'absolute',
@@ -139,9 +139,17 @@ const CoursePage2_1 = () => {
                         }}
                         className="group-hover:scale-110 aspect-[3/4]"
                       />
+                      <p className="text-center text-sm font-semibold mt-2 z-10 py-2 relative bg-white">
+                        {course?.subject?.name}
+                      </p>
                     </div>
                   ))}
                 </div>
+                {courses?.[0]?.subjects?.length === 0 && (
+                  <p className="text-center text-gray-500 mt-10">
+                    No subjects available for this course.
+                  </p>
+                )}
               </div>
 
               {/* <div className="bg-white w-full lg:w-[40%] p-3 rounded-2xl">

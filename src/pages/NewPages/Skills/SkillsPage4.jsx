@@ -183,7 +183,7 @@ const SkillsPage4 = () => {
               <p>Loading...</p>
             </div>
           ) : (
-            <div className="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-4 ">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
               {currentSubject?.subSubjects?.map((subSubject, subSubIndex) => (
                 <div
                   key={subSubject?._id || subSubIndex}
@@ -216,7 +216,7 @@ const SkillsPage4 = () => {
                   </div>
 
                   {activeChapter === subSubIndex && (
-                    <div className="px-2 pb-5 space-y-3">
+                    <div className="px-2 pb-2 space-y-3">
                       <div className="flex bg-[#efefef] rounded-3xl p-1 gap-2 justify-between sm:flex-wrap text-sm font-medium text-gray-700">
                         {['Videos', 'Docs', 'Tests'].map(tab => (
                           <button
@@ -241,6 +241,11 @@ const SkillsPage4 = () => {
                             ))}
                           </div>
                         ))}
+                        {!subSubject?.chapters?.length && (
+                          <div className="p-4 text-center text-gray-600">
+                            No content available for this chapter.
+                          </div>
+                        )}
                       </div>
                     </div>
                   )}

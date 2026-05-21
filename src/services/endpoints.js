@@ -1,6 +1,9 @@
 export const endpoints = {
   auth: {
     userLogin: "/user/loginWithPhone",
+    userEmailLogin: "/user/send-email-otp",
+    verifyOtp: (id) => `/user/verify-email-otp/${id}`,
+
     registerUser: "/user/signup",
     forgotPassword: "/user/forget/Password",
     changePassword: (id) => `/user/changePassword/${id}`,

@@ -59,7 +59,7 @@ const CoursePage3 = () => {
         return courseVideos;
     }
   };
-
+console.log({currentSubject})
   return (
     <div className="user_container">
       <div className="">
@@ -75,7 +75,7 @@ const CoursePage3 = () => {
             style={{ maxHeight: '300px', width: '100%' }}
           />
         </div> */}
-        <div className="overflow-hidden rounded-xl"></div>
+        {/* <div className="overflow-hidden rounded-xl"></div> */}
         <div className="w-full">
           <h1 className="text-2xl font-bold text-gray-800">
             {currentSubject?.subject?.name || ''}
@@ -90,8 +90,8 @@ const CoursePage3 = () => {
               <p>Loading...</p>
             </div>
           ) : (
-            <div className="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-4 ">
-              {currentSubject?.subSubjects?.map((subSubject, subSubIndex) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+              {currentSubject?.subject?.subSubject?.map((subSubject, subSubIndex) => (
                 <div key={subSubIndex} className="bg-white rounded-xl overflow-hidden">
                   <div
                     className="flex items-center justify-between px-4 py-3 cursor-pointer"
@@ -108,8 +108,8 @@ const CoursePage3 = () => {
                           {subSubject.subSubject?.name || 'Chapter'}
                         </p>
                         <p className="text-xs text-gray-500 mt-1">
-                          Total {subSubject?.totalHours || '12'} Hours |{' '}
-                          {subSubject?.totalLectures || '111'} lectures
+                          Total {subSubject?.totalHours || '0'} Hours |{' '}
+                          {subSubject?.totalLectures || '0'} lectures
                         </p>
                       </div>
                     </div>
@@ -120,7 +120,7 @@ const CoursePage3 = () => {
                   </div>
 
                   {activeChapter === subSubIndex && (
-                    <div className="px-2 pb-5 space-y-3">
+                    <div className="px-2 pb-2 space-y-3">
                       <div className="flex bg-[#efefef] rounded-3xl p-1 gap-2 justify-between sm:flex-wrap text-sm font-medium text-gray-700">
                         {['Videos', 'Notes', 'Tests'].map(tab => (
                           <button
@@ -130,7 +130,8 @@ const CoursePage3 = () => {
                             }`}
                             onClick={() => setActiveTab(tab)}
                           >
-                            {tab} <span className='bg-[#3dd455] text-white text-[9px] rounded-full w-4 h-4 min-w-4 flex items-center justify-center'>{subSubject?.chapters?.[0]?.topics?.length} </span>
+                            {tab} 
+                            <span className='bg-[#3dd455] text-white text-[9px] rounded-full w-4 h-4 min-w-4 flex items-center justify-center'>{subSubject?.chapters?.[0]?.topics?.length || "0"} </span>
                           </button>
                         ))}
                       </div>
@@ -202,6 +203,11 @@ const CoursePage3 = () => {
                             )}
                           </div>
                         ))}
+                        {!subSubject?.chapters?.length && (
+                          <div className="p-4 text-center text-gray-600">
+                            No content available for this chapter.
+                          </div>
+                        )}
                       </div>
                     </div>
                   )}
@@ -209,6 +215,10 @@ const CoursePage3 = () => {
               ))}
             </div>
           )}
+          {!currentSubject?.subject?.subSubject?.length && !isLoading && (
+            <div className="flex flex-col items-center gap-4 mt-10 bg-white p-6 rounded-lg">
+              <p className="text-gray-600 text-sm">No content available for this subject.</p> 
+              </div>)}
         </div>
       </div>
       </div>
