@@ -336,27 +336,38 @@ const CoursePage4 = () => {
     }
   }, [selectedVideo]);
 
-  useEffect(() => {
-    if (courseData && location.search) {
-      const queryParams = new URLSearchParams(location.search);
-      const topicId = queryParams.get('topicId');
-      const videoId = queryParams.get('videoId');
-      const subSubject = courseData.subjects
-        .flatMap(subject => subject.subSubjects)
-        .find(sub => sub._id === subSubjectId);
-      if (subSubject) {
-        const chapter = subSubject.chapters.find(chap => chap._id === chapterId);
-        if (chapter) {
-          const topic = chapter.topics.find(t => t._id === topicId);
-          if (topic) {
-            const video = topic.courseVideos.find(v => v._id === videoId);
-            setSelectedVideo(video);
-          }
-        }
-      }
-    }
-  }, [courseData, location.search]);
+useEffect(() => {
+  if (courseData && location.search) {
+    const queryParams = new URLSearchParams(location.search);
 
+    const topicId = queryParams.get('topicId');
+    const videoId = queryParams.get('videoId');
+
+    const subSubject = courseData?.subjects
+      ?.flatMap(subject => subject?.subSubjects || [])
+      ?.find(sub => sub?.subSubject?._id === subSubjectId);
+    const chapter = subSubject?.chapters?.find(
+      chap => chap?.chapter?._id === chapterId
+    );
+
+    const topicData = chapter?.topics?.find(
+      item => item?.topic?._id === topicId
+    );
+
+    const video = topicData?.courseVideos?.find(
+      item => item?._id === videoId
+    );
+        console.log({subSubject,chapter,topicData,video})
+
+
+  if (video) {
+  setSelectedVideo({
+    ...video,
+    videoLink: video?.videoLink?.replace('http://', 'https://'),
+  });
+}
+  }
+}, [courseData, location.search]);
   useEffect(() => {
     if (selectedVideo && courseData) {
       const nv = findNextVideoInCourse(selectedVideo._id, courseData);
@@ -751,13 +762,16 @@ const CoursePage4 = () => {
         <div className="flex smallScreenFlex gap-8">
           <div className="w-full lg:w-3/4">
             <div className="relative w-full aspect-video rounded-2xl">
+             
               <video
-                ref={videoRef}
-                className="w-full h-full object-cover rounded-2xl"
-                controls
-                src={selectedVideo?.videoLink}
-                onLoadedMetadata={handleLoadedMetadata}
-              />
+  key={selectedVideo?._id}
+  ref={videoRef}
+  className="w-full h-full object-cover rounded-2xl"
+  controls
+  autoPlay
+  src={selectedVideo?.videoLink}
+  onLoadedMetadata={handleLoadedMetadata}
+/>
               <button
                 onClick={() => setShowCaptions(!showCaptions)}
                 className="absolute p-2 text-white bg-black rounded-full bottom-2 right-2"

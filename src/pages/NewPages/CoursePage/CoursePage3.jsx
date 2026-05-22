@@ -48,10 +48,11 @@ const CoursePage3 = () => {
   };
 
   const filterContent = (courseVideos, tab) => {
+    console.log({tab})
     switch (tab) {
       case 'Videos':
         return courseVideos.filter(item => item.videoLink);
-      case 'Docs':
+      case 'Notes':
         return courseVideos.filter(item => item.educatorNotes && item.educatorNotes.length > 0);
       case 'Tests':
         return courseVideos.filter(item => item.testSeries && item.testSeries.length > 0);
@@ -91,7 +92,7 @@ console.log({currentSubject})
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
-              {currentSubject?.subject?.subSubject?.map((subSubject, subSubIndex) => (
+              {currentSubject?.subSubjects?.map((subSubject, subSubIndex) => (
                 <div key={subSubIndex} className="bg-white rounded-xl overflow-hidden">
                   <div
                     className="flex items-center justify-between px-4 py-3 cursor-pointer"
@@ -105,11 +106,11 @@ console.log({currentSubject})
                       </div>
                       <div>
                         <p className="text-sm font-semibold text-black">
-                          {subSubject?.name || 'Chapter'}
+                          {subSubject?.subSubject?.name || 'Chapter'}
                         </p>
                         <p className="text-xs text-gray-500 mt-1">
-                          Total {subSubject?.totalHours || '0'} Hours |{' '}
-                          {subSubject?.totalLectures || '0'} lectures
+                          Total {subSubject?.subSubject?.totalHours || '0'} Hours |{' '}
+                          {subSubject?.subSubject?.totalLectures || '0'} lectures
                         </p>
                       </div>
                     </div>
@@ -131,7 +132,12 @@ console.log({currentSubject})
                             onClick={() => setActiveTab(tab)}
                           >
                             {tab} 
-                            <span className='bg-[#3dd455] text-white text-[9px] rounded-full w-4 h-4 min-w-4 flex items-center justify-center'>{subSubject?.chapters?.[0]?.topics?.length || "0"} </span>
+                            <span className='bg-[#3dd455] text-white text-[9px] rounded-full w-4 h-4 min-w-4 flex items-center justify-center'>{
+                            tab === 'Videos'?subSubject?.chapters?.[0]?.topics?.[0]?.courseVideos?.length:
+                            tab === 'Notes'?subSubject?.chapters?.[0]?.topics?.[0]?.courseVideos?.filter(item => item.educatorNotes && item.educatorNotes.length > 0)?.length||subSubject?.chapters?.[0]?.topics?.[0]?.educatorNotes?.length:
+                            tab === 'Tests'?subSubject?.chapters?.[0]?.topics?.[0]?.courseVideos?.filter(item => item.testSeries && item.testSeries.length > 0)?.length||subSubject?.chapters?.[0]?.topics?.[0]?.testSeries?.length:
+                            
+                             0} </span>
                           </button>
                         ))}
                       </div>
@@ -144,15 +150,22 @@ console.log({currentSubject})
                             </h3> */}
                             {chapterData?.topics?.map((topic, topicIndex) =>
                               filterContent(topic.courseVideos || [], activeTab).map(
-                                (filteredContent, i) => (
+                                (filteredContent, i) => {
+                                  console.log({ filteredContent, topic });
+                                  return(
                                   <div
                                     key={i}
                                     className="flex items-center justify-between px-2 bg-[#efefef] rounded-lg cursor-pointer hover:shadow transition py-2"
                                     onClick={() => {
                                       if (activeTab === 'Videos' && filteredContent.videoLink) {
+                                        // console.log({i})
+                                        // return navigate(
+                                          
+                                        //   `/user/course/${id}/${courseId}/${subjectId}/${subSubject._id}/${chapterData._id}?topicId=${topic._id}&videoId=${filteredContent._id}`
+                                        // );
                                         return navigate(
-                                          `/user/course/${id}/${courseId}/${subjectId}/${subSubject._id}/${chapterData._id}?topicId=${topic._id}&videoId=${filteredContent._id}`
-                                        );
+  `/user/course/${id}/${courseId}/${subjectId}/${subSubject?.subSubject?._id}/${chapterData?.chapter?._id}?topicId=${topic?.topic?._id}&videoId=${filteredContent?._id}`
+);
                                       }
                                       if (activeTab === 'Docs' && filteredContent.educatorNotes) {
                                         return navigate(
@@ -186,10 +199,11 @@ console.log({currentSubject})
                                       />
                                       <div>
                                         <p className="text-sm font-semibold text-gray-800">
-                                          {topic?.name || `Topic ${topicIndex + 1}`}
+                                          {topic?.topic?.name || `Topic ${topicIndex + 1}`}
                                         </p>
                                         <p className="text-xs text-gray-500">
-                                          {activeTab.slice(0, -1)} | 12 Pages
+                                          {activeTab.slice(0, -1)}
+                                           {/* | 12 Pages */}
                                         </p>
                                       </div>
                                     </div>
@@ -198,7 +212,7 @@ console.log({currentSubject})
                                       className="text-lg text-gray-400"
                                     />
                                   </div>
-                                )
+                                )}
                               )
                             )}
                           </div>
