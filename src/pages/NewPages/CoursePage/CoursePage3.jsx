@@ -105,7 +105,7 @@ console.log({currentSubject})
                       </div>
                       <div>
                         <p className="text-sm font-semibold text-black">
-                          {subSubject.subSubject?.name || 'Chapter'}
+                          {subSubject?.name || 'Chapter'}
                         </p>
                         <p className="text-xs text-gray-500 mt-1">
                           Total {subSubject?.totalHours || '0'} Hours |{' '}
