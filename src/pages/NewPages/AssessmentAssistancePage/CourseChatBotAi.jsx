@@ -261,26 +261,24 @@ Failure to follow any rule is an incorrect response.
 
   return (
     <div className="bg-gradient-to-b from-gray-100 to-gray-50">
-      <div className="w-full h-[65vh] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden mt-2">
-        <div className="bg-gradient-to-r from-emerald-700 to-emerald-500 text-white p-4 flex justify-between items-center font-semibold">
-          <div className="flex items-center gap-3">
+      <div className="w-full h-[65vh] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden">
+        <div className="bg-gradient-to-r from-emerald-700 to-emerald-500 text-white xl:p-4 p-2 flex justify-between items-center font-semibold">
+          <div className="flex items-center gap-1">
             <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
               <Icon icon="mdi:robot" width="20" height="20" />
             </div>
             <div className="text-lg">Prepo Ai</div>
             <div className="text-xs text-white/80 ml-2">Your study assistant</div>
           </div>
-
-
         </div>
 
-        <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-50">
+        <div className="flex-1 overflow-y-auto xl:p-4 p-2 space-y-4 bg-gray-50">
           {messages?.map((msg, idx) => {
             const isUser = msg.role === 'user';
             return (
               <div key={idx} className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}>
                 <div
-                  className={`px-4 py-2 rounded-2xl text-sm whitespace-pre-wrap break-words max-w-[95%] ${
+                  className={`px-2.5 rounded-lg text-sm whitespace-pre-wrap break-words max-w-[95%] ${
                     isUser
                       ? 'bg-blue-600 text-white rounded-br-none'
                       : 'bg-white text-gray-800 border border-gray-200 rounded-bl-none shadow-sm'
@@ -328,19 +326,19 @@ Failure to follow any rule is an incorrect response.
           <div ref={chatEndRef} />
         </div>
 
-        <div className="border-t p-4 flex items-center gap-3 bg-white flex-wrap w-full">
+        <div className="border-t xl:p-4 p-2 flex items-center gap-1 bg-white flex-wrap w-full">
           <textarea
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Type your message..."
-            className="flex-1 p-3 border border-gray-200 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
+            className="flex-1 xl:p-3 p-2 border border-gray-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
             rows="1"
           />
           <button
             onClick={sendMessage}
             disabled={loading || !input.trim()}
-            className="px-4 py-2 bg-emerald-600 text-white rounded-xl disabled:opacity-50 hover:bg-emerald-700 transition-colors flex items-center gap-2"
+            className="px-2.5 py-2 bg-emerald-600 min-h-[38px] text-white rounded-lg disabled:opacity-50 hover:bg-emerald-700 transition-colors flex items-center gap-2"
           >
             <Icon icon="mdi:send" width="16" height="16" />
 

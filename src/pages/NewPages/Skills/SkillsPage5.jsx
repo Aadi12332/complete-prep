@@ -709,9 +709,9 @@ const SkillsPage5 = () => {
   if (isLoading) {
     return <div>Loading...</div>;
   }
-
+console.log(selectedVideo?.handwrittenNotes,"========")
   const tabs = ['Summary', 'Questions', 'Modules', 'Notes'];
-
+console.log({activeTab})
   if (!isPurchased) {
     return (
       <div className="flex flex-col items-center justify-center h-screen">
@@ -1023,37 +1023,46 @@ const SkillsPage5 = () => {
             </div>
           </div>
         )}
-        {activeTab === 'Notes' && (
-          <div className="mt-4 space-y-3">
-            {selectedVideo?.handwrittenNotes?.map((note, i) => (
-              <div
-                key={i}
-                className="flex items-center bg-white border rounded-lg p-3 shadow-sm cursor-pointer"
-                onClick={() =>
-                  navigate(`/user/notes/${selectedVideo._id}/view`, {
-                    state: {
-                      pdfUrl:
-                        selectedVideo?.handwrittenNotes?.[0]?.subjects?.[0]?.subSubjects?.[0]
-                          ?.chapters?.[0]?.topics?.[0]?.handwrittenNotes?.[0],
-                    },
-                  })
-                }
-              >
-                <img
-                  src={selectedVideo?.handwrittenNotes?.[0]?.image}
-                  alt="Teacher"
-                  className="w-14 h-14 rounded-md object-cover"
-                />
-                <div className="ml-4 flex-1">
-                  <p className="font-semibold">Handwritten Note ({i + 1})</p>
-                  <p className="text-gray-500 text-sm"></p>
-                  <p className="text-gray-400 text-xs"></p>
-                </div>
-                <div className="text-lg text-gray-400">›</div>
-              </div>
-            ))}
+       {activeTab === 'Notes' && (
+  <div className="mt-4 space-y-3">
+    {selectedVideo?.handwrittenNotes?.length > 0 ? (
+      selectedVideo?.handwrittenNotes?.map((note, i) => (
+        <div
+          key={i}
+          className="flex items-center bg-white border rounded-lg p-3 shadow-sm cursor-pointer"
+          onClick={() =>
+            navigate(`/user/notes/${selectedVideo._id}/view`, {
+              state: {
+                pdfUrl:
+                  selectedVideo?.handwrittenNotes?.[0]?.subjects?.[0]
+                    ?.subSubjects?.[0]?.chapters?.[0]?.topics?.[0]
+                    ?.handwrittenNotes?.[0],
+              },
+            })
+          }
+        >
+          <img
+            src={note?.image}
+            alt="Teacher"
+            className="w-14 h-14 rounded-md object-cover"
+          />
+
+          <div className="ml-4 flex-1">
+            <p className="font-semibold">
+              Handwritten Note ({i + 1})
+            </p>
           </div>
-        )}
+
+          <div className="text-lg text-gray-400">›</div>
+        </div>
+      ))
+    ) : (
+      <div className="text-center text-gray-500 py-10">
+        No Data Available
+      </div>
+    )}
+  </div>
+)}
       </div>
     </div>
   );

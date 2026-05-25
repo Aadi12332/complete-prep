@@ -60,7 +60,7 @@ const CoursePage3 = () => {
         return courseVideos;
     }
   };
-console.log({currentSubject})
+console.log({currentSubject},"========currentSubject")
   return (
     <div className="user_container">
       <div className="">
@@ -132,12 +132,27 @@ console.log({currentSubject})
                             onClick={() => setActiveTab(tab)}
                           >
                             {tab} 
-                            <span className='bg-[#3dd455] text-white text-[9px] rounded-full w-4 h-4 min-w-4 flex items-center justify-center'>{
-                            tab === 'Videos'?subSubject?.chapters?.[0]?.topics?.[0]?.courseVideos?.length:
-                            tab === 'Notes'?subSubject?.chapters?.[0]?.topics?.[0]?.courseVideos?.filter(item => item.educatorNotes && item.educatorNotes.length > 0)?.length||subSubject?.chapters?.[0]?.topics?.[0]?.educatorNotes?.length:
-                            tab === 'Tests'?subSubject?.chapters?.[0]?.topics?.[0]?.courseVideos?.filter(item => item.testSeries && item.testSeries.length > 0)?.length||subSubject?.chapters?.[0]?.topics?.[0]?.testSeries?.length:
-                            
-                             0} </span>
+                          <span className='bg-[#3dd455] text-white text-[9px] rounded-full w-4 h-4 min-w-4 flex items-center justify-center'>
+  {tab === 'Videos'
+    ? subSubject?.chapters?.[0]?.topics?.[0]?.courseVideos?.filter(Boolean)?.length || 0
+    : tab === 'Notes'
+    ? (
+        subSubject?.chapters?.[0]?.topics?.[0]?.courseVideos?.filter(
+          item => item?.educatorNotes?.length > 0
+        )?.length ||
+        subSubject?.chapters?.[0]?.topics?.[0]?.educatorNotes?.filter(Boolean)?.length ||
+        0
+      )
+    : tab === 'Tests'
+    ? (
+        subSubject?.chapters?.[0]?.topics?.[0]?.courseVideos?.filter(
+          item => item?.testSeries?.length > 0
+        )?.length ||
+        subSubject?.chapters?.[0]?.topics?.[0]?.testSeries?.filter(Boolean)?.length ||
+        0
+      )
+    : 0}
+</span>
                           </button>
                         ))}
                       </div>

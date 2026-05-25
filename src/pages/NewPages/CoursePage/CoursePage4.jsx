@@ -336,38 +336,31 @@ const CoursePage4 = () => {
     }
   }, [selectedVideo]);
 
-useEffect(() => {
-  if (courseData && location.search) {
-    const queryParams = new URLSearchParams(location.search);
+  useEffect(() => {
+    if (courseData && location.search) {
+      const queryParams = new URLSearchParams(location.search);
 
-    const topicId = queryParams.get('topicId');
-    const videoId = queryParams.get('videoId');
+      const topicId = queryParams.get('topicId');
+      const videoId = queryParams.get('videoId');
 
-    const subSubject = courseData?.subjects
-      ?.flatMap(subject => subject?.subSubjects || [])
-      ?.find(sub => sub?.subSubject?._id === subSubjectId);
-    const chapter = subSubject?.chapters?.find(
-      chap => chap?.chapter?._id === chapterId
-    );
+      const subSubject = courseData?.subjects
+        ?.flatMap(subject => subject?.subSubjects || [])
+        ?.find(sub => sub?.subSubject?._id === subSubjectId);
+      const chapter = subSubject?.chapters?.find(chap => chap?.chapter?._id === chapterId);
 
-    const topicData = chapter?.topics?.find(
-      item => item?.topic?._id === topicId
-    );
+      const topicData = chapter?.topics?.find(item => item?.topic?._id === topicId);
 
-    const video = topicData?.courseVideos?.find(
-      item => item?._id === videoId
-    );
-        console.log({subSubject,chapter,topicData,video})
+      const video = topicData?.courseVideos?.find(item => item?._id === videoId);
+      console.log({ subSubject, chapter, topicData, video });
 
-
-  if (video) {
-  setSelectedVideo({
-    ...video,
-    videoLink: video?.videoLink?.replace('http://', 'https://'),
-  });
-}
-  }
-}, [courseData, location.search]);
+      if (video) {
+        setSelectedVideo({
+          ...video,
+          videoLink: video?.videoLink?.replace('http://', 'https://'),
+        });
+      }
+    }
+  }, [courseData, location.search]);
   useEffect(() => {
     if (selectedVideo && courseData) {
       const nv = findNextVideoInCourse(selectedVideo._id, courseData);
@@ -759,19 +752,18 @@ useEffect(() => {
           </span>
           Course / Video
         </div>
-        <div className="flex smallScreenFlex gap-8">
+        <div className="flex smallScreenFlex gap-3 items-start">
           <div className="w-full lg:w-3/4">
             <div className="relative w-full aspect-video rounded-2xl">
-             
               <video
-  key={selectedVideo?._id}
-  ref={videoRef}
-  className="w-full h-full object-cover rounded-2xl"
-  controls
-  autoPlay
-  src={selectedVideo?.videoLink}
-  onLoadedMetadata={handleLoadedMetadata}
-/>
+                key={selectedVideo?._id}
+                ref={videoRef}
+                className="w-full h-full object-cover rounded-2xl"
+                controls
+                autoPlay
+                src={selectedVideo?.videoLink}
+                onLoadedMetadata={handleLoadedMetadata}
+              />
               <button
                 onClick={() => setShowCaptions(!showCaptions)}
                 className="absolute p-2 text-white bg-black rounded-full bottom-2 right-2"
@@ -906,9 +898,9 @@ useEffect(() => {
             )}
           </div>
         )}
-        {activeTab === 'Assignment' && (
+        {activeTab === 'Questions' && (
           <div className="space-y-6 mt-4">
-            {generatedQuestionsAndAnswers && generatedQuestionsAndAnswers.length ? (
+            {generatedQuestionsAndAnswers && generatedQuestionsAndAnswers.length>0 ? (
               generatedQuestionsAndAnswers.map((qa, idx) => (
                 <div key={idx} className="border rounded-lg p-4 space-y-2 shadow-sm">
                   <p className="font-medium">
@@ -947,10 +939,11 @@ useEffect(() => {
                 </div>
               ))
             ) : (
-              <div className="text-gray-500">No generated questions yet.</div>
+              <div className="text-center text-gray-500 py-10 bg-gray-100 text-sm rounded-lg">No generated questions yet.</div>
             )}
           </div>
         )}
+        
         {activeTab === 'Modules' && (
           <div>
             {/* <div className="mt-4 border rounded-md overflow-hidden">
@@ -1005,10 +998,10 @@ useEffect(() => {
                 </span> */}
               </div>
               {status === 'loading' && (
-                <div className="text-xs text-gray-500">Analyzing transcript…</div>
+                <div className="text-center text-gray-500 py-10 bg-gray-100 text-sm rounded-lg">Analyzing transcript…</div>
               )}
               {!keyMoments.length && status !== 'loading' && (
-                <div className="text-xs text-gray-500">No modules available.</div>
+                <div className="text-center text-gray-500 py-10 bg-gray-100 text-sm rounded-lg">No modules available.</div>
               )}
               {!!keyMoments.length && (
                 <div className="space-y-2">
@@ -1039,33 +1032,37 @@ useEffect(() => {
         )}
         {activeTab === 'Notes' && (
           <div className="mt-4 space-y-3">
-            {selectedVideo?.handwrittenNotes?.map((note, i) => (
-              <div
-                key={i}
-                className="flex items-center bg-white border rounded-lg p-3 shadow-sm cursor-pointer"
-                onClick={() =>
-                  navigate(`/user/notes/${selectedVideo._id}/view`, {
-                    state: {
-                      pdfUrl:
-                        selectedVideo?.handwrittenNotes?.[0]?.subjects?.[0]?.subSubjects?.[0]
-                          ?.chapters?.[0]?.topics?.[0]?.handwrittenNotes?.[0],
-                    },
-                  })
-                }
-              >
-                <img
-                  src={selectedVideo?.handwrittenNotes?.[0]?.image}
-                  alt="Teacher"
-                  className="w-14 h-14 rounded-md object-cover"
-                />
-                <div className="ml-4 flex-1">
-                  <p className="font-semibold">Handwritten Note ({i + 1})</p>
-                  <p className="text-gray-500 text-sm"></p>
-                  <p className="text-gray-400 text-xs"></p>
+            {selectedVideo?.handwrittenNotes?.length > 0 ? (
+              selectedVideo?.handwrittenNotes?.map((note, i) => (
+                <div
+                  key={i}
+                  className="flex items-center bg-white border rounded-lg p-3 shadow-sm cursor-pointer"
+                  onClick={() =>
+                    navigate(`/user/notes/${selectedVideo._id}/view`, {
+                      state: {
+                        pdfUrl:
+                          selectedVideo?.handwrittenNotes?.[0]?.subjects?.[0]?.subSubjects?.[0]
+                            ?.chapters?.[0]?.topics?.[0]?.handwrittenNotes?.[0],
+                      },
+                    })
+                  }
+                >
+                  <img
+                    src={selectedVideo?.handwrittenNotes?.[0]?.image}
+                    alt="Teacher"
+                    className="w-14 h-14 rounded-md object-cover"
+                  />
+                  <div className="ml-4 flex-1">
+                    <p className="font-semibold">Handwritten Note ({i + 1})</p>
+                    <p className="text-gray-500 text-sm"></p>
+                    <p className="text-gray-400 text-xs"></p>
+                  </div>
+                  <div className="text-lg text-gray-400">›</div>
                 </div>
-                <div className="text-lg text-gray-400">›</div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <div className="text-center text-gray-500 py-10 bg-gray-100 text-sm rounded-lg">No Notes Available</div>
+            )}
           </div>
         )}
       </div>
