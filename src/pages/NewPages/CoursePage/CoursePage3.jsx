@@ -41,14 +41,12 @@ const CoursePage3 = () => {
         setIsLoading(false);
       },
       onError: err => {
-        console.error('Failed to fetch chapters:', err);
         setIsLoading(false);
       },
     });
   };
 
   const filterContent = (courseVideos, tab) => {
-    console.log({tab})
     switch (tab) {
       case 'Videos':
         return courseVideos.filter(item => item.videoLink);
@@ -60,7 +58,6 @@ const CoursePage3 = () => {
         return courseVideos;
     }
   };
-console.log({currentSubject},"========currentSubject")
   return (
     <div className="user_container">
       <div className="">
@@ -109,8 +106,10 @@ console.log({currentSubject},"========currentSubject")
                           {subSubject?.subSubject?.name || 'Chapter'}
                         </p>
                         <p className="text-xs text-gray-500 mt-1">
-                          Total {subSubject?.subSubject?.totalHours || '0'} Hours |{' '}
-                          {subSubject?.subSubject?.totalLectures || '0'} lectures
+                          {/* Total {subSubject?.subSubject?.totalHours || '0'} Hours |{' '}
+                          {subSubject?.subSubject?.totalLectures || '0'} lectures */}
+                            Total {chapters[0]?.duration || '0'} Hours |{' '}
+                          {chapters[0]?.lessons || '0'} lessons
                         </p>
                       </div>
                     </div>
@@ -166,7 +165,6 @@ console.log({currentSubject},"========currentSubject")
                             {chapterData?.topics?.map((topic, topicIndex) =>
                               filterContent(topic.courseVideos || [], activeTab).map(
                                 (filteredContent, i) => {
-                                  console.log({ filteredContent, topic });
                                   return(
                                   <div
                                     key={i}
@@ -182,7 +180,7 @@ console.log({currentSubject},"========currentSubject")
   `/user/course/${id}/${courseId}/${subjectId}/${subSubject?.subSubject?._id}/${chapterData?.chapter?._id}?topicId=${topic?.topic?._id}&videoId=${filteredContent?._id}`
 );
                                       }
-                                      if (activeTab === 'Docs' && filteredContent.educatorNotes) {
+                                      if (activeTab === 'Notes' && filteredContent.educatorNotes) {
                                         return navigate(
                                           `/user/notes/${filteredContent._id}/view`,
                                           {

@@ -127,8 +127,8 @@ const CoursePage2 = () => {
                             {course.title}
                           </p>
                           <p className="text-xs text-gray-500 mt-1">
-                            Total {course?.subject?.duration || 12} Hours |{" "}
-                            {course?.subject?.lessons || 111} lectures
+                            Total {course?.subject?.duration || 0} Hours |{" "}
+                            {course?.subject?.lessons || 0} lectures
                           </p>
                         </div>
                       </div>

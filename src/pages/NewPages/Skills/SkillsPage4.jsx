@@ -204,8 +204,8 @@ const SkillsPage4 = () => {
                           {subSubject.subSubject?.name || 'Chapter'}
                         </p>
                         <p className="text-xs text-gray-500 mt-1">
-                          Total {subSubject?.totalHours || '12'} Hours |{' '}
-                          {subSubject?.totalLectures || '111'} lectures
+                          Total {subSubject?.totalHours || '0'} Hours |{' '}
+                          {subSubject?.totalLectures || '0'} lectures
                         </p>
                       </div>
                     </div>
