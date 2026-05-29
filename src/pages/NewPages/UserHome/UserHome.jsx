@@ -12,7 +12,8 @@ import { showNotification } from '../../../services/exportComponents';
 import images from '../../../utils/images';
 import ModalBannerVideos from './ModalBannerVideos';
 
-const UserHome = () => {
+const UserHome = (props) => {
+    console.log("ALL PROPS =>", props);
   const navigate = useNavigate();
   const { user, setUser } = useContext(AuthContext);
   const [searchQuery, setSearchQuery] = useState('');
@@ -33,7 +34,6 @@ const UserHome = () => {
 
   const [currentSubscription, setCurrentSubscription] = useState(null);
   const [isReferalButtonVisible, setIsReferalButtonVisible] = useState(false);
-
   const fetchCourses = () => {
     userApi.courses.getAll({
       params: {
@@ -68,7 +68,10 @@ const UserHome = () => {
       },
     });
   };
-
+useEffect(() => {
+  setModalVisible(props.showModalPopUp);
+}, [props.showModalPopUp]);
+console.log({modalVisible, propsShowModal: props.showModalPopUp});
   useEffect(() => {
     fetchCourses();
     fetchCoursePercentage();
@@ -211,6 +214,7 @@ const UserHome = () => {
                     if (res?.data?.paymentStatus === 'completed') {
                       fetchSubScription();
                       setModalVisible(false);
+                      props?.handleClose&&props?.handleClose();
                     }
                   },
                   onError: () => {
@@ -389,7 +393,9 @@ const getInitials = (name = "") => {
       <ReusableModal
               size="md"
               show={modalVisible}
-              onHide={() => setModalVisible(false)}
+              onHide={() => {
+                props?.handleClose&&props?.handleClose();
+                setModalVisible(false)}}
               footer={false}
               header={false}
               body={

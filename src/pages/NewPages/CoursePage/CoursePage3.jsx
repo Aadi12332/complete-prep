@@ -58,6 +58,7 @@ const CoursePage3 = () => {
         return courseVideos;
     }
   };
+  console.log({ currentSubject, chapters });
   return (
     <div className="user_container">
       <div className="">
@@ -65,7 +66,7 @@ const CoursePage3 = () => {
       </div>
 
       <div className="p-6">
-        <div className="space-y-4 p-3 rounded-xl bg-[#efefef] border md:min-h-[calc(100vh-48px)]">
+        <div className=" p-3 rounded-xl bg-[#efefef] border md:min-h-[calc(100vh-48px)]">
         {/* <div>
           <img
             src={images.newAboutPageBannerCoursePageImage}
@@ -78,6 +79,16 @@ const CoursePage3 = () => {
           <h1 className="text-2xl font-bold text-gray-800">
             {currentSubject?.subject?.name || ''}
           </h1>
+          {
+            currentSubject?.subSubjects && currentSubject?.subSubjects?.length > 0 && (
+          <p className="text-xs text-gray-500 mt-1 mb-4">
+                          {/* Total {subSubject?.subSubject?.totalHours || '0'} Hours |{' '}
+                          {subSubject?.subSubject?.totalLectures || '0'} lectures */}
+                            Total {chapters[0]?.duration || '0'} Hours |{' '}
+                          {chapters[0]?.lessons || '0'} lessons
+                        </p>
+            )
+          }
           {/* <p className="text-sm text-gray-500">
             {chapters?.[0]?.courseCategoryId?.students || '42,826'} students learning this week
           </p> */}
@@ -88,29 +99,24 @@ const CoursePage3 = () => {
               <p>Loading...</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 items-start">
               {currentSubject?.subSubjects?.map((subSubject, subSubIndex) => (
-                <div key={subSubIndex} className="bg-white rounded-xl overflow-hidden">
+                <div key={subSubIndex} className="bg-white rounded-lg overflow-hidden">
                   <div
-                    className="flex items-center justify-between px-4 py-3 cursor-pointer"
+                    className="flex items-center justify-between px-2 py-2 cursor-pointer w-full"
                     onClick={() =>
                       setActiveChapter(activeChapter === subSubIndex ? null : subSubIndex)
                     }
                   >
-                    <div className="flex items-center gap-4">
-                      <div className="text-3xl font-semibold text-black w-10">
+                    <div className="flex items-center gap-3 flex-1">
+                      <div className="text-lg font-semibold text-black h-10 min-w-10 bg-gray-100 rounded-lg flex items-center justify-center">
                         {String(subSubIndex + 1).padStart(2, '0')}
                       </div>
                       <div>
-                        <p className="text-sm font-semibold text-black">
+                        <p className="text-sm font-semibold text-black leading-[1.2] line-clamp-2">
                           {subSubject?.subSubject?.name || 'Chapter'}
                         </p>
-                        <p className="text-xs text-gray-500 mt-1">
-                          {/* Total {subSubject?.subSubject?.totalHours || '0'} Hours |{' '}
-                          {subSubject?.subSubject?.totalLectures || '0'} lectures */}
-                            Total {chapters[0]?.duration || '0'} Hours |{' '}
-                          {chapters[0]?.lessons || '0'} lessons
-                        </p>
+
                       </div>
                     </div>
                     <Icon
@@ -133,7 +139,7 @@ const CoursePage3 = () => {
                             {tab} 
                           <span className='bg-[#3dd455] text-white text-[9px] rounded-full w-4 h-4 min-w-4 flex items-center justify-center'>
   {tab === 'Videos'
-    ? subSubject?.chapters?.[0]?.topics?.[0]?.courseVideos?.filter(Boolean)?.length || 0
+    ? subSubject?.chapters?.[0]?.topics?.filter(Boolean)?.length || 0
     : tab === 'Notes'
     ? (
         subSubject?.chapters?.[0]?.topics?.[0]?.courseVideos?.filter(
@@ -200,8 +206,8 @@ const CoursePage3 = () => {
                                       }
                                     }}
                                   >
-                                    <div className="flex items-center gap-4">
-                                      <img
+                                    <div className="flex items-center gap-2">
+                                      {/* <img
                                         src={images.newHandwrittenNotesImage1}
                                         alt={
                                           filteredContent.videoName ||
@@ -209,7 +215,16 @@ const CoursePage3 = () => {
                                           'Content'
                                         }
                                         className="object-cover rounded-md w-14 h-14"
-                                      />
+                                      /> */}
+                                      <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center font-semibold">
+                                        {topic?.topic?.name
+                                          ?.trim()
+                                          ?.split(" ")
+                                          ?.filter(Boolean)
+                                          ?.slice(0, 2)
+                                          ?.map((word) => word[0]?.toUpperCase())
+                                          ?.join("") || `T${topicIndex + 1}`}
+                                      </div>
                                       <div>
                                         <p className="text-sm font-semibold text-gray-800">
                                           {topic?.topic?.name || `Topic ${topicIndex + 1}`}
@@ -243,7 +258,7 @@ const CoursePage3 = () => {
             </div>
           )}
           {!currentSubject?.subject?.subSubject?.length && !isLoading && (
-            <div className="flex flex-col items-center gap-4 mt-10 bg-white p-6 rounded-lg">
+            <div className="flex flex-col items-center gap-4 flex-1 h-full bg-white p-6 rounded-lg">
               <p className="text-gray-600 text-sm">No content available for this subject.</p> 
               </div>)}
         </div>

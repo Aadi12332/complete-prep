@@ -139,9 +139,9 @@ const CoursePage2_1 = () => {
                         }}
                         className="group-hover:scale-110 aspect-[3/4]"
                       />
-                      <p className="text-center text-sm font-semibold mt-2 z-10 py-2 relative bg-white">
+                      {/* <p className="text-center text-sm font-semibold mt-2 z-10 py-2 relative bg-white">
                         {course?.subject?.name}
-                      </p>
+                      </p> */}
                     </div>
                   ))}
                 </div>

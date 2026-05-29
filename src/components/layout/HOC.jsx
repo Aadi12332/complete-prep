@@ -15,6 +15,17 @@ const HOC = WrappedComponent => {
     const navigate = useNavigate();
     const pathName = useLocation().pathname; 
 
+    const [showSubscriptionModal, setShowSubscriptionModal] =
+      useState(false);
+      const [showModalPopUp, setShowModalPopUp] =
+      useState(false);
+    
+    const localUser = JSON.parse(
+      localStorage.getItem("user") || "{}"
+    );
+    
+    const isSubscribed = localUser?.isSubscribed;
+
     const toggleSidebar = () => setShowSidebar(prev => !prev);
     const handleCloseCanvas = () => setShowOffcanvas(false);
     const handleShowCanvas = () => setShowOffcanvas(true);
@@ -179,12 +190,50 @@ const HOC = WrappedComponent => {
 
         <div className="flex">
           <div className={`hidden md:block ${showSidebar ? 'w-64' : 'w-20'} transition-all`}>
-            <NewSidebarItem toggleSidebar={toggleSidebar} show={showSidebar} />
+            <NewSidebarItem toggleSidebar={toggleSidebar} show={showSidebar} setShowSubscriptionModal={setShowSubscriptionModal} isSubscribed={isSubscribed} />
           </div>
+
+               {
+  showSubscriptionModal && (
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 px-4">
+      <div className="w-full max-w-md bg-white rounded-2xl p-6">
+        <h2 className="text-xl font-bold text-center">
+          Subscription Required
+        </h2>
+
+        <p className="text-center text-[#585858] text-sm mt-3">
+          Please subscribe to access
+          Prepo AI features.
+        </p>
+
+        <div className="flex gap-3 mt-6">
+          <button
+            onClick={() =>
+              setShowSubscriptionModal(false)
+            }
+            className="flex-1 h-11 border border-gray-300 rounded-lg font-medium"
+          >
+            Cancel
+          </button>
+
+          <button
+            onClick={() => {
+              setShowSubscriptionModal(false);
+              setShowModalPopUp(true);
+            }}
+            className="flex-1 h-11 bg-[#3dd455] text-white rounded-lg font-medium"
+          >
+            Subscribe Now
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
 
           <div className="flex-1 md:h-svh overflow-auto">
             <div className="bg-white">
-              <WrappedComponent />
+              <WrappedComponent showModalPopUp={showModalPopUp} handleClose={() => setShowModalPopUp(false)}/>
             </div>
           </div>
         </div>

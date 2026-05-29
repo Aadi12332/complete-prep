@@ -7,7 +7,7 @@ import { UserContext } from '../Context/Context';
 import { userApi } from '../services/apiFunctions';
 import images from '../utils/images';
 
-const NewSidebarItem = ({ toggleSidebar, show }) => {
+const NewSidebarItem = ({ toggleSidebar, show, setShowSubscriptionModal, isSubscribed }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const userData = useContext(UserContext);
@@ -16,6 +16,7 @@ const NewSidebarItem = ({ toggleSidebar, show }) => {
   const [courses, setCourses] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
 
   const fetchData = async () => {
     try {
@@ -247,7 +248,22 @@ const NewSidebarItem = ({ toggleSidebar, show }) => {
             return (
               <div
                 key={index}
-                onClick={() => (item.name === 'Logout' ? setModalShow(true) : navigate(item.path))}
+                onClick={() => {
+  if (item.name === "Logout") {
+    setModalShow(true);
+    return;
+  }
+
+  if (
+    item.name === "Prepo Ai" &&
+    !isSubscribed
+  ) {
+    setShowSubscriptionModal(true);
+    return;
+  }
+
+  navigate(item.path);
+}}
                 className={`flex items-center justify-between gap-3 px-2 py-2 rounded-lg cursor-pointer transition text-sm ${
                   isActive
                     ? 'border-2 border-[#d0d0d0] text-[#585858] font-semibold hover:text-black hover:cursor-default'
@@ -285,8 +301,11 @@ const NewSidebarItem = ({ toggleSidebar, show }) => {
               </div>
             );
           })}
+     
         </nav>
       </div>
+      
+ 
     </>
   );
 };
