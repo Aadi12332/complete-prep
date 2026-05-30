@@ -12,7 +12,7 @@ import { Helmet } from 'react-helmet-async';
     name="description"
     content="Join Semprep and help build smarter learning for every student."
   />
-</Helmet>
+</Helmet>;
 
 const stats = [
   {
@@ -75,64 +75,58 @@ const CareerPage = () => {
 
         <div className="px-4 py-16">
           <motion.div
-  initial={{ opacity: 0, y: 30 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.6 }}
-  className="text-center mb-12"
->
-  <h1 className="text-3xl md:text-4xl font-bold mb-4">
-    Join Our Team 🚀
-  </h1>
-  <p className="text-gray-600 max-w-2xl mx-auto">
-    Be a part of a fast-growing platform that is transforming the way students learn. Work
-    with us, grow with us, and make an impact.
-  </p>
-</motion.div>
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
+            <h1 className="text-3xl md:text-4xl font-bold mb-4">Join Our Team 🚀</h1>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Be a part of a fast-growing platform that is transforming the way students learn. Work
+              with us, grow with us, and make an impact.
+            </p>
+          </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 text-center">
-{stats.map((item, index) => {
-  const Icon = item.icon;
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 text-center">
+            {stats.map((item, index) => {
+              const Icon = item.icon;
 
-  return (
-    <motion.div
-      key={index}
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.15 }}
-      viewport={{ once: true }}
-      whileHover={{ y: -6 }}
-      className="rounded-lg lg:rounded-xl p-3 lg:p-6 border border-gray-200 shadow-sm hover:shadow-lg transition-all bg-white"
-    >
-      <div className="w-14 h-14 flex items-center justify-center rounded-xl bg-[#00A63E]/10 mx-auto mb-4">
-        <Icon className="w-7 h-7 text-[#00A63E]" strokeWidth={2} />
-      </div>
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.15 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -6 }}
+                  className="rounded-lg p-3 lg:p-6 border border-gray-200 shadow-sm hover:shadow-lg transition-all bg-white"
+                >
+                  <div className="w-14 h-14 flex items-center justify-center rounded-xl bg-[#00A63E]/10 mx-auto mb-4">
+                    <Icon className="w-7 h-7 text-[#00A63E]" strokeWidth={2} />
+                  </div>
 
-      <h3 className="font-semibold text-lg mb-2 text-gray-900 text-center">
-        {item.title}
-      </h3>
+                  <h3 className="font-semibold text-lg mb-2 text-gray-900 text-center">
+                    {item.title}
+                  </h3>
 
-      <p className="text-sm text-gray-600 leading-relaxed text-center">
-        {item.desc}
-      </p>
-    </motion.div>
-  );
-})}
-</div>
+                  <p className="text-sm text-gray-600 leading-relaxed text-center">{item.desc}</p>
+                </motion.div>
+              );
+            })}
+          </div>
 
           <motion.div
-  initial={{ opacity: 0, y: 20 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.5 }}
-  viewport={{ once: true }}
-  className="text-center mb-8"
->
-  <h2 className="text-2xl md:text-3xl font-bold mb-2">
-    Open Positions
-  </h2>
-  <p className="text-gray-600 max-w-xl mx-auto">
-    Explore exciting opportunities and join us to build something impactful.
-  </p>
-</motion.div>
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="text-center mb-8"
+          >
+            <h2 className="text-2xl md:text-3xl font-bold mb-2">Open Positions</h2>
+            <p className="text-gray-600 max-w-xl mx-auto">
+              Explore exciting opportunities and join us to build something impactful.
+            </p>
+          </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {jobs.map((job, index) => (

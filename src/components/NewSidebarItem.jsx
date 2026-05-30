@@ -17,7 +17,6 @@ const NewSidebarItem = ({ toggleSidebar, show, setShowSubscriptionModal, isSubsc
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-
   const fetchData = async () => {
     try {
       await userApi.goal.getByGoalCategory({
@@ -236,7 +235,7 @@ const NewSidebarItem = ({ toggleSidebar, show, setShowSubscriptionModal, isSubsc
       >
         <div className="bg-white p-4">
           <img
-            onClick={() => navigate("/user/home")}
+            onClick={() => navigate('/user/home')}
             src={images.navBarLogo}
             alt="Logo"
             className="w-fit h-[50px] mb-3 cursor-pointer object-cover"
@@ -249,21 +248,18 @@ const NewSidebarItem = ({ toggleSidebar, show, setShowSubscriptionModal, isSubsc
               <div
                 key={index}
                 onClick={() => {
-  if (item.name === "Logout") {
-    setModalShow(true);
-    return;
-  }
+                  if (item.name === 'Logout') {
+                    setModalShow(true);
+                    return;
+                  }
 
-  if (
-    item.name === "Prepo Ai" &&
-    !isSubscribed
-  ) {
-    setShowSubscriptionModal(true);
-    return;
-  }
+                  if (item.name === 'Prepo Ai' && !isSubscribed) {
+                    setShowSubscriptionModal(true);
+                    return;
+                  }
 
-  navigate(item.path);
-}}
+                  navigate(item.path);
+                }}
                 className={`flex items-center justify-between gap-3 px-2 py-2 rounded-lg cursor-pointer transition text-sm ${
                   isActive
                     ? 'border-2 border-[#d0d0d0] text-[#585858] font-semibold hover:text-black hover:cursor-default'
@@ -301,11 +297,8 @@ const NewSidebarItem = ({ toggleSidebar, show, setShowSubscriptionModal, isSubsc
               </div>
             );
           })}
-     
         </nav>
       </div>
-      
- 
     </>
   );
 };

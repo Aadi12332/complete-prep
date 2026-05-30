@@ -13,17 +13,13 @@ const HOC = WrappedComponent => {
     const { pathname } = useLocation();
     const [modalShow, setModalShow] = useState(false);
     const navigate = useNavigate();
-    const pathName = useLocation().pathname; 
+    const pathName = useLocation().pathname;
 
-    const [showSubscriptionModal, setShowSubscriptionModal] =
-      useState(false);
-      const [showModalPopUp, setShowModalPopUp] =
-      useState(false);
-    
-    const localUser = JSON.parse(
-      localStorage.getItem("user") || "{}"
-    );
-    
+    const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+    const [showModalPopUp, setShowModalPopUp] = useState(false);
+
+    const localUser = JSON.parse(localStorage.getItem('user') || '{}');
+
     const isSubscribed = localUser?.isSubscribed;
 
     const toggleSidebar = () => setShowSidebar(prev => !prev);
@@ -159,11 +155,11 @@ const HOC = WrappedComponent => {
       <div className="max-w-8xl mx-auto bg-white min-h-screen">
         <div className="flex justify-between gap-3 items-center md:hidden p-3 bg-white">
           <img
-                      src={images.newMainLogo}
-                      alt="Logo"
-                      onClick={() => navigate('/user/home')}
-                      className="w-[120px] object-contain"
-                    />
+            src={images.newMainLogo}
+            alt="Logo"
+            onClick={() => navigate('/user/home')}
+            className="w-[120px] object-contain"
+          />
           <Icon icon="mdi:menu" className="text-3xl cursor-pointer" onClick={handleShowCanvas} />
         </div>
 
@@ -176,11 +172,11 @@ const HOC = WrappedComponent => {
           <Offcanvas.Header closeButton>
             <Offcanvas.Title>
               <img
-                      src={images.newMainLogo}
-                      alt="Logo"
-                      onClick={() => navigate('/user/home')}
-                      className="w-[120px] object-contain"
-                    />
+                src={images.newMainLogo}
+                alt="Logo"
+                onClick={() => navigate('/user/home')}
+                className="w-[120px] object-contain"
+              />
             </Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>{renderSidebarItems()}</Offcanvas.Body>
@@ -190,50 +186,51 @@ const HOC = WrappedComponent => {
 
         <div className="flex">
           <div className={`hidden md:block ${showSidebar ? 'w-64' : 'w-20'} transition-all`}>
-            <NewSidebarItem toggleSidebar={toggleSidebar} show={showSidebar} setShowSubscriptionModal={setShowSubscriptionModal} isSubscribed={isSubscribed} />
+            <NewSidebarItem
+              toggleSidebar={toggleSidebar}
+              show={showSidebar}
+              setShowSubscriptionModal={setShowSubscriptionModal}
+              isSubscribed={isSubscribed}
+            />
           </div>
 
-               {
-  showSubscriptionModal && (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 px-4">
-      <div className="w-full max-w-md bg-white rounded-2xl p-6">
-        <h2 className="text-xl font-bold text-center">
-          Subscription Required
-        </h2>
+          {showSubscriptionModal && (
+            <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 px-4">
+              <div className="w-full max-w-md bg-white rounded-2xl p-6">
+                <h2 className="text-xl font-bold text-center">Subscription Required</h2>
 
-        <p className="text-center text-[#585858] text-sm mt-3">
-          Please subscribe to access
-          Prepo AI features.
-        </p>
+                <p className="text-center text-[#585858] text-sm mt-3">
+                  Please subscribe to access Prepo AI features.
+                </p>
 
-        <div className="flex gap-3 mt-6">
-          <button
-            onClick={() =>
-              setShowSubscriptionModal(false)
-            }
-            className="flex-1 h-11 border border-gray-300 rounded-lg font-medium"
-          >
-            Cancel
-          </button>
+                <div className="flex gap-3 mt-6">
+                  <button
+                    onClick={() => setShowSubscriptionModal(false)}
+                    className="flex-1 h-11 border border-gray-300 rounded-lg font-medium"
+                  >
+                    Cancel
+                  </button>
 
-          <button
-            onClick={() => {
-              setShowSubscriptionModal(false);
-              setShowModalPopUp(true);
-            }}
-            className="flex-1 h-11 bg-[#3dd455] text-white rounded-lg font-medium"
-          >
-            Subscribe Now
-          </button>
-        </div>
-      </div>
-    </div>
-  )
-}
+                  <button
+                    onClick={() => {
+                      setShowSubscriptionModal(false);
+                      setShowModalPopUp(true);
+                    }}
+                    className="flex-1 h-11 bg-[#3dd455] text-white rounded-lg font-medium"
+                  >
+                    Subscribe Now
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className="flex-1 md:h-svh overflow-auto">
             <div className="bg-white">
-              <WrappedComponent showModalPopUp={showModalPopUp} handleClose={() => setShowModalPopUp(false)}/>
+              <WrappedComponent
+                showModalPopUp={showModalPopUp}
+                handleClose={() => setShowModalPopUp(false)}
+              />
             </div>
           </div>
         </div>

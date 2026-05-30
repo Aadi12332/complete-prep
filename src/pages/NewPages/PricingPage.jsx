@@ -26,21 +26,22 @@ const subScriptionsStatic = [
     price: 0,
     discount: null,
     features: [
-      { name: 'Real-time contact syncing' },
-      { name: 'Automatic data enrichment' },
-      { name: 'Up to 3 seats' },
+      { name: 'Community Access' },
+      { name: 'Upskilling Courses' },
+      { name: 'Placement Support' },
     ],
   },
   {
     _id: '698ec78d940c8e91c25dda33',
     name: 'Pro',
-    price: 399,
+    price: 299,
     discount: null,
     features: [
-      { name: 'Fully adjustable permissions' },
-      { name: 'Advanced data enrichment' },
-      { name: 'Priority support' },
-      { name: 'Up to 3 seats' },
+      { name: 'Everything in free and:' },
+      { name: 'Visual Concepts' },
+      { name: 'Prepo AI' },
+      { name: 'Notes (Coming Soon)' },
+      { name: 'PYQs Solution Videos (Coming Soon)' },
     ],
   },
 ];
@@ -242,14 +243,21 @@ const ProfileEditForm = ({ closeModal }) => {
 
   const onSubmitLogin = async data => {
     localStorage.clear();
+
     userApi.auth.login({
-      data: { email: data.email, password: data.password },
-      onSuccess: res => {
-        console.log(res);
-        localStorage.setItem('authToken', res?.data?.token);
-        const savedToken = localStorage.getItem('authToken');
-        {
-          savedToken && navigate('/choose-curriculum');
+      data: {
+        email: data.email,
+        password: data.password,
+      },
+      onSuccess: ({ data }) => {
+        localStorage.setItem('authToken', data.token);
+
+        if (!data.token) return;
+
+        if (data.isSubscribed) {
+          navigate('/user/home');
+        } else {
+          navigate('/choose-curriculum');
         }
       },
     });
@@ -633,17 +641,17 @@ const PricingPage = () => {
       >
         <h2 className="text-2xl font-bold text-left">{title}</h2>
         <div className="my-4 text-left">
-          <div className="text-3xl font-bold">
+          {/* <div className="text-3xl font-bold">
             ₹ {price}{' '}
             {discount > 0 && (
               <span className="text-sm text-white bg-gray-500 rounded px-2 py-1 ml-2">
                 -{discount}%
               </span>
             )}
-          </div>
-          <div className="text-sm text-gray-500">{savings}</div>
+          </div> */}
+          {/* <div className="text-sm text-gray-500">{savings}</div> */}
         </div>
-        <ul className="my-6 space-y-2">
+        <ul className="mb-6 space-y-2">
           {features.map((feature, index) => (
             <li key={index} className="flex items-center">
               <svg className="w-5 h-5 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
@@ -679,20 +687,17 @@ const PricingPage = () => {
     onCancel,
   }) => {
     try {
-      const orderResponse = await fetch(
-        `https://api.semprep.com/api/create-order`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            amount: Math.max(100, Math.round(amount * 100)),
-            currency: 'INR',
-            receipt: `receipt_${Date.now()}`,
-          }),
-        }
-      );
+      const orderResponse = await fetch(`https://api.semprep.com/api/create-order`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: Math.max(100, Math.round(amount * 100)),
+          currency: 'INR',
+          receipt: `receipt_${Date.now()}`,
+        }),
+      });
 
       const orderData = await orderResponse.json();
 
@@ -721,20 +726,17 @@ const PricingPage = () => {
 
         handler: async function (response) {
           try {
-            const verifyResponse = await fetch(
-              `https://api.semprep.com/api/verify-payment`,
-              {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  razorpay_payment_id: response.razorpay_payment_id,
-                  razorpay_order_id: response.razorpay_order_id,
-                  razorpay_signature: response.razorpay_signature,
-                }),
-              }
-            );
+            const verifyResponse = await fetch(`https://api.semprep.com/api/verify-payment`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature,
+              }),
+            });
 
             const verifyData = await verifyResponse.json();
 
@@ -798,7 +800,7 @@ const PricingPage = () => {
       onFailure?.(error);
     }
   };
-  
+
   const handleSubscribe = () => {
     const sub = selectedPlan;
     setLoadingPlanId(sub._id);
@@ -912,7 +914,7 @@ const PricingPage = () => {
               </div> */}
               <div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto max-w-[767px] mt-5">
-                  {subScriptions.map((plan, index) => {
+                  {subScriptionsStatic.map((plan, index) => {
                     const yearlyPrice = Number(plan.price) || 0;
                     const monthlyPrice = Math.round(yearlyPrice / 12);
 
