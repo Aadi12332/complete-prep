@@ -8,11 +8,12 @@ const Footer = () => {
   return (
     <footer className="bg-[#efefef] text-black">
       <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-              className="md:grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 md:px-6 px-3 py-16 mainMaxWidth w-full">
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        viewport={{ once: true }}
+        className="md:grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 md:px-6 px-3 py-16 mainMaxWidth w-full"
+      >
         <div className="flex flex-col gap-6 lg:max-w-sm">
           <img src={images.navBarLogo} alt="Company Logo" className="md:w-40 w-[120px]" />
 
@@ -27,13 +28,15 @@ const Footer = () => {
               icon="mdi:instagram"
               className="cursor-pointer hover:scale-110 hover:text-gray-300 transition"
               aria-label="Instagram"
+              onClick={() => window.open('https://www.instagram.com/easysemprep/', '_blank')}
             />
             <Icon
               icon="mdi:youtube"
               className="cursor-pointer hover:scale-110 hover:text-gray-300 transition"
               aria-label="YouTube"
+              onClick={() => window.open('https://www.youtube.com/@easysemprep', '_blank')}
             />
-            <Icon
+            {/* <Icon
               icon="mdi:discord"
               className="cursor-pointer hover:scale-110 hover:text-gray-300 transition"
               aria-label="Discord"
@@ -42,11 +45,12 @@ const Footer = () => {
               icon="mdi:twitter"
               className="cursor-pointer hover:scale-110 hover:text-gray-300 transition"
               aria-label="Twitter"
-            />
+            /> */}
             <Icon
               icon="mdi:linkedin"
               className="cursor-pointer hover:scale-110 hover:text-gray-300 transition"
               aria-label="LinkedIn"
+              onClick={() => window.open('https://www.linkedin.com/company/semprep/', '_blank')}
             />
           </div>
         </div>

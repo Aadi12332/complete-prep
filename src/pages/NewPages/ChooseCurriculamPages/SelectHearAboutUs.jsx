@@ -85,15 +85,16 @@ const SelectHearAboutUs = () => {
 
   return (
     <div>
-      <div className="bg-green-900 text-white px-6 py-1 relative">
+      <div className="bg-gray-200 text-white px-6 py-1 relative">
         <div className="flex items-center space-x-1 z-10">
-          <img src={images.navBarLogo2} alt="Logo" className="max-w-[250px] max-h-[90px]" />
+          <img src={images.navBarLogo2} alt="Logo" className="max-w-[150px] py-2" />
         </div>
       </div>
 
-      <div className="bg-white px-4 py-8">
-        <div className="w-full max-w-8xl">
-          <h1 className="text-2xl md:text-3xl font-bold mb-2 text-black">
+      <div className="bg-white px-4 py-8 h-[calc(100vh-74px)] overflow-auto">
+        <div className="w-full max-w-8xl flex flex-col h-full">
+          <div className="flex-1">
+            <h1 className="text-2xl md:text-3xl font-bold mb-2 text-black">
             How did you hear about us?
           </h1>
           <p className="text-sm text-gray-600 mb-6">
@@ -131,6 +132,7 @@ const SelectHearAboutUs = () => {
                 />
               </label>
             ))}
+          </div>
           </div>
 
           <div className="flex justify-between mt-6">

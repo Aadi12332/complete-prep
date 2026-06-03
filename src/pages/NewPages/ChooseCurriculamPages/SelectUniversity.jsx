@@ -26,15 +26,26 @@ const SelectUniversity = () => {
     });
   };
 
-  const handleNext = () => {
-    if (!selectedUniversity) {
-      alert('Please select a university.');
-      return;
-    }
-    navigate('/choose/university-course', {
-      state: { universityId: selectedUniversity, nextPage },
-    });
-  };
+const handleNext = () => {
+  const universityId =
+    selectedUniversity || sessionStorage.getItem('universityId');
+
+  if (!universityId) {
+    alert('Please select a university.');
+    return;
+  }
+
+  if (selectedUniversity) {
+    sessionStorage.setItem('universityId', selectedUniversity);
+  }
+
+  navigate('/choose/university-course', {
+    state: {
+      universityId,
+      nextPage,
+    },
+  });
+};
 
   useEffect(() => {
     fetchUniversities();

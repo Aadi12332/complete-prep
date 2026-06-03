@@ -884,7 +884,7 @@ const PricingPage = () => {
                 Semprep pricing plan for your startup
               </h2>
               <p className="text-center text-gray-500 mt-2 text-sm md:text-base max-w-xl mx-auto">
-                Perfectly tailored for every stage of your growth.Get started today, no credit card
+                Perfectly tailored for every stage of your growth. Get started today, no credit card
                 needed.
               </p>
             </motion.div>

@@ -53,35 +53,39 @@ const SelectUniversitySemester = () => {
     };
   }, [universityId]);
 
-  const handleNext = () => {
-    if (!selectedSemester) return;
-    // if (!subscriptionStatus) {
-    //   setModalVisible(true);
-    //   return;
-    // }
-    userApi.profile.update({
-      data: {
-        goalCategory: universityId,
-        goal: courseId,
-        semester: selectedSemester,
-        firstHearAboutUs: true,
-      },
-      onSuccess: () => {
-        if (user?.firstHearAboutUs) {
-          navigate('/user/home');
-        } else {
-          navigate('/choose/hear-about-us');
-        }
-      },
-      onError: () => {
-        navigate(-1);
-      },
-      setIsLoading: v => {
-        if (!mounted.current) return;
-        setIsLoading(v);
-      },
-    });
-  };
+const handleNext = () => {
+  const semesterId =
+    selectedSemester || sessionStorage.getItem('semesterId');
+
+  if (!semesterId) return;
+
+  userApi.profile.update({
+    data: {
+      goalCategory: universityId,
+      goal: courseId,
+      semester: semesterId,
+      firstHearAboutUs: true,
+    },
+    onSuccess: () => {
+      if (selectedSemester) {
+        sessionStorage.setItem('semesterId', selectedSemester);
+      }
+
+      if (user?.firstHearAboutUs) {
+        navigate('/user/home');
+      } else {
+        navigate('/choose/hear-about-us');
+      }
+    },
+    onError: () => {
+      navigate(-1);
+    },
+    setIsLoading: v => {
+      if (!mounted.current) return;
+      setIsLoading(v);
+    },
+  });
+};
 
   const handleBack = () => {
     navigate(-1);

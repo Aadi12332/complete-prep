@@ -76,7 +76,7 @@ const CoursePage3 = () => {
         </div> */}
         {/* <div className="overflow-hidden rounded-xl"></div> */}
         <div className="w-full">
-          <h1 className="text-2xl font-bold text-gray-800">
+          <h1 className="text-2xl font-bold text-gray-800 capitalize">
             {currentSubject?.subject?.name || ''}
           </h1>
           {
@@ -113,7 +113,7 @@ const CoursePage3 = () => {
                         {String(subSubIndex + 1).padStart(2, '0')}
                       </div>
                       <div>
-                        <p className="text-sm font-semibold text-black leading-[1.2] line-clamp-2">
+                        <p className="text-sm font-semibold text-black leading-[1.2] line-clamp-2 capitalize">
                           {subSubject?.subSubject?.name || 'Chapter'}
                         </p>
 
@@ -226,7 +226,7 @@ const CoursePage3 = () => {
                                           ?.join("") || `T${topicIndex + 1}`}
                                       </div>
                                       <div>
-                                        <p className="text-sm font-semibold text-gray-800">
+                                        <p className="text-sm font-semibold text-gray-800 capitalize">
                                           {topic?.topic?.name || `Topic ${topicIndex + 1}`}
                                         </p>
                                         <p className="text-xs text-gray-500">

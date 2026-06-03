@@ -40,6 +40,7 @@ const NewSidebarItem = ({ toggleSidebar, show, setShowSubscriptionModal, isSubsc
 
   const handleLogout = () => {
     localStorage.clear();
+    sessionStorage.clear();
     navigate('/');
   };
 

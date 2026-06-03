@@ -11,9 +11,9 @@ import { userApi } from '../../../services/apiFunctions';
 import { showNotification } from '../../../services/exportComponents';
 import images from '../../../utils/images';
 import ModalBannerVideos from './ModalBannerVideos';
+     import { AlertTriangle } from "lucide-react";
 
 const UserHome = (props) => {
-    console.log("ALL PROPS =>", props);
   const navigate = useNavigate();
   const { user, setUser } = useContext(AuthContext);
   const [searchQuery, setSearchQuery] = useState('');
@@ -34,19 +34,26 @@ const UserHome = (props) => {
 
   const [currentSubscription, setCurrentSubscription] = useState(null);
   const [isReferalButtonVisible, setIsReferalButtonVisible] = useState(false);
+
   const fetchCourses = () => {
+    const universityId = sessionStorage.getItem('universityId');
+        const semesterId = sessionStorage.getItem('semesterId');
+        const courseId = sessionStorage.getItem('courseId');
     userApi.courses.getAll({
       params: {
         limit: 999999,
         page: 1,
         search: searchQuery,
-        semester: user?.semester,
+        goalId: courseId,
+        goalCategoryId: universityId,
+        semesterId: semesterId,
       },
       setIsLoading,
       onSuccess: res => {
         setCourses(res?.data || []);
       },
       onError: err => {
+        setCourses([]);
         console.error('Failed to fetch courses:', err);
       },
     });
@@ -71,11 +78,10 @@ const UserHome = (props) => {
 useEffect(() => {
   setModalVisible(props.showModalPopUp);
 }, [props.showModalPopUp]);
-console.log({modalVisible, propsShowModal: props.showModalPopUp});
   useEffect(() => {
     fetchCourses();
     fetchCoursePercentage();
-  }, [searchQuery]);
+  }, [searchQuery,user]);
 
   useEffect(() => {
     fetchBanners();
@@ -388,6 +394,8 @@ const getInitials = (name = "") => {
     .toUpperCase();
 };
 
+if(loading){}
+
   return (
     <>
       <ReusableModal
@@ -477,7 +485,34 @@ const getInitials = (name = "") => {
               </div>
             </div>
 
-            <div className="mt-5">
+       
+
+{!subscriptionStatus && (
+  <div className="flex items-start gap-3 rounded-lg border border-amber-200 bg-amber-50 p-4 mt-3">
+    <AlertTriangle className="h-5 w-5 text-amber-600 mt-0.5 flex-shrink-0" />
+
+    <div className="text-sm">
+      <p className="font-medium text-amber-900">
+        Wrong University/Course Selected
+      </p>
+
+      <p className="mt-1 text-amber-800">
+        It looks like you have selected the wrong university or course.
+        Please{" "}
+        <button
+          type="button"
+          onClick={() => navigate("/choose-curriculum")}
+          className="font-semibold underline hover:no-underline"
+        >
+          click here
+        </button>{" "}
+        to go back and select the correct university and course.
+      </p>
+    </div>
+  </div>
+)}
+
+            <div className="mt-3">
               <h3 className="text-xl font-semibold mb-2">Courses</h3>
               {isLoading ? (
                 <div className="text-center py-4">Loading...</div>

@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react/dist/iconify.js';
-import { useEffect, useState,useContext } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { AuthContext } from '../../../Context/AuthContext';
 
 import { Form } from 'react-bootstrap';
@@ -1109,17 +1109,17 @@ export const QuestionForm2 = ({
   );
 };
 
-export const ProfileEditFormMain = ({ closeModal, nextPage, setUser,seletedStep,onRegister }) => {
+export const ProfileEditFormMain = ({ closeModal, nextPage, setUser, seletedStep, onRegister }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  console.log({seletedStep})
+  console.log({ seletedStep });
   const { user } = useContext(AuthContext);
 
   const [showPassword, setShowPassword] = useState(false);
-  const [step, setStep] = useState(seletedStep||'login');
+  const [step, setStep] = useState(seletedStep || 'login');
   const [loginMethod, setLoginMethod] = useState('phone');
   const [isLoading, setIsLoading] = useState(false);
   const [otpSentTo, setOtpSentTo] = useState(null);
@@ -1131,21 +1131,31 @@ export const ProfileEditFormMain = ({ closeModal, nextPage, setUser,seletedStep,
   const onSubmitLogin = async data => {
     userApi.auth.login({
       data: { mobileNumber: data.mobileNumber },
-      // successMsg: 'Otp Send Successfully',
       setIsLoading,
       onSuccess: res => {
         setUserId(res?.data?.id);
+        res?.data?.universityId && sessionStorage.setItem('universityId', res?.data?.universityId);
+        res?.data?.semesterId && sessionStorage.setItem('semesterId', res?.data?.semesterId);
+        res?.data?.courseId && sessionStorage.setItem('courseId', res?.data?.courseId);
         showNotification({
-          type: res?.data?.otp ? 'success' : 'error',
-          message: res?.data?.otp ? `Otp is ${res?.data?.otp}` : 'Something went wrong',
+          type: 'success',
+          message: 'OTP sent to your registered mobile number.',
         });
 
         setOtpSentTo(data.mobileNumber);
         setOtpEmailSentTo(data.email);
         setStep('otp');
       },
+      onError: e => {
+        console.log(e);
+        showNotification({
+          type: 'error',
+          message: e?.response?.data?.message || 'Login failed. Please try again.',
+        });
+      },
     });
   };
+
   const onSubmitEmailLogin = async data => {
     userApi.auth.emailLogin({
       data: { email: data.email },
@@ -1162,8 +1172,9 @@ export const ProfileEditFormMain = ({ closeModal, nextPage, setUser,seletedStep,
       },
     });
   };
-const onVerifyOtp = data => {
-userApi.auth.verifyOtp({
+
+  const onVerifyOtp = data => {
+    userApi.auth.verifyOtp({
       data: { id: data.id },
       setIsLoading,
       onSuccess: res => {
@@ -1174,11 +1185,10 @@ userApi.auth.verifyOtp({
         });
         setOtpSentTo(data.email);
         setOtpEmailSentTo(data.email);
-        
       },
     });
+  };
 
-}
   const onSubmitOtp = data => {
     userApi.auth.verifyOtp({
       id: userId,
@@ -1195,48 +1205,42 @@ userApi.auth.verifyOtp({
             },
           });
         }
-        const universityId=sessionStorage.getItem("universityId");
-        const semesterId=sessionStorage.getItem("semesterId");
-        const courseId=sessionStorage.getItem("courseId");
-        if(savedToken){
-if(courseId&&semesterId&&universityId){
-  
-   userApi.profile.update({
-      data: {
-        goalCategory: universityId,
-        goal: courseId,
-        semester: semesterId,
-        firstHearAboutUs: true,
-      },
-      onSuccess: () => {
-        if (user?.firstHearAboutUs) {
-          navigate('/user/home');
-        } else {
-          navigate('/choose/hear-about-us');
-        }
-        sessionStorage.removeItem("universityId");
-        sessionStorage.removeItem("semesterId");
-        sessionStorage.removeItem("courseId");
-
-      },
-      onError: (e) => {
-        console.log(e)
-        navigate(-1);
-      },
-     
-    });
-        }else{
-          if(onRegister){
-            onRegister();
-            return
+        const universityId = sessionStorage.getItem('universityId');
+        const semesterId = sessionStorage.getItem('semesterId');
+        const courseId = sessionStorage.getItem('courseId');
+        if (savedToken) {
+          if (courseId && semesterId && universityId) {
+            userApi.profile.update({
+              data: {
+                goalCategory: universityId,
+                goal: courseId,
+                semester: semesterId,
+                firstHearAboutUs: true,
+              },
+              onSuccess: () => {
+                if (user?.firstHearAboutUs) {
+                  navigate('/user/home');
+                } else {
+                  navigate('/choose/hear-about-us');
+                }
+                // sessionStorage.removeItem('universityId');
+                // sessionStorage.removeItem('semesterId');
+                // sessionStorage.removeItem('courseId');
+              },
+              onError: e => {
+                console.log(e);
+                navigate(-1);
+              },
+            });
+          } else {
+            if (onRegister) {
+              onRegister();
+              return;
+            }
+            navigate('/choose-curriculum', { state: { nextPage } });
           }
-          navigate('/choose-curriculum', { state: { nextPage } })
         }
-        }
-        
-
         {
-
           savedToken && navigate('/choose-curriculum', { state: { nextPage } });
         }
       },
@@ -1276,7 +1280,7 @@ if(courseId&&semesterId&&universityId){
       <div className="mx-auto w-full">
         <p className="text-center my-2">
           <img
-          onClick={() => navigate('/')}
+            onClick={() => navigate('/')}
             src={images.newMainLogo}
             className="max-w-[150px] mx-auto mb-5"
             alt="logo"
@@ -1306,24 +1310,26 @@ if(courseId&&semesterId&&universityId){
                   <p className="text-xs italic text-red-500">{errors.mobileNumber.message}</p>
                 )}
               </div>
-            {false&&   <div>
-                <label className="block text-sm font-medium text-gray-700">Email</label>
-                <input
-                  type="email"
-                  {...register('email', {
-                    required: 'Email is required',
-                    pattern: {
-                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                      message: 'Enter a valid email address',
-                    },
-                  })}
-                  className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
-                  placeholder="you@example.com"
-                />
-                {errors.email && (
-                  <p className="text-xs italic text-red-500">{errors.email.message}</p>
-                )}
-              </div>}
+              {false && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Email</label>
+                  <input
+                    type="email"
+                    {...register('email', {
+                      required: 'Email is required',
+                      pattern: {
+                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                        message: 'Enter a valid email address',
+                      },
+                    })}
+                    className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
+                    placeholder="you@example.com"
+                  />
+                  {errors.email && (
+                    <p className="text-xs italic text-red-500">{errors.email.message}</p>
+                  )}
+                </div>
+              )}
               <button
                 type="submit"
                 className="w-full bg-[#3DD455] hover:bg-black text-white font-bold px-4 py-2 rounded-lg"

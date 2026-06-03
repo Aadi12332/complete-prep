@@ -137,7 +137,7 @@ const CoursePage2_1 = () => {
                           objectFit: 'cover',
                           transition: 'transform 0.35s ease',
                         }}
-                        className="group-hover:scale-110 aspect-[3/4]"
+                        className="group-hover:scale-110 aspect-[3/4] border rounded-lg "
                       />
                       {/* <p className="text-center text-sm font-semibold mt-2 z-10 py-2 relative bg-white">
                         {course?.subject?.name}

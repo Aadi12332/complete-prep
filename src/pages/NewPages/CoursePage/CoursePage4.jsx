@@ -31,6 +31,8 @@ const CoursePage4 = () => {
   const [generatedQuestionsAndAnswers, setGeneratedQuestionsAndAnswers] = useState([]);
   const [evaluations, setEvaluations] = useState({});
   const [importantHeadings, setImportantHeadings] = useState([]);
+  const [isImportantHeadingsLoading, setIsImportantHeadingsLoading] = useState(false);
+  const [isQuestionsLoading, setIsQuestionsLoading] = useState(false);
 
   const [nextVideo, setNextVideo] = useState(null);
   const [nextOverlayVisible, setNextOverlayVisible] = useState(false);
@@ -41,7 +43,7 @@ const CoursePage4 = () => {
     useAssemblyTranscription();
 
   const OPENAI_KEY =
-    (typeof import.meta !== 'undefined' && import.meta.env?.VITE_OPENAI_KEY) ||
+    (typeof import.meta !== 'undefined' && import.meta.env?.REACT_APP_OPENAI_KEY) ||
     process.env.REACT_APP_OPENAI_KEY ||
     '';
 
@@ -114,12 +116,17 @@ const CoursePage4 = () => {
   }) => {
     if (!description || !description.trim()) {
       setGeneratedQuestionsAndAnswers([]);
+      setIsQuestionsLoading(false);
       return;
     }
     if (!OPENAI_KEY) {
       setGeneratedQuestionsAndAnswers([]);
+      setIsQuestionsLoading(false);
       return;
     }
+
+    setIsQuestionsLoading(true);
+
     const systemPrompt =
       'You are an educational assistant that creates concise, clear assessment questions (short-answer or conceptual) and model answers from a given video transcript. Output must be a single valid JSON array of objects with the keys: question, answer, hint. Provide up to the requested number of Q&A pairs. Keep each question short (one sentence) and answers concise (one or two sentences).';
     const userPrompt = `Transcript:\n\n${description}\n\nReturn up to ${maxQuestions} items as JSON array like [{"question":"...","answer":"...","hint":"..."}]`;
@@ -197,18 +204,25 @@ const CoursePage4 = () => {
       }
     } catch (err) {
       setGeneratedQuestionsAndAnswers([]);
+    } finally {
+      setIsQuestionsLoading(false);
     }
   };
 
   const generateImportantHeadings = async ({ description, maxItems = 8 }) => {
     if (!description || !description.trim()) {
       setImportantHeadings([]);
+      setIsImportantHeadingsLoading(false);
       return;
     }
     if (!OPENAI_KEY) {
       setImportantHeadings([]);
+      setIsImportantHeadingsLoading(false);
       return;
     }
+
+    setIsImportantHeadingsLoading(true);
+
     const systemPrompt =
       'You are a content analyst. From a lecture transcript, extract a concise, ordered list of the most important section headings with approximate start times in the video. Return a single JSON array with objects: {"title": string, "time": number}. The "time" must be the start time in seconds (integer). Limit to the requested count. Titles should be short and descriptive.';
     const userPrompt = `Transcript:\n\n${description}\n\nReturn up to ${maxItems} items strictly as JSON array, e.g. [{"title":"Introduction","time":0},{"title":"Key Concept","time":185}]`;
@@ -225,11 +239,12 @@ const CoursePage4 = () => {
             { role: 'system', content: systemPrompt },
             { role: 'user', content: userPrompt },
           ],
-          temperature: 0.2,
+          temperature: 1,
         }),
       });
       if (!res.ok) {
         setImportantHeadings([]);
+        setIsImportantHeadingsLoading(false);
         return;
       }
       const data = await res.json();
@@ -262,6 +277,8 @@ const CoursePage4 = () => {
       }
     } catch {
       setImportantHeadings([]);
+    } finally {
+      setIsImportantHeadingsLoading(false);
     }
   };
 
@@ -710,8 +727,18 @@ const CoursePage4 = () => {
       : [];
   }, [importantHeadings, selectedVideo]);
 
+  console.log({
+  status,
+  transcriptText,
+  importantHeadings,
+  selectedVideo,
+  keyMoments,
+});
+
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center h-svh w-full animate-pulse">Loading...</div>
+    );
   }
 
   const tabs = ['Summary', 'Questions', 'Modules', 'Notes'];
@@ -832,7 +859,7 @@ const CoursePage4 = () => {
               )}
             </div>
             <div className="mt-4 space-y-2">
-              <h1 className="text-2xl font-bold">
+              <h1 className="text-2xl font-bold capitalize">
                 <span className="text-yellow-500"></span>
                 {selectedVideo?.videoName || ''}
               </h1>
@@ -868,10 +895,10 @@ const CoursePage4 = () => {
           <div className="space-y-4 text-sm text-gray-700 mt-4">
             <h3 className="text-base font-semibold">📽️ Video Transcript Summary</h3>
             {status === 'idle' && (
-              <p className="text-gray-500">Waiting to start transcription...</p>
+              <p className="text-center text-gray-500 py-10 bg-gray-100 text-sm rounded-lg">Waiting to start transcription...</p>
             )}
             {status === 'loading' && (
-              <p className="text-yellow-600">🔄 Generating transcript summary…</p>
+              <p className="text-center text-gray-500 py-10 bg-gray-100 text-sm rounded-lg">Generating transcript summary…</p>
             )}
             {status === 'error' && <p className="text-red-600">❌ {error}</p>}
             {status === 'success' && (
@@ -891,7 +918,7 @@ const CoursePage4 = () => {
                         );
                       })
                   ) : (
-                    <div className="text-gray-500">No summary available.</div>
+                    <div className="text-center text-gray-500 py-10 bg-gray-100 text-sm rounded-lg">No summary available.</div>
                   )}
                 </div>
               </>
@@ -900,7 +927,11 @@ const CoursePage4 = () => {
         )}
         {activeTab === 'Questions' && (
           <div className="space-y-6 mt-4">
-            {generatedQuestionsAndAnswers && generatedQuestionsAndAnswers.length>0 ? (
+            {isQuestionsLoading ? (
+              <div className="text-center text-gray-500 py-10 bg-gray-100 text-sm rounded-lg">
+                Loading questions…
+              </div>
+            ) : generatedQuestionsAndAnswers && generatedQuestionsAndAnswers.length > 0 ? (
               generatedQuestionsAndAnswers.map((qa, idx) => (
                 <div key={idx} className="border rounded-lg p-4 space-y-2 shadow-sm">
                   <p className="font-medium">
@@ -939,11 +970,13 @@ const CoursePage4 = () => {
                 </div>
               ))
             ) : (
-              <div className="text-center text-gray-500 py-10 bg-gray-100 text-sm rounded-lg">No generated questions yet.</div>
+              <div className="text-center text-gray-500 py-10 bg-gray-100 text-sm rounded-lg">
+                Wait for the AI to analyze and generate questions.
+              </div>
             )}
           </div>
         )}
-        
+
         {activeTab === 'Modules' && (
           <div>
             {/* <div className="mt-4 border rounded-md overflow-hidden">
@@ -997,11 +1030,15 @@ const CoursePage4 = () => {
                   {keyMoments?.length}
                 </span> */}
               </div>
-              {status === 'loading' && (
-                <div className="text-center text-gray-500 py-10 bg-gray-100 text-sm rounded-lg">Analyzing transcript…</div>
+              {(isImportantHeadingsLoading) && (
+                <div className="text-center text-gray-500 py-10 bg-gray-100 text-sm rounded-lg">
+                  {isImportantHeadingsLoading ? 'Loading modules…' : 'Analyzing transcript…'}
+                </div>
               )}
-              {!keyMoments.length && status !== 'loading' && (
-                <div className="text-center text-gray-500 py-10 bg-gray-100 text-sm rounded-lg">No modules available.</div>
+              {!keyMoments.length && !isImportantHeadingsLoading && status !== 'loading' && (
+                <div className="text-center text-gray-500 py-10 bg-gray-100 text-sm rounded-lg">
+                  Wait for the AI to analyze and generate modules.
+                </div>
               )}
               {!!keyMoments.length && (
                 <div className="space-y-2">
@@ -1047,11 +1084,17 @@ const CoursePage4 = () => {
                     })
                   }
                 >
+                  {/* {selectedVideo?.handwrittenNotes?.[0]?.image ?
                   <img
                     src={selectedVideo?.handwrittenNotes?.[0]?.image}
                     alt="Teacher"
                     className="w-14 h-14 rounded-md object-cover"
                   />
+                  : <p className="w-14 h-14 rounded-md bg-gray-100 flex items-center justify-center font-semibold text-xl">H-({i + 1})</p>
+                } */}
+                  <p className="w-14 h-14 rounded-md bg-gray-100 flex items-center justify-center font-semibold text-sm">
+                    H-{i + 1}
+                  </p>
                   <div className="ml-4 flex-1">
                     <p className="font-semibold">Handwritten Note ({i + 1})</p>
                     <p className="text-gray-500 text-sm"></p>
@@ -1061,7 +1104,9 @@ const CoursePage4 = () => {
                 </div>
               ))
             ) : (
-              <div className="text-center text-gray-500 py-10 bg-gray-100 text-sm rounded-lg">No Notes Available</div>
+              <div className="text-center text-gray-500 py-10 bg-gray-100 text-sm rounded-lg">
+                No Notes Available
+              </div>
             )}
           </div>
         )}

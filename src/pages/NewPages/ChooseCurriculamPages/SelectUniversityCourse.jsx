@@ -52,18 +52,25 @@ const SelectUniversityCourse = () => {
     };
   }, [universityId]);
 
-  const handleNext = () => {
-    if (!selectedCourse) return;
-    navigate('/choose/university-semester', {
-      state: {
-        universityId,
-        universityName,
-        courseId: selectedCourse,
-        courseName: selectedCourseObj?.name || '',
-        nextPage,
-      },
-    });
-  };
+const handleNext = () => {
+  const courseId = selectedCourse || sessionStorage.getItem('courseId');
+
+  if (!courseId) return;
+
+  if (selectedCourse) {
+    sessionStorage.setItem('courseId', selectedCourse);
+  }
+
+  navigate('/choose/university-semester', {
+    state: {
+      universityId,
+      universityName,
+      courseId,
+      courseName: selectedCourseObj?.name || '',
+      nextPage,
+    },
+  });
+};
 
   const handleBack = () => {
     navigate(-1);
